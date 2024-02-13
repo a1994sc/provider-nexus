@@ -15,7 +15,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/terraform"
 
-	"github.com/upbound/upjet-provider-template/apis/v1beta1"
+	"github.com/a1994sc/provider-nexus/apis/v1beta1"
 )
 
 const (
@@ -24,8 +24,18 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal nexus credentials as JSON"
 )
+
+var requiredNexusConfigKeys = []string{
+	"url ",
+	"username",
+	"password",
+}
+
+var optionalNexusConfigKeys = []string{
+	"insecure",
+}
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
@@ -62,11 +72,26 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
-		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		// set provider configuration
+		ps.Configuration = map[string]any{}
+		// Iterate over the requiredNexusConfigKeys, they must be set
+		for _, key := range requiredNexusConfigKeys {
+			if value, ok := creds[key]; ok {
+				if !ok {
+					// Return an error if a required key is missing
+					return ps, errors.Errorf("required Nexus configuration key '%s' is missing", key)
+				}
+				ps.Configuration[key] = value
+			}
+		}
+
+		// Iterate over the optionalNexusConfigKeys, they can be set and do not have to be in the creds map
+		for _, key := range optionalNexusConfigKeys {
+			if value, ok := creds[key]; ok {
+				ps.Configuration[key] = value
+			}
+		}
+
 		return ps, nil
 	}
 }

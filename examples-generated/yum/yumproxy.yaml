@@ -1,0 +1,24 @@
+apiVersion: yum.adrp.xyz/v1alpha1
+kind: YumProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: yum/v1alpha1/yumproxy
+  labels:
+    testing.upbound.io/example-name: centos
+  name: centos
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: http://mirror.centos.org/centos/
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

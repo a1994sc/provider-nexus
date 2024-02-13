@@ -1,36 +1,3460 @@
-name: hashicorp/null
+name: datadrivers/nexus
 resources:
-    null_resource:
-        subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource
-        title: null_resource Resource - terraform-provider-null
+    nexus_blobstore_azure:
+        subCategory: Blobstore
+        description: ~> PRO Feature Use this resource to create a Nexus Azure blobstore.
+        name: nexus_blobstore_azure
+        title: Resource nexus_blobstore_azure
         examples:
-            - name: cluster
+            - name: example
               manifest: |-
                 {
-                  "connection": [
+                  "bucket_configuration": [
                     {
-                      "host": "${element(aws_instance.cluster.*.public_ip, 0)}"
+                      "account_name": "example-account-name",
+                      "authentication": [
+                        {
+                          "account_key": "example-account-key",
+                          "authentication_method": "ACCOUNTKEY"
+                        }
+                      ],
+                      "container_name": "example-container-name"
                     }
                   ],
-                  "provisioner": {
-                    "remote-exec": [
-                      {
-                        "inline": [
-                          "bootstrap-cluster.sh ${join(\" \", aws_instance.cluster.*.private_ip)}"
-                        ]
-                      }
-                    ]
-                  },
-                  "triggers": {
-                    "cluster_instance_ids": "${join(\",\", aws_instance.cluster.*.id)}"
-                  }
+                  "name": "example",
+                  "soft_quota": [
+                    {
+                      "limit": 1024,
+                      "type": "spaceRemainingQuota"
+                    }
+                  ]
+                }
+        argumentDocs:
+            account_key: (String) The account key. Required if authentication_method is ACCOUNTKEY
+            account_name: (String) Account name found under Access keys for the storage account
+            authentication: '(Block List, Min: 1, Max: 1) The Azure specific authentication details (see below for nested schema)'
+            authentication_method: '(String) The type of Azure authentication to use. Possible values: ACCOUNTKEY and MANAGEDIDENTITY'
+            blob_count: (Number) Count of blobs
+            bucket_configuration: '(Block List, Min: 1, Max: 1) The Azure specific configuration details for the Azure object that''ll contain the blob store (see below for nested schema)'
+            container_name: (String) The name of an existing container to be used for storage
+            id: (String) Used to identify resource at nexus
+            limit: (Number) The limit in Bytes. Minimum value is 1000000
+            name: (String) Blobstore name
+            soft_quota: '(Block List, Max: 1) Soft quota of the blobstore (see below for nested schema)'
+            total_size_in_bytes: (Number) The total size of the blobstore in Bytes
+            type: (String) The type to use such as spaceRemainingQuota, or spaceUsedQuota
+        importStatements:
+            - |-
+              # import using the name of blobstore
+              terraform import nexus_blobstore_azure.example example
+    nexus_blobstore_file:
+        subCategory: Blobstore
+        description: Use this resource to create a Nexus file blobstore.
+        name: nexus_blobstore_file
+        title: Resource nexus_blobstore_file
+        examples:
+            - name: file
+              manifest: |-
+                {
+                  "name": "blobstore-file",
+                  "path": "/nexus-data/blobstore-file",
+                  "soft_quota": [
+                    {
+                      "limit": 1024000000,
+                      "type": "spaceRemainingQuota"
+                    }
+                  ]
+                }
+        argumentDocs:
+            available_space_in_bytes: (Number) Available space in Bytes
+            blob_count: (Number) Count of blobs
+            id: (String) Used to identify resource at nexus
+            limit: (Number) The limit in Bytes. Minimum value is 1000000
+            name: (String) Blobstore name
+            path: (String) The path to the blobstore contents. This can be an absolute path to anywhere on the system nxrm has access to or it can be a path relative to the sonatype-work directory
+            soft_quota: '(Block List, Max: 1) Soft quota of the blobstore (see below for nested schema)'
+            total_size_in_bytes: (Number) The total size of the blobstore in Bytes
+            type: (String) The type to use such as spaceRemainingQuota, or spaceUsedQuota
+        importStatements:
+            - |-
+              # import using the name of blobstore
+              terraform import nexus_blobstore_file.file blobstore-file
+    nexus_blobstore_group:
+        subCategory: Blobstore
+        description: ~> PRO Feature Use this resource to create a Nexus group blobstore.
+        name: nexus_blobstore_group
+        title: Resource nexus_blobstore_group
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "fill_policy": "roundRobin",
+                  "members": [
+                    "${nexus_blobstore_file.one.name}",
+                    "${nexus_blobstore_file.two.name}"
+                  ],
+                  "name": "group-example"
+                }
+        argumentDocs:
+            available_space_in_bytes: (Number) Available space in Bytes
+            blob_count: (Number) Count of blobs
+            fill_policy: '(String) The policy how to fill the members. Possible values: roundRobin or writeToFirst'
+            id: (String) Used to identify resource at nexus
+            limit: (Number) The limit in Bytes. Minimum value is 1000000
+            members: (Set of String) List of the names of blob stores that are members of this group
+            name: (String) Blobstore name
+            soft_quota: '(Block List, Max: 1) Soft quota of the blobstore (see below for nested schema)'
+            total_size_in_bytes: (Number) The total size of the blobstore in Bytes
+            type: (String) The type to use such as spaceRemainingQuota, or spaceUsedQuota
+        importStatements:
+            - |-
+              # import using the name of blobstore
+              terraform import nexus_blobstore_group.example group-example
+    nexus_blobstore_s3:
+        subCategory: Blobstore
+        description: Use this resource to create a Nexus S3 blobstore.
+        name: nexus_blobstore_s3
+        title: Resource nexus_blobstore_s3
+        examples:
+            - name: aws
+              manifest: |-
+                {
+                  "bucket_configuration": [
+                    {
+                      "bucket": [
+                        {
+                          "name": "aws-bucket-name",
+                          "region": "us-central-1"
+                        }
+                      ],
+                      "bucket_security": [
+                        {
+                          "access_key_id": "\u003cyour-aws-access-key-id\u003e",
+                          "secret_access_key": "\u003cyour-aws-secret-access-key\u003e"
+                        }
+                      ]
+                    }
+                  ],
+                  "name": "blobstore-s3",
+                  "soft_quota": [
+                    {
+                      "limit": 1024,
+                      "type": "spaceRemainingQuota"
+                    }
+                  ]
+                }
+        argumentDocs:
+            access_key_id: (String) An IAM access key ID for granting access to the S3 bucket
+            advanced_bucket_connection: '(Block List, Max: 1) Additional connection configurations (see below for nested schema)'
+            blob_count: (Number) Count of blobs
+            bucket: '(Block List, Min: 1, Max: 1) The S3 bucket configuration (see below for nested schema)'
+            bucket_configuration: '(Block List, Min: 1, Max: 1) The S3 bucket configuration. (see below for nested schema)'
+            bucket_security: '(Block List, Max: 1) Additional security configurations (see below for nested schema)'
+            encryption: '(Block List, Max: 1) Additional bucket encryption configurations (see below for nested schema)'
+            encryption_key: (String) The encryption key.
+            encryption_type: (String) The type of S3 server side encryption to use.
+            endpoint: (String) A custom endpoint URL for third party object stores using the S3 API.
+            expiration: (Number) How many days until deleted blobs are finally removed from the S3 bucket (-1 to disable)
+            force_path_style: (Boolean) Setting this flag will result in path-style access being used for all requests.
+            id: (String) Used to identify resource at nexus
+            limit: (Number) The limit in Bytes. Minimum value is 1000000
+            max_connection_pool_size: (Number) Setting this value will override the default connection pool size of Nexus of the s3 client for this blobstore.
+            name: (String) Blobstore name
+            prefix: (String) The S3 blob store (i.e S3 object) key prefix
+            region: (String) The AWS region to create a new S3 bucket in or an existing S3 bucket's region
+            role: (String) An IAM role to assume in order to access the S3 bucket
+            secret_access_key: (String, Sensitive) The secret access key associated with the specified IAM access key ID
+            session_token: (String, Sensitive) An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
+            signer_type: (String) An API signature version which may be required for third party object stores using the S3 API.
+            soft_quota: '(Block List, Max: 1) Soft quota of the blobstore (see below for nested schema)'
+            total_size_in_bytes: (Number) The total size of the blobstore in Bytes
+            type: (String) The type to use such as spaceRemainingQuota, or spaceUsedQuota
+        importStatements:
+            - |-
+              # import using the name of blobstore
+              terraform import nexus_blobstore_s3.aws blobstore-s3
+    nexus_mail_config:
+        subCategory: Mail
+        description: Use this resource to configure Nexus' mailing behaviour
+        name: nexus_mail_config
+        title: Resource nexus_mail_config
+        examples:
+            - name: config
+              manifest: |-
+                {
+                  "enabled": true,
+                  "from_address": "from@examplehost.org",
+                  "host": "examplehost.org",
+                  "nexus_trust_store_enabled": true,
+                  "password": "topsecret",
+                  "port": 25,
+                  "ssl_on_connect_enabled": true,
+                  "start_tls_enabled": true,
+                  "start_tls_required": true,
+                  "subject_prefix": "prefix: ",
+                  "username": "uname"
+                }
+        argumentDocs:
+            enabled: (Boolean) Whether the config is enabled or not
+            from_address: (String) fromAddress
+            host: (String) hostname
+            id: (String) Used to identify resource at nexus
+            nexus_trust_store_enabled: (Boolean) SSL on connect enabled
+            password: (String, Sensitive) Password
+            port: (Number) port
+            ssl_on_connect_enabled: (Boolean) SSL on connect enabled
+            ssl_server_identity_check_enabled: (Boolean) SSL on connect enabled
+            start_tls_enabled: (Boolean) Star TLS Enabled
+            start_tls_required: (Boolean) Star TLS required
+            subject_prefix: (String) Subject prefix
+            username: (String) Username
+        importStatements:
+            - |-
+              # import using the userid of the user
+              terraform import nexus_mail_config.config cfg
+    nexus_privilege_application:
+        subCategory: Privilege
+        description: Use this resource to manage a privilege for an application
+        name: nexus_privilege_application
+        title: Resource nexus_privilege_application
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "actions": [
+                    "ADD",
+                    "READ",
+                    "EDIT",
+                    "DELETE"
+                  ],
+                  "description": "description",
+                  "domain": "domain",
+                  "name": "example_privilege"
+                }
+        argumentDocs:
+            actions: (List of String) A list of allowed actions. For a list of applicable values see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeTypes
+            description: (String) A description
+            domain: (String) A domain
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_application.example name
+    nexus_privilege_repository_admin:
+        subCategory: Privilege
+        description: Use this resource to manage a privilege for a repository admin
+        name: nexus_privilege_repository_admin
+        title: Resource nexus_privilege_repository_admin
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "actions": [
+                    "ADD",
+                    "READ",
+                    "DELETE",
+                    "BROWSE",
+                    "EDIT"
+                  ],
+                  "description": "description",
+                  "format": "helm",
+                  "name": "example_privilege",
+                  "repository": "${resource.nexus_repository_helm_hosted.example.name}"
+                }
+              references:
+                repository: resource.nexus_repository_helm_hosted.example.name
+              dependencies:
+                nexus_repository_helm_hosted.example: |-
+                    {
+                      "name": "example_repository",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            actions: (List of String) A list of allowed actions. For a list of applicable values see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeTypes
+            description: (String) A description
+            format: (String) The format of the referenced Repository
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+            repository: (String) Name of the repository the privilege applies to
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_repository_admin.example_repository_admin name
+    nexus_privilege_repository_content_selector:
+        subCategory: Privilege
+        description: Use this resource to manage a privilege for a repository content selector
+        name: nexus_privilege_repository_content_selector
+        title: Resource nexus_privilege_repository_content_selector
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "actions": [
+                    "ADD",
+                    "READ",
+                    "DELETE",
+                    "BROWSE",
+                    "EDIT"
+                  ],
+                  "content_selector": "${resource.nexus_security_content_selector.example.name}",
+                  "description": "description",
+                  "format": "helm",
+                  "name": "example_privilege",
+                  "repository": "${resource.nexus_repository_helm_hosted.example.name}"
+                }
+              references:
+                content_selector: resource.nexus_security_content_selector.example.name
+                repository: resource.nexus_repository_helm_hosted.example.name
+              dependencies:
+                nexus_repository_helm_hosted.example: |-
+                    {
+                      "name": "example_repository",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_security_content_selector.example: |-
+                    {
+                      "description": "A content selector matching public docker images.",
+                      "expression": "path =^ \"/v2/public/\"",
+                      "name": "example_content_selector"
+                    }
+        argumentDocs:
+            actions: (List of String) A list of allowed actions. For a list of applicable values see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeTypes
+            content_selector: (String) The content selector
+            description: (String) A description
+            format: (String) The format of the referenced Repository
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+            repository: (String) Name of the repository the privilege applies to
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_repository_content_selector.example name
+    nexus_privilege_repository_view:
+        subCategory: Privilege
+        description: Use this resource to manage a privilege for a repository view
+        name: nexus_privilege_repository_view
+        title: Resource nexus_privilege_repository_view
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "actions": [
+                    "ADD",
+                    "READ",
+                    "DELETE",
+                    "BROWSE",
+                    "EDIT"
+                  ],
+                  "description": "description",
+                  "format": "helm",
+                  "name": "example_privilege",
+                  "repository": "${resource.nexus_repository_helm_hosted.example.name}"
+                }
+              references:
+                repository: resource.nexus_repository_helm_hosted.example.name
+              dependencies:
+                nexus_repository_helm_hosted.example: |-
+                    {
+                      "name": "example_repository",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            actions: (List of String) A list of allowed actions. For a list of applicable values see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeTypes
+            description: (String) A description
+            format: (String) The format of the referenced Repository
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+            repository: (String) Name of the repository the privilege applies to
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_repository_view.example name
+    nexus_privilege_script:
+        subCategory: Privilege
+        description: Use this resource to manage a privilege for a Script
+        name: nexus_privilege_script
+        title: Resource nexus_privilege_script
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "actions": [
+                    "ADD",
+                    "READ",
+                    "DELETE",
+                    "RUN",
+                    "BROWSE",
+                    "EDIT"
+                  ],
+                  "description": "description",
+                  "name": "example_privilege",
+                  "script_name": "${resource.nexus_script.example.name}"
+                }
+              references:
+                script_name: resource.nexus_script.example.name
+              dependencies:
+                nexus_script.example: |-
+                    {
+                      "content": "log.info('Hello, World!')",
+                      "name": "example_script"
+                    }
+        argumentDocs:
+            actions: (List of String) A list of allowed actions. For a list of applicable values see https://help.sonatype.com/repomanager3/nexus-repository-administration/access-control/privileges#Privileges-PrivilegeTypes
+            description: (String) A description
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+            script_name: (String) The script Name
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_script.example name
+    nexus_privilege_wildcard:
+        subCategory: Privilege
+        description: Use this resource to manage a wildcard privilege
+        name: nexus_privilege_wildcard
+        title: Resource nexus_privilege_wildcard
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "description",
+                  "name": "example_privilege",
+                  "pattern": "nexus:*"
+                }
+        argumentDocs:
+            description: (String) A description
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the privilege. This value cannot be changed.
+            pattern: (String) The privilege pattern
+        importStatements:
+            - |-
+              # import using the name of the privilege
+              terraform import nexus_privilege_wildcard.example name
+    nexus_repository_apt_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted apt repository.
+        name: nexus_repository_apt_hosted
+        title: Resource nexus_repository_apt_hosted
+        examples:
+            - name: bullseye_stable
+              manifest: |-
+                {
+                  "distribution": "bullseye",
+                  "name": "bullseye-stable",
+                  "online": true,
+                  "signing": [
+                    {
+                      "keypair": "keypair",
+                      "passphrase": "passphrase"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            distribution: (String) Distribution to fetch
+            id: (String) Used to identify resource at nexus
+            keypair: |-
+                (String, Sensitive) PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+                If passphrase is unset, the keypair cannot be read from the nexus api.
+                When reading the resource, the keypair will be read from the previous state,
+                so external changes won't be detected in this case.
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            passphrase: |-
+                (String, Sensitive) Passphrase to access PGP signing key.
+                This value cannot be read from the nexus api.
+                When reading the resource, the value will be read from the previous state,
+                so external changes won't be detected.
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            signing: '(Block List, Min: 1, Max: 1) Signing contains signing data of hosted repositores of format Apt (see below for nested schema)'
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_apt_hosted.bullseye_stable bullseye-stable
+    nexus_repository_apt_proxy:
+        subCategory: Repository
+        description: Use this resource to create a hosted apt repository.
+        name: nexus_repository_apt_proxy
+        title: Resource nexus_repository_apt_proxy
+        examples:
+            - name: bionic_proxy
+              manifest: |-
+                {
+                  "distribution": "bionic",
+                  "flat": false,
+                  "http_client": [
+                    {
+                      "authentication": [
+                        {
+                          "password": "admin-password",
+                          "type": "username",
+                          "username": "admin"
+                        }
+                      ],
+                      "auto_block": true,
+                      "blocked": false,
+                      "connection": [
+                        {
+                          "enable_circular_redirects": false,
+                          "enable_cookies": false,
+                          "retries": 0,
+                          "timeout": 60,
+                          "use_trust_store": false,
+                          "user_agent_suffix": "string"
+                        }
+                      ]
+                    }
+                  ],
+                  "name": "bionic-proxy",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://remote.repository.com"
+                    }
+                  ],
+                  "routing_rule": "string",
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            distribution: (String) Distribution to fetch
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            flat: (Boolean) Distribution to fetch
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_apt_proxy.bionic_proxy bionic-proxy
+    nexus_repository_bower_group:
+        subCategory: Repository
+        description: Use this resource to create a group bower repository.
+        name: nexus_repository_bower_group
+        title: Resource nexus_repository_bower_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_bower_hosted.internal.name}",
+                        "${nexus_repository_bower_proxy.bower_io.name}"
+                      ]
+                    }
+                  ],
+                  "name": "bower-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
                 }
               dependencies:
-                aws_instance.cluster: |-
+                nexus_repository_bower_hosted.internal: |-
                     {
-                      "count": 3
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
                     }
-        argumentDocs: {}
+                nexus_repository_bower_proxy.bower_io: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "bower-io",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://registry.bower.io"
+                        }
+                      ],
+                      "rewrite_package_urls": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_bower_group.group bower-group
+    nexus_repository_bower_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Bower repository.
+        name: nexus_repository_bower_hosted
+        title: Resource nexus_repository_bower_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "bower-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_bower_hosted.internal bower-internal
+    nexus_repository_bower_proxy:
+        subCategory: Repository
+        description: Use this resource to create an bower proxy repository.
+        name: nexus_repository_bower_proxy
+        title: Resource nexus_repository_bower_proxy
+        examples:
+            - name: bower_io
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "bower-io",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://registry.bower.io"
+                    }
+                  ],
+                  "rewrite_package_urls": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            rewrite_package_urls: (Boolean) Whether to force Bower to retrieve packages through this proxy repository
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_bower_proxy.bower_io bower-io
+    nexus_repository_cocoapods_proxy:
+        subCategory: Repository
+        description: Use this resource to create an cocoapods proxy repository.
+        name: nexus_repository_cocoapods_proxy
+        title: Resource nexus_repository_cocoapods_proxy
+        examples:
+            - name: cocoapods_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "cocoapods-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://cocoapods.org/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_cocoapods_proxy.cocoapods_org cocoapods-org
+    nexus_repository_conan_proxy:
+        subCategory: Repository
+        description: Use this resource to create an conan proxy repository.
+        name: nexus_repository_conan_proxy
+        title: Resource nexus_repository_conan_proxy
+        examples:
+            - name: conan_center
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "conan-center",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://center.conan.io"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_conan_proxy.conan_center conan-center
+    nexus_repository_conda_proxy:
+        subCategory: Repository
+        description: Use this resource to create an conda proxy repository.
+        name: nexus_repository_conda_proxy
+        title: Resource nexus_repository_conda_proxy
+        examples:
+            - name: anaconda
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "anaconda",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://repo.anaconda.com/pkgs/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_conda_proxy.anaconda anaconda
+    nexus_repository_docker_group:
+        subCategory: Repository
+        description: Use this resource to create a group docker repository.
+        name: nexus_repository_docker_group
+        title: Resource nexus_repository_docker_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "docker": [
+                    {
+                      "force_basic_auth": false,
+                      "http_port": 8080,
+                      "https_port": 8433,
+                      "subdomain": "docker",
+                      "v1_enabled": false
+                    }
+                  ],
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_docker_hosted.internal.name}",
+                        "${nexus_repository_docker_proxy.dockerhub.name}"
+                      ],
+                      "writable_member": "${nexus_repository_docker_hosted.internal.name}"
+                    }
+                  ],
+                  "name": "docker-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              references:
+                group.writable_member: nexus_repository_docker_hosted.internal.name
+              dependencies:
+                nexus_repository_docker_hosted.internal: |-
+                    {
+                      "docker": [
+                        {
+                          "force_basic_auth": false,
+                          "subdomain": "docker",
+                          "v1_enabled": false
+                        }
+                      ],
+                      "name": "internal",
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_repository_docker_proxy.dockerhub: |-
+                    {
+                      "docker": [
+                        {
+                          "force_basic_auth": false,
+                          "subdomain": "docker",
+                          "v1_enabled": false
+                        }
+                      ],
+                      "docker_proxy": [
+                        {
+                          "index_type": "HUB"
+                        }
+                      ],
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "dockerhub",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://registry-1.docker.io"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            docker: '(Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)'
+            force_basic_auth: (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            http_port: (Number) Create an HTTP connector at specified port
+            https_port: (Number) Create an HTTPS connector at specified port
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            subdomain: '(String) Pro-only: Whether to allow clients to use subdomain routing connector'
+            v1_enabled: (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+            writable_member: '(String) Pro-only: This field is for the Group Deployment feature available in NXRM Pro.'
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_docker_group.group docker-group
+    nexus_repository_docker_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted docker repository.
+        name: nexus_repository_docker_hosted
+        title: Resource nexus_repository_docker_hosted
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "docker": [
+                    {
+                      "force_basic_auth": false,
+                      "subdomain": "docker",
+                      "v1_enabled": false
+                    }
+                  ],
+                  "name": "example",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            docker: '(Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)'
+            force_basic_auth: (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+            http_port: (Number) Create an HTTP connector at specified port
+            https_port: (Number) Create an HTTPS connector at specified port
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            subdomain: '(String) Pro-only: Whether to allow clients to use subdomain routing connector'
+            v1_enabled: (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_docker_hosted.example example
+    nexus_repository_docker_proxy:
+        subCategory: Repository
+        description: Use this resource to create a docker proxy repository.
+        name: nexus_repository_docker_proxy
+        title: Resource nexus_repository_docker_proxy
+        examples:
+            - name: dockerhub
+              manifest: |-
+                {
+                  "docker": [
+                    {
+                      "force_basic_auth": false,
+                      "subdomain": "docker",
+                      "v1_enabled": false
+                    }
+                  ],
+                  "docker_proxy": [
+                    {
+                      "index_type": "HUB"
+                    }
+                  ],
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "dockerhub",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://registry-1.docker.io"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            docker: '(Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)'
+            docker_proxy: '(Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)'
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            force_basic_auth: (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            http_port: (Number) Create an HTTP connector at specified port
+            https_port: (Number) Create an HTTPS connector at specified port
+            id: (String) Used to identify resource at nexus
+            index_type: '(String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM'
+            index_url: (String) Url of Docker Index to use
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            subdomain: '(String) Pro-only: Whether to allow clients to use subdomain routing connector'
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+            v1_enabled: (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_docker_proxy.dockerhub dockerhub
+    nexus_repository_gitlfs_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted gitlfs repository.
+        name: nexus_repository_gitlfs_hosted
+        title: Resource nexus_repository_gitlfs_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "gitlfs-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": false,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_gitlfs_hosted.internal gitlfs-internal
+    nexus_repository_go_group:
+        subCategory: Repository
+        description: Use this resource to create a group go repository.
+        name: nexus_repository_go_group
+        title: Resource nexus_repository_go_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_go_proxy.golang_org.name}"
+                      ]
+                    }
+                  ],
+                  "name": "go-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_go_proxy.golang_org: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "golang-org",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://proxy.golang.org/"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_go_group.group go-group
+    nexus_repository_go_proxy:
+        subCategory: Repository
+        description: Use this resource to create a go proxy repository.
+        name: nexus_repository_go_proxy
+        title: Resource nexus_repository_go_proxy
+        examples:
+            - name: golang_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "golang-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://proxy.golang.org/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            preemptive: (Boolean) Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_go_proxy.golang_org golang-org
+    nexus_repository_helm_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted helm repository.
+        name: nexus_repository_helm_hosted
+        title: Resource nexus_repository_helm_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "helm-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": false,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_helm_hosted.internal helm-internal
+    nexus_repository_helm_proxy:
+        subCategory: Repository
+        description: Use this resource to create a helm proxy repository.
+        name: nexus_repository_helm_proxy
+        title: Resource nexus_repository_helm_proxy
+        examples:
+            - name: kubernetes_charts
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "kubernetes-charts",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://kubernetes-charts.storage.googleapis.com/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            preemptive: (Boolean) Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_helm_proxy.kubernetes_charts kubernetes-charts
+    nexus_repository_maven_group:
+        subCategory: Repository
+        description: Use this resource to create a group maven repository.
+        name: nexus_repository_maven_group
+        title: Resource nexus_repository_maven_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_maven_hosted.releases.name}"
+                      ]
+                    }
+                  ],
+                  "name": "maven-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_maven_hosted.releases: |-
+                    {
+                      "maven": [
+                        {
+                          "content_disposition": "INLINE",
+                          "layout_policy": "STRICT",
+                          "version_policy": "RELEASE"
+                        }
+                      ],
+                      "name": "maven-releases",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_maven_group.group maven-group
+    nexus_repository_maven_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted maven repository.
+        name: nexus_repository_maven_hosted
+        title: Resource nexus_repository_maven_hosted
+        examples:
+            - name: releases
+              manifest: |-
+                {
+                  "maven": [
+                    {
+                      "content_disposition": "INLINE",
+                      "layout_policy": "STRICT",
+                      "version_policy": "RELEASE"
+                    }
+                  ],
+                  "name": "maven-releases",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": false,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            content_disposition: '(String) Add Content-Disposition header as ''Attachment'' to disable some content from being inline in a browse. Possible Value: INLINE or ATTACHMENT'
+            id: (String) Used to identify resource at nexus
+            layout_policy: '(String) Validate that all paths are maven artifact or metadata paths. Possible Value: STRICT or PERMISSIVE'
+            maven: '(Block List, Min: 1, Max: 1) Maven contains additional data of maven repository (see below for nested schema)'
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            version_policy: '(String) What type of artifacts does this repository store? Possible Value: RELEASE, SNAPSHOT or MIXED'
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_maven_hosted.releases maven-releases
+    nexus_repository_maven_proxy:
+        subCategory: Repository
+        description: Use this resource to create a maven proxy repository.
+        name: nexus_repository_maven_proxy
+        title: Resource nexus_repository_maven_proxy
+        examples:
+            - name: maven_central
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "maven": [
+                    {
+                      "layout_policy": "PERMISSIVE",
+                      "version_policy": "RELEASE"
+                    }
+                  ],
+                  "name": "maven-central-repo1",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://repo1.maven.org/maven2/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_disposition: '(String) Add Content-Disposition header as ''Attachment'' to disable some content from being inline in a browse. Possible Value: INLINE or ATTACHMENT'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            layout_policy: '(String) Validate that all paths are maven artifact or metadata paths. Possible Value: STRICT or PERMISSIVE'
+            maven: '(Block List, Min: 1, Max: 1) Maven contains additional data of maven repository (see below for nested schema)'
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            preemptive: (Boolean) Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+            version_policy: '(String) What type of artifacts does this repository store? Possible Value: RELEASE, SNAPSHOT or MIXED'
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_maven_proxy.maven_central maven-central
+    nexus_repository_npm_group:
+        subCategory: Repository
+        description: Use this resource to create a group npm repository.
+        name: nexus_repository_npm_group
+        title: Resource nexus_repository_npm_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_npm_hosted.internal.name}"
+                      ]
+                    }
+                  ],
+                  "name": "npm-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_npm_hosted.internal: |-
+                    {
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            writable_member: '(String) Pro-only: This field is for the Group Deployment feature available in NXRM Pro.'
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_npm_group.group npm-group
+    nexus_repository_npm_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Npm repository.
+        name: nexus_repository_npm_hosted
+        title: Resource nexus_repository_npm_hosted
+        examples:
+            - name: npm
+              manifest: |-
+                {
+                  "name": "npm"
+                }
+            - name: npm1
+              manifest: |-
+                {
+                  "cleanup": [
+                    {
+                      "policy_names": [
+                        "policy"
+                      ]
+                    }
+                  ],
+                  "name": "npm1",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_npm_hosted.npm npm
+    nexus_repository_npm_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_npm_proxy
+        title: Resource nexus_repository_npm_proxy
+        examples:
+            - name: npmjs
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "npmjs",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://npmjs.org/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            remove_non_cataloged: (Boolean) Remove non-catalogued versions from the npm package metadata.
+            remove_quarantined: (Boolean) Remove quarantined versions from the npm package metadata.
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_npm_proxy.npmjs npmjs
+    nexus_repository_nuget_group:
+        subCategory: Repository
+        description: Use this resource to create a group nuget repository.
+        name: nexus_repository_nuget_group
+        title: Resource nexus_repository_nuget_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_nuget_hosted.internal.name}",
+                        "${nexus_repository_nuget_proxy.nuget_org.name}"
+                      ]
+                    }
+                  ],
+                  "name": "nuget-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_nuget_hosted.internal: |-
+                    {
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_repository_nuget_proxy.nuget_org: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "nuget-org",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "nuget_version": "V3",
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://api.nuget.org/v3/index.json"
+                        }
+                      ],
+                      "query_cache_item_max_age": 3600,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_nuget_group.group nuget-group
+    nexus_repository_nuget_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Nuget repository.
+        name: nexus_repository_nuget_hosted
+        title: Resource nexus_repository_nuget_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "nuget-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_nuget_hosted.internal nuget-internal
+    nexus_repository_nuget_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_nuget_proxy
+        title: Resource nexus_repository_nuget_proxy
+        examples:
+            - name: nuget_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "nuget-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "nuget_version": "V3",
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://api.nuget.org/v3/index.json"
+                    }
+                  ],
+                  "query_cache_item_max_age": 3600,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            nuget_version: (String) Nuget protocol version
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            query_cache_item_max_age: (Number) How long to cache query results from the proxied repository (in seconds)
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_nuget_proxy.nuget_org nuget-org
+    nexus_repository_p2_proxy:
+        subCategory: Repository
+        description: Use this resource to create an p2 proxy repository.
+        name: nexus_repository_p2_proxy
+        title: Resource nexus_repository_p2_proxy
+        examples:
+            - name: eclipse
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "eclipse",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://download.eclipse.org/releases/2019-09"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_p2_proxy.eclipse eclipse
+    nexus_repository_pypi_group:
+        subCategory: Repository
+        description: Use this resource to create a group pypi repository.
+        name: nexus_repository_pypi_group
+        title: Resource nexus_repository_pypi_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_pypi_hosted.internal.name}",
+                        "${nexus_repository_pypi_proxy.pypi_org.name}"
+                      ]
+                    }
+                  ],
+                  "name": "pypi-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_pypi_hosted.internal: |-
+                    {
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_repository_pypi_proxy.pypi_org: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "pypi-org",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://pypi.org"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_pypi_group.group pypi-group
+    nexus_repository_pypi_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Pypi repository.
+        name: nexus_repository_pypi_hosted
+        title: Resource nexus_repository_pypi_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "pypi-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_pypi_hosted.internal pypi-internal
+    nexus_repository_pypi_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_pypi_proxy
+        title: Resource nexus_repository_pypi_proxy
+        examples:
+            - name: pypi_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "pypi-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://pypi.org"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_pypi_proxy.pypi_org pypi-org
+    nexus_repository_r_group:
+        subCategory: Repository
+        description: Use this resource to create a group r repository.
+        name: nexus_repository_r_group
+        title: Resource nexus_repository_r_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_r_hosted.internal.name}",
+                        "${nexus_repository_r_proxy.r_org.name}"
+                      ]
+                    }
+                  ],
+                  "name": "r-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_r_hosted.internal: |-
+                    {
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_repository_r_proxy.r_org: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "r-org",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://r-example.org"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_r_group.group r-group
+    nexus_repository_r_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted R repository.
+        name: nexus_repository_r_hosted
+        title: Resource nexus_repository_r_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "r-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_r_hosted.internal r-internal
+    nexus_repository_r_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_r_proxy
+        title: Resource nexus_repository_r_proxy
+        examples:
+            - name: r_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "r-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://r-example.org"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_r_proxy.r_org r-org
+    nexus_repository_raw_group:
+        subCategory: Repository
+        description: Use this resource to create a group raw repository.
+        name: nexus_repository_raw_group
+        title: Resource nexus_repository_raw_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_raw_hosted.internal.name}"
+                      ]
+                    }
+                  ],
+                  "name": "raw-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_raw_hosted.internal: |-
+                    {
+                      "name": "raw-internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_raw_group.group raw-group
+    nexus_repository_raw_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted raw repository.
+        name: nexus_repository_raw_hosted
+        title: Resource nexus_repository_raw_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "raw-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": false,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_raw_hosted.internal raw-internal
+    nexus_repository_raw_proxy:
+        subCategory: Repository
+        description: Use this resource to create a raw proxy repository.
+        name: nexus_repository_raw_proxy
+        title: Resource nexus_repository_raw_proxy
+        examples:
+            - name: raw_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "raw-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://repo1.raw.org/raw2/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            preemptive: (Boolean) Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_raw_proxy.raw_org raw-org
+    nexus_repository_rubygems_group:
+        subCategory: Repository
+        description: Use this resource to create a group rubygems repository.
+        name: nexus_repository_rubygems_group
+        title: Resource nexus_repository_rubygems_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_rubygems_hosted.internal.name}",
+                        "${nexus_repository_rubygems_proxy.rubygems_org.name}"
+                      ]
+                    }
+                  ],
+                  "name": "rubygems-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_rubygems_hosted.internal: |-
+                    {
+                      "name": "internal",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+                nexus_repository_rubygems_proxy.rubygems_org: |-
+                    {
+                      "http_client": [
+                        {
+                          "auto_block": true,
+                          "blocked": false
+                        }
+                      ],
+                      "name": "rubygems-org",
+                      "negative_cache": [
+                        {
+                          "enabled": true,
+                          "ttl": 1440
+                        }
+                      ],
+                      "online": true,
+                      "proxy": [
+                        {
+                          "content_max_age": 1440,
+                          "metadata_max_age": 1440,
+                          "remote_url": "https://rubygems.org"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_rubygems_group.group rubygems-group
+    nexus_repository_rubygems_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Rubygems repository.
+        name: nexus_repository_rubygems_hosted
+        title: Resource nexus_repository_rubygems_hosted
+        examples:
+            - name: internal
+              manifest: |-
+                {
+                  "name": "rubygems-internal",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_rubygems_hosted.internal rubygems-internal
+    nexus_repository_rubygems_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_rubygems_proxy
+        title: Resource nexus_repository_rubygems_proxy
+        examples:
+            - name: rubygems_org
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "rubygems-org",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://rubygems.org"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_rubygems_proxy.rubygems_org rubygems-org
+    nexus_repository_yum_group:
+        subCategory: Repository
+        description: Use this resource to create a group yum repository.
+        name: nexus_repository_yum_group
+        title: Resource nexus_repository_yum_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_yum_hosted.internal.name}"
+                      ]
+                    }
+                  ],
+                  "name": "yum-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              dependencies:
+                nexus_repository_yum_hosted.internal: |-
+                    {
+                      "deploy_policy": "STRICT",
+                      "name": "internal",
+                      "repodata_depth": 4,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": true,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            keypair: (String, Sensitive) PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+            member_names: (Set of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            passphrase: (String, Sensitive) Passphrase to access PGP signing key
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            yum_signing: '(Block List, Max: 1) Contains signing data of repositores (see below for nested schema)'
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_yum_group.group yum-group
+    nexus_repository_yum_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted yum repository.
+        name: nexus_repository_yum_hosted
+        title: Resource nexus_repository_yum_hosted
+        examples:
+            - name: yum
+              manifest: |-
+                {
+                  "name": "yummy"
+                }
+            - name: yum1
+              manifest: |-
+                {
+                  "cleanup": [
+                    {
+                      "policy_names": [
+                        "policy"
+                      ]
+                    }
+                  ],
+                  "deploy_policy": "STRICT",
+                  "name": "yummy1",
+                  "online": true,
+                  "repodata_depth": 4,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            deploy_policy: '(String) Validate that all paths are RPMs or yum metadata. Possible values: STRICT or PERMISSIVE'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            repodata_depth: '(Number) Specifies the repository depth where repodata folder(s) are created. Possible values: 0-5'
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_yum_hosted.yum yummy
+    nexus_repository_yum_proxy:
+        subCategory: Repository
+        description: Use this resource to create a yum proxy repository.
+        name: nexus_repository_yum_proxy
+        title: Resource nexus_repository_yum_proxy
+        examples:
+            - name: centos
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "centos",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "http://mirror.centos.org/centos/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            keypair: (String, Sensitive) PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            passphrase: (String, Sensitive) Passphrase to access PGP signing key
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+            yum_signing: '(Block List, Max: 1) Contains signing data of repositores (see below for nested schema)'
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_yum_proxy.centos centos
+    nexus_routing_rule:
+        subCategory: Routing
+        description: Use this resource to create a Nexus Routing Rule.
+        name: nexus_routing_rule
+        title: Resource nexus_routing_rule
+        examples:
+            - name: stop_leaks
+              manifest: |-
+                {
+                  "description": "Prevent requests of internal names",
+                  "matchers": [
+                    "^/com/example/.*",
+                    "^/org/example/.*"
+                  ],
+                  "mode": "BLOCK",
+                  "name": "stop-leaks"
+                }
+        argumentDocs:
+            description: (String) The description of the routing rule
+            id: (String) Used to identify resource at nexus
+            matchers: (Set of String) Matchers is a list of regular expressions used to identify request paths that are allowed or blocked (depending on above mode)
+            mode: '(String) The mode describe how to hande with mathing requests. Possible values: BLOCK or ALLOW Default: BLOCK'
+            name: (String) The name of the routing rule
+        importStatements:
+            - |-
+              # import using the name of routing rule
+              terraform import nexus_routing_rule.stop_leaks stop-leaks
+    nexus_script:
+        subCategory: Other
+        description: Use this resource to create and execute a custom script.
+        name: nexus_script
+        title: Resource nexus_script
+        examples:
+            - name: repo_pypi_internal
+              manifest: |-
+                {
+                  "content": "repository.createPyPiHosted('pypi-internal')",
+                  "name": "create-repo-pypi-internal",
+                  "type": "groovy"
+                }
+        argumentDocs:
+            content: (String) The content of this script.
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the script.
+            type: '(String) The type of the script. Default: groovy'
+        importStatements:
+            - |-
+              # import using the name of script
+              terraform import nexus_script.repo_pypi_internal create-repo-pypi-internal
+    nexus_security_anonymous:
+        subCategory: Security
+        description: Use this resource to change the anonymous configuration of the nexus repository manager.
+        name: nexus_security_anonymous
+        title: Resource nexus_security_anonymous
+        examples:
+            - name: system
+              manifest: |-
+                {
+                  "enabled": true,
+                  "user_id": "exampleUser"
+                }
+        argumentDocs:
+            enabled: '(Boolean) Activate the anonymous access to the repository manager. Default: false'
+            id: (String) Used to identify resource at nexus
+            realm_name: '(String) The name of the used realm. Default: "NexusAuthorizingRealm"'
+            user_id: '(String) The user id used by anonymous access. Default: "anonymous"'
+        importStatements:
+            - |-
+              # import the nexus security anonymous configuration
+              terraform import nexus_security_anonymous.system anonymous
+    nexus_security_content_selector:
+        subCategory: Security
+        description: Use this resource to create a Nexus Content Selector.
+        name: nexus_security_content_selector
+        title: Resource nexus_security_content_selector
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "example content selector",
+                  "expression": "format == \"raw\"",
+                  "name": "example"
+                }
+        argumentDocs:
+            description: (String) A description of the content selector
+            expression: (String) The content selector expression
+            id: (String) Used to identify resource at nexus
+            name: (String) Content selector name
+        importStatements:
+            - |-
+              # import using the name of the content selector
+              terraform import nexus_security_content_selector.example example
+    nexus_security_ldap:
+        subCategory: Security
+        description: Use this resource to create a Nexus Security LDAP configuration.
+        name: nexus_security_ldap
+        title: Resource nexus_security_ldap
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "auth_password": "t0ps3cr3t",
+                  "auth_realm": "EXAMPLE",
+                  "auth_schema": "",
+                  "auth_username": "admin",
+                  "connection_retry_delay_seconds": 1,
+                  "connection_timeout_seconds": 1,
+                  "group_base_dn": "ou=Group",
+                  "group_id_attribute": "cn",
+                  "group_member_attribute": "memberUid",
+                  "group_member_format": "uid=${username},ou=people,dc=example,dc=com",
+                  "group_object_class": "example",
+                  "group_subtree": true,
+                  "host": "ldap.example.com",
+                  "ldap_groups_as_roles": true,
+                  "max_incident_count": 1,
+                  "name": "example-ldap",
+                  "port": 389,
+                  "protocol": "LDAP",
+                  "search_base": "dc=example,dc=com",
+                  "user_base_dn": "ou=people",
+                  "user_email_address_attribute": "mail",
+                  "user_id_attribute": "uid",
+                  "user_ldap_filter": "(|(mail=*@example.com)(uid=dom*))",
+                  "user_member_of_attribute": "memberOf",
+                  "user_object_class": "posixGroup",
+                  "user_password_attribute": "exmaple",
+                  "user_real_name_attribute": "cn",
+                  "user_subtree": true
+                }
+        argumentDocs:
+            auth_password: (String, Sensitive) The password to bind with. Required if authScheme other than none.
+            auth_realm: (String) The SASL realm to bind to. Required if authScheme is CRAM_MD5 or DIGEST_MD5
+            auth_schema: (String) Authentication scheme used for connecting to LDAP server
+            auth_username: (String) This must be a fully qualified username if simple authentication is used. Required if authScheme other than none.
+            connection_retry_delay_seconds: (Number) How long to wait before retrying
+            connection_timeout_seconds: (Number) How long to wait before timeout
+            group_base_dn: (String) The relative DN where group objects are found (e.g. ou=Group). This value will have the Search base DN value appended to form the full Group search base DN.
+            group_id_attribute: (String) This field specifies the attribute of the Object class that defines the Group ID. Required if groupType is static
+            group_member_attribute: (String) LDAP attribute containing the usernames for the group. Required if groupType is static
+            group_member_format: (String) The format of user ID stored in the group member attribute. Required if groupType is static
+            group_object_class: (String) LDAP class for group objects. Required if groupType is static
+            group_subtree: (Boolean) Are groups located in structures below the group base DN
+            group_type: '(String) Defines a type of groups used: static (a group contains a list of users) or dynamic (a user contains a list of groups). Required if ldapGroupsAsRoles is true.'
+            host: (String) LDAP server connection hostname
+            id: (String) Used to identify resource at nexus
+            ldap_groups_as_roles: (Boolean) Denotes whether LDAP assigned roles are used as Nexus Repository Manager roles
+            max_incident_count: (Number) How many retry attempts
+            name: (String) LDAP server name
+            port: (Number) LDAP server connection port to use
+            protocol: (String) LDAP server connection Protocol to use
+            search_base: (String) LDAP location to be added to the connection URL
+            use_trust_store: (Boolean) Whether to use certificates stored in Nexus Repository Manager's truststore
+            user_base_dn: (String) The relative DN where user objects are found (e.g. ou=people). This value will have the Search base DN value appended to form the full User search base DN.
+            user_email_address_attribute: (String) This is used to find an email address given the user ID
+            user_id_attribute: (String) This is used to find a user given its user ID
+            user_ldap_filter: (String) LDAP search filter to limit user search
+            user_member_of_attribute: (String) Set this to the attribute used to store the attribute which holds groups DN in the user object. Required if groupType is dynamic
+            user_object_class: (String) LDAP class for user objects
+            user_password_attribute: (String) If this field is blank the user will be authenticated against a bind with the LDAP server
+            user_real_name_attribute: (String) This is used to find a real name given the user ID
+            user_subtree: (Boolean) Are users located in structures below the user base DN?
+        importStatements:
+            - |-
+              # import using the name of ldap configuration
+              terraform import nexus_security_ldap.example example-ldap
+    nexus_security_ldap_order:
+        subCategory: Security
+        description: Use this resource to change the LDAP order.
+        name: nexus_security_ldap_order
+        title: Resource nexus_security_ldap_order
+        examples:
+            - name: system
+              manifest: |-
+                {
+                  "order": [
+                    "${nexus_security_ldap.server1.name}",
+                    "${nexus_security_ldap.server2.name}"
+                  ]
+                }
+              dependencies:
+                nexus_security_ldap.server1: |-
+                    {
+                      "name": "server1"
+                    }
+                nexus_security_ldap.server2: |-
+                    {
+                      "name": "server2"
+                    }
+        argumentDocs:
+            id: (String) Used to identify resource at nexus
+            order: (List of String) Ordered list of LDAP server
         importStatements: []
+    nexus_security_realms:
+        subCategory: Security
+        description: Use this resource to activate and order the Nexus Security realms. !> This resource can only be used once for a nexus
+        name: nexus_security_realms
+        title: Resource nexus_security_realms
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "active": [
+                    "NexusAuthenticatingRealm",
+                    "DockerToken"
+                  ]
+                }
+        argumentDocs:
+            active: (List of String) Set the active security realms in the order they should be used.
+            id: (String) Used to identify resource at nexus
+        importStatements:
+            - |-
+              # import of active security realms
+              terraform import nexus_security_realms.example active
+    nexus_security_role:
+        subCategory: Security
+        description: Use this resource to create a Nexus Role.
+        name: nexus_security_role
+        title: Resource nexus_security_role
+        examples:
+            - name: nx_admin
+              manifest: |-
+                {
+                  "description": "Administrator role",
+                  "name": "nx-admin",
+                  "privileges": [
+                    "nx-all"
+                  ],
+                  "roleid": "nx-admin",
+                  "roles": []
+                }
+            - name: docker_deploy
+              manifest: |-
+                {
+                  "description": "Docker deployment role",
+                  "name": "docker-deploy",
+                  "privileges": [
+                    "nx-repository-view-docker-*-*"
+                  ],
+                  "roleid": "docker-deploy"
+                }
+        argumentDocs:
+            description: (String) The description of this role.
+            id: (String) Used to identify resource at nexus
+            name: (String) The name of the role.
+            privileges: (Set of String) The privileges of this role.
+            roleid: (String) The id of the role.
+            roles: (Set of String) The roles of this role.
+        importStatements:
+            - |-
+              # import using the roleid of the security role
+              terraform import nexus_security_role.nx_admin nx-admin
+    nexus_security_saml:
+        subCategory: Security
+        description: ~> PRO Feature Use this resource to create a Nexus Security SAML configuration.
+        name: nexus_security_saml
+        title: Resource nexus_security_saml
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "email_attribute": "email",
+                  "entity_id": "http://nexus.example/service/rest/v1/security/saml/metadata",
+                  "first_name_attribute": "firstName",
+                  "groups_attribute": "groups",
+                  "idp_metadata": "\u003cEntityDescriptor ...\u003e...\u003c/EntityDescriptor\u003e",
+                  "last_name_attribute": "lastName",
+                  "username_attribute": "username",
+                  "validate_assertion_signature": true,
+                  "validate_response_signature": true
+                }
+        argumentDocs:
+            email_attribute: (String) IdP field mappings for user's email address
+            entity_id: (String) Entity ID URI
+            first_name_attribute: (String) IdP field mappings for user's given name
+            groups_attribute: (String) IdP field mappings for user's groups
+            id: (String) Used to identify resource at nexus
+            idp_metadata: (String) SAML Identity Provider Metadata XML
+            last_name_attribute: (String) IdP field mappings for user's family name
+            username_attribute: (String) IdP field mappings for username
+            validate_assertion_signature: (Boolean) By default, if a signing key is found in the IdP metadata, then NXRM will attempt to validate signatures on the assertions.
+            validate_response_signature: (Boolean) By default, if a signing key is found in the IdP metadata, then NXRM will attempt to validate signatures on the response.
+        importStatements:
+            - |-
+              # import of saml configuration
+              terraform import nexus_security_saml.example samle
+    nexus_security_user:
+        subCategory: Security
+        description: Use this resource to manage users.
+        name: nexus_security_user
+        title: Resource nexus_security_user
+        examples:
+            - name: admin
+              manifest: |-
+                {
+                  "email": "nexus@example.com",
+                  "firstname": "Administrator",
+                  "lastname": "User",
+                  "password": "admin123",
+                  "roles": [
+                    "nx-admin"
+                  ],
+                  "status": "active",
+                  "userid": "admin"
+                }
+        argumentDocs:
+            email: (String) The email address associated with the user.
+            firstname: (String) The first name of the user.
+            id: (String) Used to identify resource at nexus
+            lastname: (String) The last name of the user.
+            password: (String, Sensitive) The password for the user.
+            roles: (Set of String) The roles which the user has been assigned within Nexus.
+            status: (String) The user's status, e.g. active or disabled.
+            userid: (String) The userid which is required for login. This value cannot be changed.
+        importStatements:
+            - |-
+              # import using the userid of the user
+              terraform import nexus_security_user.admin admin
+    nexus_security_user_token:
+        subCategory: Security
+        description: ~> PRO Feature Use this resource to manage the global configuration for the user-tokens.
+        name: nexus_security_user_token
+        title: Resource nexus_security_user_token
+        examples:
+            - name: nexus
+              manifest: |-
+                {
+                  "enabled": true,
+                  "protect_content": false
+                }
+        argumentDocs:
+            enabled: (Boolean) Activate the feature of user tokens.
+            id: (String) Used to identify resource at nexus
+            protect_content: (Boolean) Require user tokens for repository authentication. This does not effect UI access.
+        importStatements:
+            - |-
+              # import of the global user token configuration
+              terraform import nexus_security_user_token.nexus golbalUserTokenConfiguration

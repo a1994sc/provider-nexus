@@ -1,4 +1,4 @@
-module github.com/upbound/upjet-provider-template
+module github.com/a1994sc/provider-nexus
 
 go 1.19
 
