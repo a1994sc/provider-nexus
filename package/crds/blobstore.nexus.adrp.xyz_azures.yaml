@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: azures.blobstore.adrp.xyz
+  name: azures.blobstore.nexus.adrp.xyz
 spec:
-  group: blobstore.adrp.xyz
+  group: blobstore.nexus.adrp.xyz
   names:
     categories:
     - crossplane

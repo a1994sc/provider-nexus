@@ -1,4 +1,4 @@
-apiVersion: blobstore.adrp.xyz/v1alpha1
+apiVersion: blobstore.nexus.adrp.xyz/v1alpha1
 kind: Azure
 metadata:
   annotations:

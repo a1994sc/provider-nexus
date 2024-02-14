@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: files.blobstore.adrp.xyz
+  name: groups.blobstore.nexus.adrp.xyz
 spec:
-  group: blobstore.adrp.xyz
+  group: blobstore.nexus.adrp.xyz
   names:
     categories:
     - crossplane
     - managed
     - nexus
-    kind: File
-    listKind: FileList
-    plural: files
-    singular: file
+    kind: Group
+    listKind: GroupList
+    plural: groups
+    singular: group
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: File is the Schema for the Files API. Use this resource to create
-          a Nexus file blobstore.
+        description: Group is the Schema for the Groups API. ~> PRO Feature Use this
+          resource to create a Nexus group blobstore.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: FileSpec defines the desired state of File
+            description: GroupSpec defines the desired state of Group
             properties:
               deletionPolicy:
                 default: Delete
@@ -67,14 +67,20 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  fillPolicy:
+                    description: '(String) The policy how to fill the members. Possible
+                      values: roundRobin or writeToFirst The policy how to fill the
+                      members. Possible values: `roundRobin` or `writeToFirst`'
+                    type: string
+                  members:
+                    description: (Set of String) List of the names of blob stores
+                      that are members of this group List of the names of blob stores
+                      that are members of this group
+                    items:
+                      type: string
+                    type: array
                   name:
                     description: (String) Blobstore name Blobstore name
-                    type: string
-                  path:
-                    description: work directory The path to the blobstore contents.
-                      This can be an absolute path to anywhere on the system nxrm
-                      has access to or it can be a path relative to the sonatype-work
-                      directory
                     type: string
                   softQuota:
                     description: '(Block List, Max: 1) Soft quota of the blobstore
@@ -105,14 +111,20 @@ spec:
                   for example because of an external controller is managing them,
                   like an autoscaler.
                 properties:
+                  fillPolicy:
+                    description: '(String) The policy how to fill the members. Possible
+                      values: roundRobin or writeToFirst The policy how to fill the
+                      members. Possible values: `roundRobin` or `writeToFirst`'
+                    type: string
+                  members:
+                    description: (Set of String) List of the names of blob stores
+                      that are members of this group List of the names of blob stores
+                      that are members of this group
+                    items:
+                      type: string
+                    type: array
                   name:
                     description: (String) Blobstore name Blobstore name
-                    type: string
-                  path:
-                    description: work directory The path to the blobstore contents.
-                      This can be an absolute path to anywhere on the system nxrm
-                      has access to or it can be a path relative to the sonatype-work
-                      directory
                     type: string
                   softQuota:
                     description: '(Block List, Max: 1) Soft quota of the blobstore
@@ -292,12 +304,20 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
+            - message: spec.forProvider.fillPolicy is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.fillPolicy)
+                || (has(self.initProvider) && has(self.initProvider.fillPolicy))'
+            - message: spec.forProvider.members is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.members)
+                || (has(self.initProvider) && has(self.initProvider.members))'
             - message: spec.forProvider.name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
           status:
-            description: FileStatus defines the observed state of File.
+            description: GroupStatus defines the observed state of Group.
             properties:
               atProvider:
                 properties:
@@ -308,17 +328,23 @@ spec:
                   blobCount:
                     description: (Number) Count of blobs Count of blobs
                     type: number
+                  fillPolicy:
+                    description: '(String) The policy how to fill the members. Possible
+                      values: roundRobin or writeToFirst The policy how to fill the
+                      members. Possible values: `roundRobin` or `writeToFirst`'
+                    type: string
                   id:
                     description: (String) Used to identify resource at nexus
                     type: string
+                  members:
+                    description: (Set of String) List of the names of blob stores
+                      that are members of this group List of the names of blob stores
+                      that are members of this group
+                    items:
+                      type: string
+                    type: array
                   name:
                     description: (String) Blobstore name Blobstore name
-                    type: string
-                  path:
-                    description: work directory The path to the blobstore contents.
-                      This can be an absolute path to anywhere on the system nxrm
-                      has access to or it can be a path relative to the sonatype-work
-                      directory
                     type: string
                   softQuota:
                     description: '(Block List, Max: 1) Soft quota of the blobstore
