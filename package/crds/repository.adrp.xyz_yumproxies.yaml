@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: yumproxies.yum.adrp.xyz
+  name: yumproxies.repository.adrp.xyz
 spec:
-  group: yum.adrp.xyz
+  group: repository.adrp.xyz
   names:
     categories:
     - crossplane
@@ -184,6 +184,10 @@ spec:
                           type: array
                       type: object
                     type: array
+                  name:
+                    description: (String) A unique identifier for this repository
+                      A unique identifier for this repository
+                    type: string
                   negativeCache:
                     description: '(Block List, Max: 1) Configuration of the negative
                       cache handling (see below for nested schema) Configuration of
@@ -411,6 +415,10 @@ spec:
                           type: array
                       type: object
                     type: array
+                  name:
+                    description: (String) A unique identifier for this repository
+                      A unique identifier for this repository
+                    type: string
                   negativeCache:
                     description: '(Block List, Max: 1) Configuration of the negative
                       cache handling (see below for nested schema) Configuration of
@@ -653,6 +661,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.httpClient)
                 || (has(self.initProvider) && has(self.initProvider.httpClient))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
             - message: spec.forProvider.proxy is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.proxy)
@@ -766,6 +778,10 @@ spec:
                     type: array
                   id:
                     description: (String) Used to identify resource at nexus
+                    type: string
+                  name:
+                    description: (String) A unique identifier for this repository
+                      A unique identifier for this repository
                     type: string
                   negativeCache:
                     description: '(Block List, Max: 1) Configuration of the negative

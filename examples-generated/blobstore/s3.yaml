@@ -1,0 +1,24 @@
+apiVersion: blobstore.adrp.xyz/v1alpha1
+kind: S3
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blobstore/v1alpha1/s3
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+spec:
+  forProvider:
+    bucketConfiguration:
+    - bucket:
+      - name: aws-bucket-name
+        region: us-central-1
+      bucketSecurity:
+      - accessKeyId: <your-aws-access-key-id>
+        secretAccessKeySecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+    name: blobstore-s3
+    softQuota:
+    - limit: 1024
+      type: spaceRemainingQuota

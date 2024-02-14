@@ -381,6 +381,10 @@ type YumProxyInitParameters struct {
 	// HTTP Client configuration for proxy repositories
 	HTTPClient []HTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []NegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
@@ -419,6 +423,10 @@ type YumProxyObservation struct {
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []NegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
@@ -455,6 +463,11 @@ type YumProxyParameters struct {
 	// HTTP Client configuration for proxy repositories
 	// +kubebuilder:validation:Optional
 	HTTPClient []HTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
@@ -542,6 +555,7 @@ type YumProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
 	Spec   YumProxySpec   `json:"spec"`

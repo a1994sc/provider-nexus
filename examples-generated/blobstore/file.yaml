@@ -1,0 +1,15 @@
+apiVersion: blobstore.adrp.xyz/v1alpha1
+kind: File
+metadata:
+  annotations:
+    meta.upbound.io/example-id: blobstore/v1alpha1/file
+  labels:
+    testing.upbound.io/example-name: file
+  name: file
+spec:
+  forProvider:
+    name: blobstore-file
+    path: /nexus-data/blobstore-file
+    softQuota:
+    - limit: 1024000000
+      type: spaceRemainingQuota

@@ -9,8 +9,11 @@ import "github.com/crossplane/upjet/pkg/config"
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"nexus_repository_yum_proxy": config.NameAsIdentifier,
+	"nexus_blobstore_s3": config.IdentifierFromProvider,
+	"nexus_blobstore_file": config.IdentifierFromProvider,
+	"nexus_blobstore_group": config.IdentifierFromProvider,
+	"nexus_blobstore_azure": config.IdentifierFromProvider,
+	"nexus_repository_yum_proxy": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

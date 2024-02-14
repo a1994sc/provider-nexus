@@ -737,6 +737,11 @@ func (in *YumProxyInitParameters) DeepCopyInto(out *YumProxyInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.NegativeCache != nil {
 		in, out := &in.NegativeCache, &out.NegativeCache
 		*out = make([]NegativeCacheInitParameters, len(*in))
@@ -839,6 +844,11 @@ func (in *YumProxyObservation) DeepCopyInto(out *YumProxyObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.NegativeCache != nil {
 		in, out := &in.NegativeCache, &out.NegativeCache
 		*out = make([]NegativeCacheObservation, len(*in))
@@ -905,6 +915,11 @@ func (in *YumProxyParameters) DeepCopyInto(out *YumProxyParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
 	}
 	if in.NegativeCache != nil {
 		in, out := &in.NegativeCache, &out.NegativeCache

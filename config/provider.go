@@ -11,11 +11,13 @@ import (
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
 	"github.com/a1994sc/provider-nexus/config/registry"
+	"github.com/a1994sc/provider-nexus/config/blobstore"
 )
 
 const (
 	resourcePrefix = "nexus"
 	modulePath     = "github.com/a1994sc/provider-nexus"
+	rootGroup      = "adrp.xyz"
 )
 
 //go:embed schema.json
@@ -27,16 +29,17 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("adrp.xyz"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
-		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
-		))
+			// KnownReferencers(),
+		),
+		ujconfig.WithRootGroup(rootGroup))
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		registry.Configure,
+		blobstore.Configure,
 	} {
 		configure(pc)
 	}

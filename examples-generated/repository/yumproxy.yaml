@@ -1,8 +1,8 @@
-apiVersion: yum.adrp.xyz/v1alpha1
+apiVersion: repository.adrp.xyz/v1alpha1
 kind: YumProxy
 metadata:
   annotations:
-    meta.upbound.io/example-id: yum/v1alpha1/yumproxy
+    meta.upbound.io/example-id: repository/v1alpha1/yumproxy
   labels:
     testing.upbound.io/example-name: centos
   name: centos
@@ -11,6 +11,7 @@ spec:
     httpClient:
     - autoBlock: true
       blocked: false
+    name: centos
     negativeCache:
     - enabled: true
       ttl: 1440
