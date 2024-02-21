@@ -317,7 +317,7 @@ jobs:
         with:
           channel: ${{ github.event.inputs.channel }}
           version: ${{ github.event.inputs.version }}
-          command: xpkg build -f ./package/ --embed-runtime-image=build/provider-nexus-amd64 --embed-runtime-image=build/provider-nexus-arm64 -o ./package/provider-nexus.xpkg
+          command: xpkg build -f ./package/ --embed-runtime-image=build/provider-nexus-amd64 -o ./package/provider-nexus.xpkg
 
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master

@@ -48,4 +48,8 @@ ENV TERRAFORM_NATIVE_PROVIDER_PATH ${PLUGIN_DIR}/${TERRAFORM_NATIVE_PROVIDER_BIN
 USER ${USER_ID}
 EXPOSE 8080
 
+LABEL org.opencontainers.image.description="Crossplane Nexus OSS Provider"
+LABEL org.opencontainers.image.source="https://github.com/A1994SC/provider-nexus"
+LABEL org.opencontainers.image.licenses="Apache License Version 2.0"
+
 ENTRYPOINT ["provider"]
