@@ -322,4 +322,4 @@ jobs:
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
-          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:v${{ steps.ver.outputs.version }}
+          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:${{ steps.ver.outputs.version }}
