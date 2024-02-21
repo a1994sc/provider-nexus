@@ -244,6 +244,9 @@ jobs:
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
+    permissions:
+      packages: write
+
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
@@ -309,12 +312,6 @@ jobs:
           BUILD_ARGS: "--load"
           BUILD_REGISTRY: build
 
-      # - name: Upload Artifacts to GitHub
-      #   uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 #v3
-      #   with:
-      #     name: output
-      #     path: _output/**
-
       - name: Build xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
@@ -325,4 +322,4 @@ jobs:
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
-          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:v{{ steps.ver.outputs.version }}
+          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:v${{ steps.ver.outputs.version }}
