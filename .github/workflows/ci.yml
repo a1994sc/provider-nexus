@@ -320,9 +320,9 @@ jobs:
         with:
           channel: ${{ github.event.inputs.channel }}
           version: ${{ github.event.inputs.version }}
-          command: xpkg xpkg build -f ./package/ --embed-runtime-image=build/provider-nexus-amd64 --embed-runtime-image=build/provider-nexus-arm64 -o ./package/provider-nexus.xpkg
+          command: xpkg build -f ./package/ --embed-runtime-image=build/provider-nexus-amd64 --embed-runtime-image=build/provider-nexus-arm64 -o ./package/provider-nexus.xpkg
 
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
-          command: push configuration -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:v{{ steps.ver.outputs.version }}
+          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:v{{ steps.ver.outputs.version }}
