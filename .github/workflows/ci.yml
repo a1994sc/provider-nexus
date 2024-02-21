@@ -285,7 +285,7 @@ jobs:
 
       - name: Find the version
         id: ver
-        run: echo "version=v0.0.0-$(git rev-list HEAD --count)-g$(git describe --dirty --always)" | sed 's/-/./2' | sed 's/-/./2' | sed 's/-/./2' >> $GITHUB_OUTPUT
+        run: make common.buildvars >> $GITHUB_OUTPUT
 
       - name: Cache the Go Build Cache
         uses: actions/cache@v3
@@ -322,4 +322,4 @@ jobs:
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
-          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:${{ steps.ver.outputs.version }}
+          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:${{ steps.ver.outputs.VERSION }}
