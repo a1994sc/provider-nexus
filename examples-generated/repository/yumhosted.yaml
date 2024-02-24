@@ -1,0 +1,11 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: YumHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/yumhosted
+  labels:
+    testing.upbound.io/example-name: yum
+  name: yum
+spec:
+  forProvider:
+    name: yummy

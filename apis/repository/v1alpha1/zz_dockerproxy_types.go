@@ -17,7 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type HTTPClientAuthenticationInitParameters struct {
+type AuthenticationInitParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -36,7 +36,7 @@ type HTTPClientAuthenticationInitParameters struct {
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
-type HTTPClientAuthenticationObservation struct {
+type AuthenticationObservation struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -55,7 +55,7 @@ type HTTPClientAuthenticationObservation struct {
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
-type HTTPClientAuthenticationParameters struct {
+type AuthenticationParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -83,7 +83,7 @@ type HTTPClientAuthenticationParameters struct {
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
-type HTTPClientConnectionInitParameters struct {
+type ConnectionInitParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -110,7 +110,7 @@ type HTTPClientConnectionInitParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type HTTPClientConnectionObservation struct {
+type ConnectionObservation struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -137,7 +137,7 @@ type HTTPClientConnectionObservation struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type HTTPClientConnectionParameters struct {
+type ConnectionParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -170,21 +170,21 @@ type HTTPClientConnectionParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type YumProxyCleanupInitParameters struct {
+type DockerProxyCleanupInitParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type YumProxyCleanupObservation struct {
+type DockerProxyCleanupObservation struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type YumProxyCleanupParameters struct {
+type DockerProxyCleanupParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -192,11 +192,297 @@ type YumProxyCleanupParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type YumProxyHTTPClientInitParameters struct {
+type DockerProxyDockerInitParameters struct {
+
+	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+	// Whether to force authentication (Docker Bearer Token Realm required if false)
+	ForceBasicAuth *bool `json:"forceBasicAuth,omitempty" tf:"force_basic_auth,omitempty"`
+
+	// (Number) Create an HTTP connector at specified port
+	// Create an HTTP connector at specified port
+	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
+
+	// (Number) Create an HTTPS connector at specified port
+	// Create an HTTPS connector at specified port
+	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
+
+	// only: Whether to allow clients to use subdomain routing connector
+	// Pro-only: Whether to allow clients to use subdomain routing connector
+	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
+
+	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+	// Whether to allow clients to use the V1 API to interact with this repository
+	V1Enabled *bool `json:"v1Enabled,omitempty" tf:"v1_enabled,omitempty"`
+}
+
+type DockerProxyDockerObservation struct {
+
+	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+	// Whether to force authentication (Docker Bearer Token Realm required if false)
+	ForceBasicAuth *bool `json:"forceBasicAuth,omitempty" tf:"force_basic_auth,omitempty"`
+
+	// (Number) Create an HTTP connector at specified port
+	// Create an HTTP connector at specified port
+	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
+
+	// (Number) Create an HTTPS connector at specified port
+	// Create an HTTPS connector at specified port
+	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
+
+	// only: Whether to allow clients to use subdomain routing connector
+	// Pro-only: Whether to allow clients to use subdomain routing connector
+	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
+
+	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+	// Whether to allow clients to use the V1 API to interact with this repository
+	V1Enabled *bool `json:"v1Enabled,omitempty" tf:"v1_enabled,omitempty"`
+}
+
+type DockerProxyDockerParameters struct {
+
+	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+	// Whether to force authentication (Docker Bearer Token Realm required if false)
+	// +kubebuilder:validation:Optional
+	ForceBasicAuth *bool `json:"forceBasicAuth" tf:"force_basic_auth,omitempty"`
+
+	// (Number) Create an HTTP connector at specified port
+	// Create an HTTP connector at specified port
+	// +kubebuilder:validation:Optional
+	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
+
+	// (Number) Create an HTTPS connector at specified port
+	// Create an HTTPS connector at specified port
+	// +kubebuilder:validation:Optional
+	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
+
+	// only: Whether to allow clients to use subdomain routing connector
+	// Pro-only: Whether to allow clients to use subdomain routing connector
+	// +kubebuilder:validation:Optional
+	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
+
+	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
+	// Whether to allow clients to use the V1 API to interact with this repository
+	// +kubebuilder:validation:Optional
+	V1Enabled *bool `json:"v1Enabled" tf:"v1_enabled,omitempty"`
+}
+
+type DockerProxyDockerProxyInitParameters struct {
+
+	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
+	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
+	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
+
+	// (String) Url of Docker Index to use
+	// Url of Docker Index to use
+	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
+}
+
+type DockerProxyDockerProxyObservation struct {
+
+	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
+	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
+	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
+
+	// (String) Url of Docker Index to use
+	// Url of Docker Index to use
+	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
+}
+
+type DockerProxyDockerProxyParameters struct {
+
+	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
+	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
+	// +kubebuilder:validation:Optional
+	IndexType *string `json:"indexType" tf:"index_type,omitempty"`
+
+	// (String) Url of Docker Index to use
+	// Url of Docker Index to use
+	// +kubebuilder:validation:Optional
+	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
+}
+
+type DockerProxyInitParameters struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	Cleanup []DockerProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
+	// docker contains the configuration of the docker repository
+	Docker []DockerProxyDockerInitParameters `json:"docker,omitempty" tf:"docker,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
+	// docker_proxy contains the configuration of the docker index
+	DockerProxy []DockerProxyDockerProxyInitParameters `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	HTTPClient []HTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	NegativeCache []NegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	Proxy []ProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	Storage []DockerProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerProxyObservation struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	Cleanup []DockerProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
+	// docker contains the configuration of the docker repository
+	Docker []DockerProxyDockerObservation `json:"docker,omitempty" tf:"docker,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
+	// docker_proxy contains the configuration of the docker index
+	DockerProxy []DockerProxyDockerProxyObservation `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	HTTPClient []HTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) Used to identify resource at nexus
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	NegativeCache []NegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	Proxy []ProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	Storage []DockerProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerProxyParameters struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	// +kubebuilder:validation:Optional
+	Cleanup []DockerProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
+	// docker contains the configuration of the docker repository
+	// +kubebuilder:validation:Optional
+	Docker []DockerProxyDockerParameters `json:"docker,omitempty" tf:"docker,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
+	// docker_proxy contains the configuration of the docker index
+	// +kubebuilder:validation:Optional
+	DockerProxy []DockerProxyDockerProxyParameters `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	// +kubebuilder:validation:Optional
+	HTTPClient []HTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	// +kubebuilder:validation:Optional
+	NegativeCache []NegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	// +kubebuilder:validation:Optional
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	// +kubebuilder:validation:Optional
+	Proxy []ProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	// +kubebuilder:validation:Optional
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	// +kubebuilder:validation:Optional
+	Storage []DockerProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerProxyStorageInitParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type DockerProxyStorageObservation struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type DockerProxyStorageParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	// +kubebuilder:validation:Optional
+	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	// +kubebuilder:validation:Optional
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type HTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []HTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -208,14 +494,14 @@ type YumProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []HTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyHTTPClientObservation struct {
+type HTTPClientObservation struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []HTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -227,15 +513,15 @@ type YumProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []HTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyHTTPClientParameters struct {
+type HTTPClientParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Authentication []HTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -250,49 +536,10 @@ type YumProxyHTTPClientParameters struct {
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Connection []HTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyInitParameters struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	Cleanup []YumProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	HTTPClient []YumProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	NegativeCache []YumProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	Proxy []YumProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	Storage []YumProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	YumSigning []YumProxyYumSigningInitParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
-}
-
-type YumProxyNegativeCacheInitParameters struct {
+type NegativeCacheInitParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -303,7 +550,7 @@ type YumProxyNegativeCacheInitParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyNegativeCacheObservation struct {
+type NegativeCacheObservation struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -314,7 +561,7 @@ type YumProxyNegativeCacheObservation struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyNegativeCacheParameters struct {
+type NegativeCacheParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -327,97 +574,7 @@ type YumProxyNegativeCacheParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyObservation struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	Cleanup []YumProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	HTTPClient []YumProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) Used to identify resource at nexus
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	NegativeCache []YumProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	Proxy []YumProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	Storage []YumProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	YumSigning []YumProxyYumSigningParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
-}
-
-type YumProxyParameters struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	// +kubebuilder:validation:Optional
-	Cleanup []YumProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	// +kubebuilder:validation:Optional
-	HTTPClient []YumProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	// +kubebuilder:validation:Optional
-	NegativeCache []YumProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	// +kubebuilder:validation:Optional
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	// +kubebuilder:validation:Optional
-	Proxy []YumProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	// +kubebuilder:validation:Optional
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	// +kubebuilder:validation:Optional
-	Storage []YumProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	// +kubebuilder:validation:Optional
-	YumSigning []YumProxyYumSigningParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
-}
-
-type YumProxyProxyInitParameters struct {
+type ProxyInitParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -432,7 +589,7 @@ type YumProxyProxyInitParameters struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type YumProxyProxyObservation struct {
+type ProxyObservation struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -447,7 +604,7 @@ type YumProxyProxyObservation struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type YumProxyProxyParameters struct {
+type ProxyParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -465,64 +622,10 @@ type YumProxyProxyParameters struct {
 	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
 }
 
-type YumProxyStorageInitParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type YumProxyStorageObservation struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type YumProxyStorageParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	// +kubebuilder:validation:Optional
-	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	// +kubebuilder:validation:Optional
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type YumProxyYumSigningInitParameters struct {
-}
-
-type YumProxyYumSigningObservation struct {
-}
-
-type YumProxyYumSigningParameters struct {
-
-	// -export-secret-key --armor)
-	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-	// +kubebuilder:validation:Required
-	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
-
-	// (String, Sensitive) Passphrase to access PGP signing key
-	// Passphrase to access PGP signing key
-	// +kubebuilder:validation:Optional
-	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
-}
-
-// YumProxySpec defines the desired state of YumProxy
-type YumProxySpec struct {
+// DockerProxySpec defines the desired state of DockerProxy
+type DockerProxySpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     YumProxyParameters `json:"forProvider"`
+	ForProvider     DockerProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -533,52 +636,54 @@ type YumProxySpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider YumProxyInitParameters `json:"initProvider,omitempty"`
+	InitProvider DockerProxyInitParameters `json:"initProvider,omitempty"`
 }
 
-// YumProxyStatus defines the observed state of YumProxy.
-type YumProxyStatus struct {
+// DockerProxyStatus defines the observed state of DockerProxy.
+type DockerProxyStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        YumProxyObservation `json:"atProvider,omitempty"`
+	AtProvider        DockerProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// YumProxy is the Schema for the YumProxys API. Use this resource to create a yum proxy repository.
+// DockerProxy is the Schema for the DockerProxys API. Use this resource to create a docker proxy repository.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
-type YumProxy struct {
+type DockerProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.docker) || (has(self.initProvider) && has(self.initProvider.docker))",message="spec.forProvider.docker is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dockerProxy) || (has(self.initProvider) && has(self.initProvider.dockerProxy))",message="spec.forProvider.dockerProxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
-	Spec   YumProxySpec   `json:"spec"`
-	Status YumProxyStatus `json:"status,omitempty"`
+	Spec   DockerProxySpec   `json:"spec"`
+	Status DockerProxyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// YumProxyList contains a list of YumProxys
-type YumProxyList struct {
+// DockerProxyList contains a list of DockerProxys
+type DockerProxyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []YumProxy `json:"items"`
+	Items           []DockerProxy `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	YumProxy_Kind             = "YumProxy"
-	YumProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: YumProxy_Kind}.String()
-	YumProxy_KindAPIVersion   = YumProxy_Kind + "." + CRDGroupVersion.String()
-	YumProxy_GroupVersionKind = CRDGroupVersion.WithKind(YumProxy_Kind)
+	DockerProxy_Kind             = "DockerProxy"
+	DockerProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: DockerProxy_Kind}.String()
+	DockerProxy_KindAPIVersion   = DockerProxy_Kind + "." + CRDGroupVersion.String()
+	DockerProxy_GroupVersionKind = CRDGroupVersion.WithKind(DockerProxy_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&YumProxy{}, &YumProxyList{})
+	SchemeBuilder.Register(&DockerProxy{}, &DockerProxyList{})
 }

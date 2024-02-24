@@ -1,0 +1,38 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: YumGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/yumgroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_yum_hosted.internal.name}
+    name: yum-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: YumHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/yumgroup
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    deployPolicy: STRICT
+    name: internal
+    repodataDepth: 4
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW

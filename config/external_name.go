@@ -14,6 +14,11 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_blobstore_group": config.IdentifierFromProvider,
 	"nexus_blobstore_azure": config.IdentifierFromProvider,
 	"nexus_repository_yum_proxy": config.IdentifierFromProvider,
+	"nexus_repository_yum_group": config.IdentifierFromProvider,
+	"nexus_repository_yum_hosted": config.IdentifierFromProvider,
+	"nexus_repository_docker_proxy": config.IdentifierFromProvider,
+	"nexus_repository_docker_group": config.IdentifierFromProvider,
+	"nexus_repository_docker_hosted": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

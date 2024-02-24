@@ -1,0 +1,20 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: DockerHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/dockerhosted
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    docker:
+    - forceBasicAuth: false
+      subdomain: docker
+      v1Enabled: false
+    name: example
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW

@@ -14,6 +14,11 @@ import (
 	group "github.com/a1994sc/provider-nexus/internal/controller/blobstore/group"
 	s3 "github.com/a1994sc/provider-nexus/internal/controller/blobstore/s3"
 	providerconfig "github.com/a1994sc/provider-nexus/internal/controller/providerconfig"
+	dockergroup "github.com/a1994sc/provider-nexus/internal/controller/repository/dockergroup"
+	dockerhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerhosted"
+	dockerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerproxy"
+	yumgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/yumgroup"
+	yumhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/yumhosted"
 	yumproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/yumproxy"
 )
 
@@ -26,6 +31,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		group.Setup,
 		s3.Setup,
 		providerconfig.Setup,
+		dockergroup.Setup,
+		dockerhosted.Setup,
+		dockerproxy.Setup,
+		yumgroup.Setup,
+		yumhosted.Setup,
 		yumproxy.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

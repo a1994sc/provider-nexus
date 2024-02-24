@@ -1,0 +1,31 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: DockerProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/dockerproxy
+  labels:
+    testing.upbound.io/example-name: dockerhub
+  name: dockerhub
+spec:
+  forProvider:
+    docker:
+    - forceBasicAuth: false
+      subdomain: docker
+      v1Enabled: false
+    dockerProxy:
+    - indexType: HUB
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: dockerhub
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://registry-1.docker.io
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
