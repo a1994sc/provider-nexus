@@ -13,7 +13,10 @@ spec:
       - name: aws-bucket-name
         region: us-central-1
       bucketSecurity:
-      - accessKeyId: <your-aws-access-key-id>
+      - accessKeyIdSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
         secretAccessKeySecretRef:
           key: example-key
           name: example-secret

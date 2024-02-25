@@ -141,20 +141,12 @@ type BucketParameters struct {
 
 type BucketSecurityInitParameters struct {
 
-	// (String) An IAM access key ID for granting access to the S3 bucket
-	// An IAM access key ID for granting access to the S3 bucket
-	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
-
 	// (String) An IAM role to assume in order to access the S3 bucket
 	// An IAM role to assume in order to access the S3 bucket
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type BucketSecurityObservation struct {
-
-	// (String) An IAM access key ID for granting access to the S3 bucket
-	// An IAM access key ID for granting access to the S3 bucket
-	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
 
 	// (String) An IAM role to assume in order to access the S3 bucket
 	// An IAM role to assume in order to access the S3 bucket
@@ -166,7 +158,7 @@ type BucketSecurityParameters struct {
 	// (String) An IAM access key ID for granting access to the S3 bucket
 	// An IAM access key ID for granting access to the S3 bucket
 	// +kubebuilder:validation:Optional
-	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
+	AccessKeyIDSecretRef *v1.SecretKeySelector `json:"accessKeyIdSecretRef,omitempty" tf:"-"`
 
 	// (String) An IAM role to assume in order to access the S3 bucket
 	// An IAM role to assume in order to access the S3 bucket
