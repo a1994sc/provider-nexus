@@ -30,10 +30,6 @@ type AuthenticationInitParameters struct {
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-
-	// (String) The username used by the proxy repository
-	// The username used by the proxy repository
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthenticationObservation struct {
@@ -49,10 +45,6 @@ type AuthenticationObservation struct {
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-
-	// (String) The username used by the proxy repository
-	// The username used by the proxy repository
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthenticationParameters struct {
@@ -80,7 +72,7 @@ type AuthenticationParameters struct {
 	// (String) The username used by the proxy repository
 	// The username used by the proxy repository
 	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
 type ConnectionInitParameters struct {
