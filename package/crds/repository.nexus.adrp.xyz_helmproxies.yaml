@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: yumproxies.repository.nexus.adrp.xyz
+  name: helmproxies.repository.nexus.adrp.xyz
 spec:
   group: repository.nexus.adrp.xyz
   names:
@@ -12,10 +12,10 @@ spec:
     - crossplane
     - managed
     - nexus
-    kind: YumProxy
-    listKind: YumProxyList
-    plural: yumproxies
-    singular: yumproxy
+    kind: HelmProxy
+    listKind: HelmProxyList
+    plural: helmproxies
+    singular: helmproxy
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: YumProxy is the Schema for the YumProxys API. Use this resource
-          to create a yum proxy repository.
+        description: HelmProxy is the Schema for the HelmProxys API. Use this resource
+          to create a helm proxy repository.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: YumProxySpec defines the desired state of YumProxy
+            description: HelmProxySpec defines the desired state of HelmProxy
             properties:
               deletionPolicy:
                 default: Delete
@@ -119,6 +119,11 @@ spec:
                                 - name
                                 - namespace
                                 type: object
+                              preemptive:
+                                description: emptive authentication. Use with caution.
+                                  Defaults to false. Whether to use pre-emptive authentication.
+                                  Use with caution. Defaults to false.
+                                type: boolean
                               type:
                                 description: '(String) Authentication type. Possible
                                   values: ntlm or username Authentication type. Possible
@@ -272,52 +277,6 @@ spec:
                           type: boolean
                       type: object
                     type: array
-                  yumSigning:
-                    description: '(Block List, Max: 1) Contains signing data of repositores
-                      (see below for nested schema) Contains signing data of repositores'
-                    items:
-                      properties:
-                        keypairSecretRef:
-                          description: -export-secret-key --armor) PGP signing key
-                            pair (armored private key e.g. gpg --export-secret-key
-                            --armor)
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        passphraseSecretRef:
-                          description: (String, Sensitive) Passphrase to access PGP
-                            signing key Passphrase to access PGP signing key
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                      required:
-                      - keypairSecretRef
-                      type: object
-                    type: array
                 type: object
               initProvider:
                 description: THIS IS A BETA FIELD. It will be honored unless the Management
@@ -364,6 +323,11 @@ spec:
                                 description: (String) The ntlm host to connect The
                                   ntlm host to connect
                                 type: string
+                              preemptive:
+                                description: emptive authentication. Use with caution.
+                                  Defaults to false. Whether to use pre-emptive authentication.
+                                  Use with caution. Defaults to false.
+                                type: boolean
                               type:
                                 description: '(String) Authentication type. Possible
                                   values: ntlm or username Authentication type. Possible
@@ -497,12 +461,6 @@ spec:
                             to validate uploaded content's MIME type appropriate for
                             the repository format
                           type: boolean
-                      type: object
-                    type: array
-                  yumSigning:
-                    description: '(Block List, Max: 1) Contains signing data of repositores
-                      (see below for nested schema) Contains signing data of repositores'
-                    items:
                       type: object
                     type: array
                 type: object
@@ -684,7 +642,7 @@ spec:
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.storage)
                 || (has(self.initProvider) && has(self.initProvider.storage))'
           status:
-            description: YumProxyStatus defines the observed state of YumProxy.
+            description: HelmProxyStatus defines the observed state of HelmProxy.
             properties:
               atProvider:
                 properties:
@@ -721,6 +679,11 @@ spec:
                                 description: (String) The ntlm host to connect The
                                   ntlm host to connect
                                 type: string
+                              preemptive:
+                                description: emptive authentication. Use with caution.
+                                  Defaults to false. Whether to use pre-emptive authentication.
+                                  Use with caution. Defaults to false.
+                                type: boolean
                               type:
                                 description: '(String) Authentication type. Possible
                                   values: ntlm or username Authentication type. Possible
@@ -857,52 +820,6 @@ spec:
                             to validate uploaded content's MIME type appropriate for
                             the repository format
                           type: boolean
-                      type: object
-                    type: array
-                  yumSigning:
-                    description: '(Block List, Max: 1) Contains signing data of repositores
-                      (see below for nested schema) Contains signing data of repositores'
-                    items:
-                      properties:
-                        keypairSecretRef:
-                          description: -export-secret-key --armor) PGP signing key
-                            pair (armored private key e.g. gpg --export-secret-key
-                            --armor)
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        passphraseSecretRef:
-                          description: (String, Sensitive) Passphrase to access PGP
-                            signing key Passphrase to access PGP signing key
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                      required:
-                      - keypairSecretRef
                       type: object
                     type: array
                 type: object

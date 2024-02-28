@@ -17,29 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type YumProxyCleanupInitParameters struct {
-
-	// (Set of String) List of policy names
-	// List of policy names
-	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
-}
-
-type YumProxyCleanupObservation struct {
-
-	// (Set of String) List of policy names
-	// List of policy names
-	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
-}
-
-type YumProxyCleanupParameters struct {
-
-	// (Set of String) List of policy names
-	// List of policy names
-	// +kubebuilder:validation:Optional
-	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
-}
-
-type YumProxyHTTPClientAuthenticationInitParameters struct {
+type HTTPClientAuthenticationInitParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -49,12 +27,16 @@ type YumProxyHTTPClientAuthenticationInitParameters struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
+	// emptive authentication. Use with caution. Defaults to false.
+	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
+
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type YumProxyHTTPClientAuthenticationObservation struct {
+type HTTPClientAuthenticationObservation struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -64,12 +46,16 @@ type YumProxyHTTPClientAuthenticationObservation struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
+	// emptive authentication. Use with caution. Defaults to false.
+	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
+
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type YumProxyHTTPClientAuthenticationParameters struct {
+type HTTPClientAuthenticationParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -86,6 +72,11 @@ type YumProxyHTTPClientAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// emptive authentication. Use with caution. Defaults to false.
+	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
+	// +kubebuilder:validation:Optional
+	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
+
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	// +kubebuilder:validation:Optional
@@ -97,7 +88,7 @@ type YumProxyHTTPClientAuthenticationParameters struct {
 	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
-type YumProxyHTTPClientConnectionInitParameters struct {
+type HTTPClientConnectionInitParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -124,7 +115,7 @@ type YumProxyHTTPClientConnectionInitParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type YumProxyHTTPClientConnectionObservation struct {
+type HTTPClientConnectionObservation struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -151,7 +142,7 @@ type YumProxyHTTPClientConnectionObservation struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type YumProxyHTTPClientConnectionParameters struct {
+type HTTPClientConnectionParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -184,11 +175,33 @@ type YumProxyHTTPClientConnectionParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type YumProxyHTTPClientInitParameters struct {
+type HelmProxyCleanupInitParameters struct {
+
+	// (Set of String) List of policy names
+	// List of policy names
+	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
+}
+
+type HelmProxyCleanupObservation struct {
+
+	// (Set of String) List of policy names
+	// List of policy names
+	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
+}
+
+type HelmProxyCleanupParameters struct {
+
+	// (Set of String) List of policy names
+	// List of policy names
+	// +kubebuilder:validation:Optional
+	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
+}
+
+type HelmProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []YumProxyHTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []HTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -200,14 +213,14 @@ type YumProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []YumProxyHTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []HTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyHTTPClientObservation struct {
+type HelmProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []YumProxyHTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []HTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -219,15 +232,15 @@ type YumProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []YumProxyHTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []HTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyHTTPClientParameters struct {
+type HelmProxyHTTPClientParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Authentication []YumProxyHTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []HTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -242,18 +255,18 @@ type YumProxyHTTPClientParameters struct {
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Connection []YumProxyHTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []HTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type YumProxyInitParameters struct {
+type HelmProxyInitParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []YumProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []HelmProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []YumProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []HelmProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -261,7 +274,7 @@ type YumProxyInitParameters struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []YumProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []HelmProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -269,7 +282,7 @@ type YumProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []YumProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []HelmProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -277,14 +290,10 @@ type YumProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []YumProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	YumSigning []YumProxyYumSigningInitParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
+	Storage []HelmProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type YumProxyNegativeCacheInitParameters struct {
+type HelmProxyNegativeCacheInitParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -295,7 +304,7 @@ type YumProxyNegativeCacheInitParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyNegativeCacheObservation struct {
+type HelmProxyNegativeCacheObservation struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -306,7 +315,7 @@ type YumProxyNegativeCacheObservation struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyNegativeCacheParameters struct {
+type HelmProxyNegativeCacheParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -319,15 +328,15 @@ type YumProxyNegativeCacheParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type YumProxyObservation struct {
+type HelmProxyObservation struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []YumProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []HelmProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []YumProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []HelmProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -338,7 +347,7 @@ type YumProxyObservation struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []YumProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []HelmProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -346,7 +355,7 @@ type YumProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []YumProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []HelmProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -354,24 +363,20 @@ type YumProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []YumProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	YumSigning []YumProxyYumSigningParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
+	Storage []HelmProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type YumProxyParameters struct {
+type HelmProxyParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
 	// +kubebuilder:validation:Optional
-	Cleanup []YumProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []HelmProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
 	// +kubebuilder:validation:Optional
-	HTTPClient []YumProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []HelmProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -381,7 +386,7 @@ type YumProxyParameters struct {
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
-	NegativeCache []YumProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []HelmProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -391,7 +396,7 @@ type YumProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
 	// +kubebuilder:validation:Optional
-	Proxy []YumProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []HelmProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -401,15 +406,10 @@ type YumProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
 	// +kubebuilder:validation:Optional
-	Storage []YumProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-
-	// (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
-	// Contains signing data of repositores
-	// +kubebuilder:validation:Optional
-	YumSigning []YumProxyYumSigningParameters `json:"yumSigning,omitempty" tf:"yum_signing,omitempty"`
+	Storage []HelmProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type YumProxyProxyInitParameters struct {
+type HelmProxyProxyInitParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -424,7 +424,7 @@ type YumProxyProxyInitParameters struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type YumProxyProxyObservation struct {
+type HelmProxyProxyObservation struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -439,7 +439,7 @@ type YumProxyProxyObservation struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type YumProxyProxyParameters struct {
+type HelmProxyProxyParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -457,7 +457,7 @@ type YumProxyProxyParameters struct {
 	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
 }
 
-type YumProxyStorageInitParameters struct {
+type HelmProxyStorageInitParameters struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -468,7 +468,7 @@ type YumProxyStorageInitParameters struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type YumProxyStorageObservation struct {
+type HelmProxyStorageObservation struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -479,7 +479,7 @@ type YumProxyStorageObservation struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type YumProxyStorageParameters struct {
+type HelmProxyStorageParameters struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -492,29 +492,10 @@ type YumProxyStorageParameters struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type YumProxyYumSigningInitParameters struct {
-}
-
-type YumProxyYumSigningObservation struct {
-}
-
-type YumProxyYumSigningParameters struct {
-
-	// -export-secret-key --armor)
-	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-	// +kubebuilder:validation:Required
-	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
-
-	// (String, Sensitive) Passphrase to access PGP signing key
-	// Passphrase to access PGP signing key
-	// +kubebuilder:validation:Optional
-	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
-}
-
-// YumProxySpec defines the desired state of YumProxy
-type YumProxySpec struct {
+// HelmProxySpec defines the desired state of HelmProxy
+type HelmProxySpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     YumProxyParameters `json:"forProvider"`
+	ForProvider     HelmProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -525,52 +506,52 @@ type YumProxySpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider YumProxyInitParameters `json:"initProvider,omitempty"`
+	InitProvider HelmProxyInitParameters `json:"initProvider,omitempty"`
 }
 
-// YumProxyStatus defines the observed state of YumProxy.
-type YumProxyStatus struct {
+// HelmProxyStatus defines the observed state of HelmProxy.
+type HelmProxyStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        YumProxyObservation `json:"atProvider,omitempty"`
+	AtProvider        HelmProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// YumProxy is the Schema for the YumProxys API. Use this resource to create a yum proxy repository.
+// HelmProxy is the Schema for the HelmProxys API. Use this resource to create a helm proxy repository.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
-type YumProxy struct {
+type HelmProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
-	Spec   YumProxySpec   `json:"spec"`
-	Status YumProxyStatus `json:"status,omitempty"`
+	Spec   HelmProxySpec   `json:"spec"`
+	Status HelmProxyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// YumProxyList contains a list of YumProxys
-type YumProxyList struct {
+// HelmProxyList contains a list of HelmProxys
+type HelmProxyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []YumProxy `json:"items"`
+	Items           []HelmProxy `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	YumProxy_Kind             = "YumProxy"
-	YumProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: YumProxy_Kind}.String()
-	YumProxy_KindAPIVersion   = YumProxy_Kind + "." + CRDGroupVersion.String()
-	YumProxy_GroupVersionKind = CRDGroupVersion.WithKind(YumProxy_Kind)
+	HelmProxy_Kind             = "HelmProxy"
+	HelmProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: HelmProxy_Kind}.String()
+	HelmProxy_KindAPIVersion   = HelmProxy_Kind + "." + CRDGroupVersion.String()
+	HelmProxy_GroupVersionKind = CRDGroupVersion.WithKind(HelmProxy_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&YumProxy{}, &YumProxyList{})
+	SchemeBuilder.Register(&HelmProxy{}, &HelmProxyList{})
 }

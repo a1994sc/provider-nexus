@@ -192,7 +192,7 @@ func (mg *DockerProxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this DockerProxy
 func (tr *DockerProxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef"}
 }
 
 // GetObservation of this DockerProxy
@@ -266,6 +266,174 @@ func (tr *DockerProxy) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *DockerProxy) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this HelmHosted
+func (mg *HelmHosted) GetTerraformResourceType() string {
+	return "nexus_repository_helm_hosted"
+}
+
+// GetConnectionDetailsMapping for this HelmHosted
+func (tr *HelmHosted) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this HelmHosted
+func (tr *HelmHosted) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this HelmHosted
+func (tr *HelmHosted) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this HelmHosted
+func (tr *HelmHosted) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this HelmHosted
+func (tr *HelmHosted) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this HelmHosted
+func (tr *HelmHosted) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this HelmHosted
+func (tr *HelmHosted) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// LateInitialize this HelmHosted using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *HelmHosted) LateInitialize(attrs []byte) (bool, error) {
+	params := &HelmHostedParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *HelmHosted) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this HelmProxy
+func (mg *HelmProxy) GetTerraformResourceType() string {
+	return "nexus_repository_helm_proxy"
+}
+
+// GetConnectionDetailsMapping for this HelmProxy
+func (tr *HelmProxy) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef"}
+}
+
+// GetObservation of this HelmProxy
+func (tr *HelmProxy) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this HelmProxy
+func (tr *HelmProxy) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this HelmProxy
+func (tr *HelmProxy) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this HelmProxy
+func (tr *HelmProxy) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this HelmProxy
+func (tr *HelmProxy) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// GetInitParameters of this HelmProxy
+func (tr *HelmProxy) GetInitParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// LateInitialize this HelmProxy using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *HelmProxy) LateInitialize(attrs []byte) (bool, error) {
+	params := &HelmProxyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *HelmProxy) GetTerraformSchemaVersion() int {
 	return 0
 }
 
@@ -444,7 +612,7 @@ func (mg *YumProxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this YumProxy
 func (tr *YumProxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "yum_signing[*].keypair": "spec.forProvider.yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "spec.forProvider.yumSigning[*].passphraseSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef", "yum_signing[*].keypair": "spec.forProvider.yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "spec.forProvider.yumSigning[*].passphraseSecretRef"}
 }
 
 // GetObservation of this YumProxy
