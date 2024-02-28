@@ -4,7 +4,7 @@
 PROJECT_NAME ?= provider-nexus
 PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION ?= 1.2.1
+export TERRAFORM_VERSION ?= 1.7.4
 
 export TERRAFORM_PROVIDER_SOURCE ?= datadrivers/nexus
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/datadrivers/terraform-provider-nexus
@@ -41,7 +41,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= 1.19
-GOLANGCILINT_VERSION ?= 1.50.0
+GOLANGCILINT_VERSION ?= 1.56.2
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
