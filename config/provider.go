@@ -10,8 +10,8 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 
-	"github.com/a1994sc/provider-nexus/config/registry"
 	"github.com/a1994sc/provider-nexus/config/blobstore"
+	"github.com/a1994sc/provider-nexus/config/registry"
 )
 
 const (
