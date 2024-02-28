@@ -28,7 +28,7 @@ const (
 )
 
 var requiredNexusConfigKeys = []string{
-	"url ",
+	"url",
 	"username",
 	"password",
 }
