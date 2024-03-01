@@ -22,6 +22,7 @@ import (
 	yumgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/yumgroup"
 	yumhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/yumhosted"
 	yumproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/yumproxy"
+	rule "github.com/a1994sc/provider-nexus/internal/controller/routing/rule"
 	anonymous "github.com/a1994sc/provider-nexus/internal/controller/security/anonymous"
 	contentselector "github.com/a1994sc/provider-nexus/internal/controller/security/contentselector"
 	ldap "github.com/a1994sc/provider-nexus/internal/controller/security/ldap"
@@ -50,6 +51,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		yumgroup.Setup,
 		yumhosted.Setup,
 		yumproxy.Setup,
+		rule.Setup,
 		anonymous.Setup,
 		contentselector.Setup,
 		ldap.Setup,

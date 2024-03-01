@@ -16,6 +16,7 @@ import (
 
 	v1alpha1 "github.com/a1994sc/provider-nexus/apis/blobstore/v1alpha1"
 	v1alpha1repository "github.com/a1994sc/provider-nexus/apis/repository/v1alpha1"
+	v1alpha1routing "github.com/a1994sc/provider-nexus/apis/routing/v1alpha1"
 	v1alpha1security "github.com/a1994sc/provider-nexus/apis/security/v1alpha1"
 	v1alpha1apis "github.com/a1994sc/provider-nexus/apis/v1alpha1"
 	v1beta1 "github.com/a1994sc/provider-nexus/apis/v1beta1"
@@ -26,6 +27,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1repository.SchemeBuilder.AddToScheme,
+		v1alpha1routing.SchemeBuilder.AddToScheme,
 		v1alpha1security.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

@@ -1,0 +1,16 @@
+apiVersion: routing.nexus.adrp.xyz/v1alpha1
+kind: Rule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: routing/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: stop_leaks
+  name: stop-leaks
+spec:
+  forProvider:
+    description: Prevent requests of internal names
+    matchers:
+    - ^/com/example/.*
+    - ^/org/example/.*
+    mode: BLOCK
+    name: stop-leaks

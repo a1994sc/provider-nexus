@@ -34,6 +34,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_security_saml":             config.IdentifierFromProvider,
 	"nexus_security_user":             config.IdentifierFromProvider,
 	"nexus_security_user_token":       config.IdentifierFromProvider,
+
+	"nexus_routing_rule": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
