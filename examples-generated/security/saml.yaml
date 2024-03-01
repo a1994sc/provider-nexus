@@ -1,0 +1,19 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: SAML
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/saml
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    emailAttribute: email
+    entityId: http://nexus.example/service/rest/v1/security/saml/metadata
+    firstNameAttribute: firstName
+    groupsAttribute: groups
+    idpMetadata: <EntityDescriptor ...>...</EntityDescriptor>
+    lastNameAttribute: lastName
+    usernameAttribute: username
+    validateAssertionSignature: true
+    validateResponseSignature: true

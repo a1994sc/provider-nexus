@@ -1,0 +1,12 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: Anonymous
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/anonymous
+  labels:
+    testing.upbound.io/example-name: system
+  name: system
+spec:
+  forProvider:
+    enabled: true
+    userId: exampleUser

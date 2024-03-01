@@ -1,0 +1,13 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: ContentSelector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/contentselector
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: example content selector
+    expression: format == "raw"
+    name: example

@@ -1,0 +1,21 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: admin
+  name: admin
+spec:
+  forProvider:
+    email: nexus@example.com
+    firstname: Administrator
+    lastname: User
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    roles:
+    - nx-admin
+    status: active
+    userid: admin

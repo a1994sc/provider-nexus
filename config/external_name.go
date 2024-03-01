@@ -24,6 +24,16 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	"nexus_repository_helm_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_helm_hosted": config.IdentifierFromProvider,
+
+	"nexus_security_anonymous":        config.IdentifierFromProvider,
+	"nexus_security_content_selector": config.IdentifierFromProvider,
+	"nexus_security_ldap":             config.IdentifierFromProvider,
+	"nexus_security_ldap_order":       config.IdentifierFromProvider,
+	"nexus_security_realms":           config.IdentifierFromProvider,
+	"nexus_security_role":             config.IdentifierFromProvider,
+	"nexus_security_saml":             config.IdentifierFromProvider,
+	"nexus_security_user":             config.IdentifierFromProvider,
+	"nexus_security_user_token":       config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

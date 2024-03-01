@@ -12,6 +12,7 @@ import (
 
 	"github.com/a1994sc/provider-nexus/config/blobstore"
 	"github.com/a1994sc/provider-nexus/config/registry"
+	"github.com/a1994sc/provider-nexus/config/security"
 )
 
 const (
@@ -40,6 +41,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 		registry.Configure,
 		blobstore.Configure,
+		security.Configure,
 	} {
 		configure(pc)
 	}

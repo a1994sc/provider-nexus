@@ -1,0 +1,16 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/role
+  labels:
+    testing.upbound.io/example-name: nx_admin
+  name: nx-admin
+spec:
+  forProvider:
+    description: Administrator role
+    name: nx-admin
+    privileges:
+    - nx-all
+    roleid: nx-admin
+    roles: []

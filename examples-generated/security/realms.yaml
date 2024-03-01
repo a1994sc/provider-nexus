@@ -1,0 +1,13 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: Realms
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/realms
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    active:
+    - NexusAuthenticatingRealm
+    - DockerToken

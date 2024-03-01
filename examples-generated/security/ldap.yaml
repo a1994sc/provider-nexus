@@ -1,0 +1,41 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: Ldap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/ldap
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    authPasswordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    authRealm: EXAMPLE
+    authSchema: ""
+    authUsername: admin
+    connectionRetryDelaySeconds: 1
+    connectionTimeoutSeconds: 1
+    groupBaseDn: ou=Group
+    groupIdAttribute: cn
+    groupMemberAttribute: memberUid
+    groupMemberFormat: uid=${username},ou=people,dc=example,dc=com
+    groupObjectClass: example
+    groupSubtree: true
+    host: ldap.example.com
+    ldapGroupsAsRoles: true
+    maxIncidentCount: 1
+    name: example-ldap
+    port: 389
+    protocol: LDAP
+    searchBase: dc=example,dc=com
+    userBaseDn: ou=people
+    userEmailAddressAttribute: mail
+    userIdAttribute: uid
+    userLdapFilter: (|(mail=*@example.com)(uid=dom*))
+    userMemberOfAttribute: memberOf
+    userObjectClass: posixGroup
+    userPasswordAttribute: exmaple
+    userRealNameAttribute: cn
+    userSubtree: true

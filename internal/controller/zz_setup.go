@@ -22,6 +22,15 @@ import (
 	yumgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/yumgroup"
 	yumhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/yumhosted"
 	yumproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/yumproxy"
+	anonymous "github.com/a1994sc/provider-nexus/internal/controller/security/anonymous"
+	contentselector "github.com/a1994sc/provider-nexus/internal/controller/security/contentselector"
+	ldap "github.com/a1994sc/provider-nexus/internal/controller/security/ldap"
+	ldaporder "github.com/a1994sc/provider-nexus/internal/controller/security/ldaporder"
+	realms "github.com/a1994sc/provider-nexus/internal/controller/security/realms"
+	role "github.com/a1994sc/provider-nexus/internal/controller/security/role"
+	saml "github.com/a1994sc/provider-nexus/internal/controller/security/saml"
+	user "github.com/a1994sc/provider-nexus/internal/controller/security/user"
+	usertoken "github.com/a1994sc/provider-nexus/internal/controller/security/usertoken"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -41,6 +50,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		yumgroup.Setup,
 		yumhosted.Setup,
 		yumproxy.Setup,
+		anonymous.Setup,
+		contentselector.Setup,
+		ldap.Setup,
+		ldaporder.Setup,
+		realms.Setup,
+		role.Setup,
+		saml.Setup,
+		user.Setup,
+		usertoken.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
