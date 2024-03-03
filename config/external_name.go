@@ -14,16 +14,20 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_blobstore_group": config.IdentifierFromProvider,
 	"nexus_blobstore_azure": config.IdentifierFromProvider,
 
-	"nexus_repository_yum_proxy":  config.IdentifierFromProvider,
-	"nexus_repository_yum_group":  config.IdentifierFromProvider,
-	"nexus_repository_yum_hosted": config.IdentifierFromProvider,
-
 	"nexus_repository_docker_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_docker_group":  config.IdentifierFromProvider,
 	"nexus_repository_docker_hosted": config.IdentifierFromProvider,
 
 	"nexus_repository_helm_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_helm_hosted": config.IdentifierFromProvider,
+
+	"nexus_repository_rubygems_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_rubygems_group":  config.IdentifierFromProvider,
+	"nexus_repository_rubygems_hosted": config.IdentifierFromProvider,
+
+	"nexus_repository_yum_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_yum_group":  config.IdentifierFromProvider,
+	"nexus_repository_yum_hosted": config.IdentifierFromProvider,
 
 	"nexus_security_anonymous":        config.IdentifierFromProvider,
 	"nexus_security_content_selector": config.IdentifierFromProvider,
