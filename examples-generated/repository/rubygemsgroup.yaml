@@ -1,0 +1,66 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RubygemsGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rubygemsgroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_rubygems_hosted.internal.name}
+      - ${nexus_repository_rubygems_proxy.rubygems_org.name}
+    name: rubygems-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RubygemsHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rubygemsgroup
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RubygemsProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rubygemsgroup
+  labels:
+    testing.upbound.io/example-name: rubygems_org
+  name: rubygems-org
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: rubygems-org
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://rubygems.org
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

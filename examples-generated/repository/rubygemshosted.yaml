@@ -1,0 +1,16 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RubygemsHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rubygemshosted
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: rubygems-internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW

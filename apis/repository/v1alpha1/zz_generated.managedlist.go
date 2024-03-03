@@ -52,6 +52,33 @@ func (l *HelmProxyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RubygemsGroupList.
+func (l *RubygemsGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RubygemsHostedList.
+func (l *RubygemsHostedList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RubygemsProxyList.
+func (l *RubygemsProxyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this YumGroupList.
 func (l *YumGroupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
