@@ -1,0 +1,37 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RawGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rawgroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_raw_hosted.internal.name}
+    name: raw-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RawHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rawgroup
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: raw-internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: false
+      writePolicy: ALLOW

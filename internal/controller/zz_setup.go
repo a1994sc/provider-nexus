@@ -19,6 +19,9 @@ import (
 	dockerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerproxy"
 	helmhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/helmhosted"
 	helmproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/helmproxy"
+	rawgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/rawgroup"
+	rawhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/rawhosted"
+	rawproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/rawproxy"
 	rubygemsgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/rubygemsgroup"
 	rubygemshosted "github.com/a1994sc/provider-nexus/internal/controller/repository/rubygemshosted"
 	rubygemsproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/rubygemsproxy"
@@ -51,6 +54,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		dockerproxy.Setup,
 		helmhosted.Setup,
 		helmproxy.Setup,
+		rawgroup.Setup,
+		rawhosted.Setup,
+		rawproxy.Setup,
 		rubygemsgroup.Setup,
 		rubygemshosted.Setup,
 		rubygemsproxy.Setup,
