@@ -21,6 +21,10 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_repository_helm_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_helm_hosted": config.IdentifierFromProvider,
 
+	"nexus_repository_raw_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_raw_group":  config.IdentifierFromProvider,
+	"nexus_repository_raw_hosted": config.IdentifierFromProvider,
+
 	"nexus_repository_rubygems_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_rubygems_group":  config.IdentifierFromProvider,
 	"nexus_repository_rubygems_hosted": config.IdentifierFromProvider,

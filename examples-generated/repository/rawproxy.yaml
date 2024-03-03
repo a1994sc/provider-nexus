@@ -1,0 +1,25 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: RawProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/rawproxy
+  labels:
+    testing.upbound.io/example-name: raw_org
+  name: raw-org
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: raw-org
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://repo1.raw.org/raw2/
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

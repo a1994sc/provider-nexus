@@ -52,6 +52,33 @@ func (l *HelmProxyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RawGroupList.
+func (l *RawGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RawHostedList.
+func (l *RawHostedList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RawProxyList.
+func (l *RawProxyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RubygemsGroupList.
 func (l *RubygemsGroupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
