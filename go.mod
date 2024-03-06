@@ -10,7 +10,7 @@ require (
 	github.com/crossplane/upjet v0.11.0-rc.0.0.20231012093706-c4a76d2a7505
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.24.0
 	github.com/pkg/errors v0.9.1
-	gopkg.in/alecthomas/kingpin.v2 v2.2.6
+	gopkg.in/alecthomas/kingpin.v2 v2.4.0
 	k8s.io/apimachinery v0.29.2
 	k8s.io/client-go v0.29.2
 	sigs.k8s.io/controller-runtime v0.16.2
