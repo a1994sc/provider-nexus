@@ -13,7 +13,7 @@
   ],
   // renovate will only automatically create PR on those days
   "schedule": [
-    "on monday wednesday friday and sunday"
+    "every weekday after 11am"
   ],
   "prHourlyLimit": 2
 }
