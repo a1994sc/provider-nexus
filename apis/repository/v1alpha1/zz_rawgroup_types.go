@@ -21,6 +21,7 @@ type RawGroupGroupInitParameters struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
+	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
@@ -28,6 +29,7 @@ type RawGroupGroupObservation struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
+	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
@@ -36,6 +38,7 @@ type RawGroupGroupParameters struct {
 	// (Set of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
 }
 
@@ -162,13 +165,14 @@ type RawGroupStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RawGroup is the Schema for the RawGroups API. Use this resource to create a group raw repository.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
 type RawGroup struct {
 	metav1.TypeMeta   `json:",inline"`

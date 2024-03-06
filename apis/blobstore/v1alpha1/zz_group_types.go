@@ -25,6 +25,7 @@ type GroupInitParameters struct {
 
 	// (Set of String) List of the names of blob stores that are members of this group
 	// List of the names of blob stores that are members of this group
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// (String) Blobstore name
@@ -55,6 +56,7 @@ type GroupObservation struct {
 
 	// (Set of String) List of the names of blob stores that are members of this group
 	// List of the names of blob stores that are members of this group
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// (String) Blobstore name
@@ -80,6 +82,7 @@ type GroupParameters struct {
 	// (Set of String) List of the names of blob stores that are members of this group
 	// List of the names of blob stores that are members of this group
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// (String) Blobstore name
@@ -152,13 +155,14 @@ type GroupStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Group is the Schema for the Groups API. ~> PRO Feature Use this resource to create a Nexus group blobstore.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
 type Group struct {
 	metav1.TypeMeta   `json:",inline"`

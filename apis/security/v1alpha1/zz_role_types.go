@@ -29,6 +29,7 @@ type RoleInitParameters struct {
 
 	// (Set of String) The privileges of this role.
 	// The privileges of this role.
+	// +listType=set
 	Privileges []*string `json:"privileges,omitempty" tf:"privileges,omitempty"`
 
 	// (String) The id of the role.
@@ -37,6 +38,7 @@ type RoleInitParameters struct {
 
 	// (Set of String) The roles of this role.
 	// The roles of this role.
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -55,6 +57,7 @@ type RoleObservation struct {
 
 	// (Set of String) The privileges of this role.
 	// The privileges of this role.
+	// +listType=set
 	Privileges []*string `json:"privileges,omitempty" tf:"privileges,omitempty"`
 
 	// (String) The id of the role.
@@ -63,6 +66,7 @@ type RoleObservation struct {
 
 	// (Set of String) The roles of this role.
 	// The roles of this role.
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -81,6 +85,7 @@ type RoleParameters struct {
 	// (Set of String) The privileges of this role.
 	// The privileges of this role.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Privileges []*string `json:"privileges,omitempty" tf:"privileges,omitempty"`
 
 	// (String) The id of the role.
@@ -91,6 +96,7 @@ type RoleParameters struct {
 	// (Set of String) The roles of this role.
 	// The roles of this role.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 }
 
@@ -118,13 +124,14 @@ type RoleStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Role is the Schema for the Roles API. Use this resource to create a Nexus Role.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
 type Role struct {
 	metav1.TypeMeta   `json:",inline"`

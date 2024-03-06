@@ -33,6 +33,7 @@ type UserInitParameters struct {
 
 	// (Set of String) The roles which the user has been assigned within Nexus.
 	// The roles which the user has been assigned within Nexus.
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// (String) The user's status, e.g. active or disabled.
@@ -63,6 +64,7 @@ type UserObservation struct {
 
 	// (Set of String) The roles which the user has been assigned within Nexus.
 	// The roles which the user has been assigned within Nexus.
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// (String) The user's status, e.g. active or disabled.
@@ -99,6 +101,7 @@ type UserParameters struct {
 	// (Set of String) The roles which the user has been assigned within Nexus.
 	// The roles which the user has been assigned within Nexus.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
 
 	// (String) The user's status, e.g. active or disabled.
@@ -136,13 +139,14 @@ type UserStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // User is the Schema for the Users API. Use this resource to manage users.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
