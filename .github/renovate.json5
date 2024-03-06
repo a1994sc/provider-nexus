@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "assignees": [
+    "@A1994SC"
+  ],
+  "dependencyDashboard": true,
+  "postUpdateOptions": [
+    "gomodTidy"
+  ],
+  // renovate will only automatically create PR on those days
+  "schedule": [
+    "on monday, wednesday, friday, and sunday"
+  ],
+  "prHourlyLimit": 2
+}
