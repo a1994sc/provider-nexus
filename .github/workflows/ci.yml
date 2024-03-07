@@ -19,6 +19,12 @@ env:
   GOLANGCI_VERSION: 'v1.56.2'
   DOCKER_BUILDX_VERSION: 'v0.8.2'
 
+  PROVIDER: provider-nexus
+
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/crossplane/${{ env.PROVIDER }}
+  # IMAGE_NAME: ${{ github.repository }}
+
   # Common users. We can't run a step 'if secrets.XXX != ""' but we can run a
   # step 'if env.XXX != ""', so we copy these to succinctly test whether
   # credentials have been provided before trying to run steps that need them.
@@ -322,9 +328,22 @@ jobs:
         with:
           channel: ${{ github.event.inputs.channel }}
           version: ${{ github.event.inputs.version }}
-          command: xpkg build -f ./package/ --embed-runtime-image=build/provider-nexus-amd64 -o ./package/provider-nexus.xpkg
+          command: xpkg build -f ./package/ --embed-runtime-image=build/${{ env.PROVIDER }}-amd64 -o ./package/${{ env.PROVIDER }}.xpkg
 
       - name: Push xpkg
         uses: crossplane-contrib/xpkg-action@master
         with:
-          command: xpkg push -f ./package/provider-nexus.xpkg ghcr.io/a1994sc/crossplane/provider-nexus:${{ steps.ver.outputs.VERSION }}
+          command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
+
+      - name: Pull image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
+
+      - name: Get Repo Digest
+        id: meta
+        if: ${{ github.event_name != 'pull_request' }}
+        run: echo "digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }})" >> $GITHUB_OUTPUT
+
+      - name: Sign the published Docker Image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: cosign sign --yes ${{ step.meta.outputs.digest }}
