@@ -356,9 +356,11 @@ jobs:
 
       - name: Get Repo Digest
         id: meta
-        run: echo "digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }})" >> $GITHUB_OUTPUT
+        run: echo "digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.publish-artifacts.outputs.VERSION }})" >> $GITHUB_OUTPUT
 
       - name: Sign the published Docker Image
         env:
           COSIGN_EXPERIMENTAL: 1
-        run: cosign sign --yes ${{ steps.meta.outputs.digest }}
+        run: |
+          cosign sign --yes ${{ steps.meta.outputs.digest }}
+          cosign sign --yes ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.publish-artifacts.outputs.VERSION }}
