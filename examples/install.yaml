@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-nexus
 spec:
-  package: a1994sc/provider-nexus:v0.1.0
+  package: ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.6
