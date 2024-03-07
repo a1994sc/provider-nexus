@@ -14,6 +14,8 @@ import (
 	group "github.com/a1994sc/provider-nexus/internal/controller/blobstore/group"
 	s3 "github.com/a1994sc/provider-nexus/internal/controller/blobstore/s3"
 	providerconfig "github.com/a1994sc/provider-nexus/internal/controller/providerconfig"
+	apthosted "github.com/a1994sc/provider-nexus/internal/controller/repository/apthosted"
+	aptproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/aptproxy"
 	dockergroup "github.com/a1994sc/provider-nexus/internal/controller/repository/dockergroup"
 	dockerhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerhosted"
 	dockerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerproxy"
@@ -49,6 +51,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		group.Setup,
 		s3.Setup,
 		providerconfig.Setup,
+		apthosted.Setup,
+		aptproxy.Setup,
 		dockergroup.Setup,
 		dockerhosted.Setup,
 		dockerproxy.Setup,

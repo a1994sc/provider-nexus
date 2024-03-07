@@ -17,7 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type HelmProxyCleanupInitParameters struct {
+type AptProxyCleanupInitParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -25,7 +25,7 @@ type HelmProxyCleanupInitParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type HelmProxyCleanupObservation struct {
+type AptProxyCleanupObservation struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -33,7 +33,7 @@ type HelmProxyCleanupObservation struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type HelmProxyCleanupParameters struct {
+type AptProxyCleanupParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -42,7 +42,184 @@ type HelmProxyCleanupParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type HelmProxyHTTPClientAuthenticationInitParameters struct {
+type AptProxyInitParameters struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	Cleanup []AptProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (String) Distribution to fetch
+	// Distribution to fetch
+	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
+
+	// (Boolean) Distribution to fetch
+	// Distribution to fetch
+	Flat *bool `json:"flat,omitempty" tf:"flat,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	HTTPClient []HTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	NegativeCache []NegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	Proxy []ProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	Storage []AptProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type AptProxyObservation struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	Cleanup []AptProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (String) Distribution to fetch
+	// Distribution to fetch
+	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
+
+	// (Boolean) Distribution to fetch
+	// Distribution to fetch
+	Flat *bool `json:"flat,omitempty" tf:"flat,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	HTTPClient []HTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) Used to identify resource at nexus
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	NegativeCache []NegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	Proxy []ProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	Storage []AptProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type AptProxyParameters struct {
+
+	// (Block List) Cleanup policies (see below for nested schema)
+	// Cleanup policies
+	// +kubebuilder:validation:Optional
+	Cleanup []AptProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+
+	// (String) Distribution to fetch
+	// Distribution to fetch
+	// +kubebuilder:validation:Optional
+	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
+
+	// (Boolean) Distribution to fetch
+	// Distribution to fetch
+	// +kubebuilder:validation:Optional
+	Flat *bool `json:"flat,omitempty" tf:"flat,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
+	// HTTP Client configuration for proxy repositories
+	// +kubebuilder:validation:Optional
+	HTTPClient []HTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+
+	// (String) A unique identifier for this repository
+	// A unique identifier for this repository
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// Configuration of the negative cache handling
+	// +kubebuilder:validation:Optional
+	NegativeCache []NegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+
+	// (Boolean) Whether this repository accepts incoming requests
+	// Whether this repository accepts incoming requests
+	// +kubebuilder:validation:Optional
+	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
+	// Configuration for the proxy repository
+	// +kubebuilder:validation:Optional
+	Proxy []ProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+
+	// (String) The name of the routing rule assigned to this repository
+	// The name of the routing rule assigned to this repository
+	// +kubebuilder:validation:Optional
+	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
+
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
+	// The storage configuration of the repository
+	// +kubebuilder:validation:Optional
+	Storage []AptProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type AptProxyStorageInitParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type AptProxyStorageObservation struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type AptProxyStorageParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	// +kubebuilder:validation:Optional
+	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	// +kubebuilder:validation:Optional
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type AuthenticationInitParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -52,16 +229,12 @@ type HelmProxyHTTPClientAuthenticationInitParameters struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
-	// emptive authentication. Use with caution. Defaults to false.
-	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
-	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
-
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type HelmProxyHTTPClientAuthenticationObservation struct {
+type AuthenticationObservation struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -71,16 +244,12 @@ type HelmProxyHTTPClientAuthenticationObservation struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
-	// emptive authentication. Use with caution. Defaults to false.
-	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
-	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
-
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type HelmProxyHTTPClientAuthenticationParameters struct {
+type AuthenticationParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -97,11 +266,6 @@ type HelmProxyHTTPClientAuthenticationParameters struct {
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// emptive authentication. Use with caution. Defaults to false.
-	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
-	// +kubebuilder:validation:Optional
-	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
-
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	// +kubebuilder:validation:Optional
@@ -113,7 +277,7 @@ type HelmProxyHTTPClientAuthenticationParameters struct {
 	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
-type HelmProxyHTTPClientConnectionInitParameters struct {
+type ConnectionInitParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -140,7 +304,7 @@ type HelmProxyHTTPClientConnectionInitParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type HelmProxyHTTPClientConnectionObservation struct {
+type ConnectionObservation struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -167,7 +331,7 @@ type HelmProxyHTTPClientConnectionObservation struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type HelmProxyHTTPClientConnectionParameters struct {
+type ConnectionParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -200,11 +364,11 @@ type HelmProxyHTTPClientConnectionParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type HelmProxyHTTPClientInitParameters struct {
+type HTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []HelmProxyHTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -216,14 +380,14 @@ type HelmProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []HelmProxyHTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type HelmProxyHTTPClientObservation struct {
+type HTTPClientObservation struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []HelmProxyHTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -235,15 +399,15 @@ type HelmProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []HelmProxyHTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type HelmProxyHTTPClientParameters struct {
+type HTTPClientParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Authentication []HelmProxyHTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -258,45 +422,10 @@ type HelmProxyHTTPClientParameters struct {
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Connection []HelmProxyHTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type HelmProxyInitParameters struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	Cleanup []HelmProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	HTTPClient []HelmProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	NegativeCache []HelmProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	Proxy []HelmProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	Storage []HelmProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-}
-
-type HelmProxyNegativeCacheInitParameters struct {
+type NegativeCacheInitParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -307,7 +436,7 @@ type HelmProxyNegativeCacheInitParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type HelmProxyNegativeCacheObservation struct {
+type NegativeCacheObservation struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -318,7 +447,7 @@ type HelmProxyNegativeCacheObservation struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type HelmProxyNegativeCacheParameters struct {
+type NegativeCacheParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -331,88 +460,7 @@ type HelmProxyNegativeCacheParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type HelmProxyObservation struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	Cleanup []HelmProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	HTTPClient []HelmProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) Used to identify resource at nexus
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	NegativeCache []HelmProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	Proxy []HelmProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	Storage []HelmProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
-}
-
-type HelmProxyParameters struct {
-
-	// (Block List) Cleanup policies (see below for nested schema)
-	// Cleanup policies
-	// +kubebuilder:validation:Optional
-	Cleanup []HelmProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
-	// HTTP Client configuration for proxy repositories
-	// +kubebuilder:validation:Optional
-	HTTPClient []HelmProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
-
-	// (String) A unique identifier for this repository
-	// A unique identifier for this repository
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
-	// Configuration of the negative cache handling
-	// +kubebuilder:validation:Optional
-	NegativeCache []HelmProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
-
-	// (Boolean) Whether this repository accepts incoming requests
-	// Whether this repository accepts incoming requests
-	// +kubebuilder:validation:Optional
-	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
-	// Configuration for the proxy repository
-	// +kubebuilder:validation:Optional
-	Proxy []HelmProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
-
-	// (String) The name of the routing rule assigned to this repository
-	// The name of the routing rule assigned to this repository
-	// +kubebuilder:validation:Optional
-	RoutingRule *string `json:"routingRule,omitempty" tf:"routing_rule,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
-	// +kubebuilder:validation:Optional
-	Storage []HelmProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
-}
-
-type HelmProxyProxyInitParameters struct {
+type ProxyInitParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -427,7 +475,7 @@ type HelmProxyProxyInitParameters struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type HelmProxyProxyObservation struct {
+type ProxyObservation struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -442,7 +490,7 @@ type HelmProxyProxyObservation struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type HelmProxyProxyParameters struct {
+type ProxyParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -460,45 +508,10 @@ type HelmProxyProxyParameters struct {
 	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
 }
 
-type HelmProxyStorageInitParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type HelmProxyStorageObservation struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type HelmProxyStorageParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	// +kubebuilder:validation:Optional
-	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	// +kubebuilder:validation:Optional
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-// HelmProxySpec defines the desired state of HelmProxy
-type HelmProxySpec struct {
+// AptProxySpec defines the desired state of AptProxy
+type AptProxySpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     HelmProxyParameters `json:"forProvider"`
+	ForProvider     AptProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -509,53 +522,55 @@ type HelmProxySpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider HelmProxyInitParameters `json:"initProvider,omitempty"`
+	InitProvider AptProxyInitParameters `json:"initProvider,omitempty"`
 }
 
-// HelmProxyStatus defines the observed state of HelmProxy.
-type HelmProxyStatus struct {
+// AptProxyStatus defines the observed state of AptProxy.
+type AptProxyStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        HelmProxyObservation `json:"atProvider,omitempty"`
+	AtProvider        AptProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// HelmProxy is the Schema for the HelmProxys API. Use this resource to create a helm proxy repository.
+// AptProxy is the Schema for the AptProxys API. Use this resource to create a hosted apt repository.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
-type HelmProxy struct {
+type AptProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.distribution) || (has(self.initProvider) && has(self.initProvider.distribution))",message="spec.forProvider.distribution is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.flat) || (has(self.initProvider) && has(self.initProvider.flat))",message="spec.forProvider.flat is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
-	Spec   HelmProxySpec   `json:"spec"`
-	Status HelmProxyStatus `json:"status,omitempty"`
+	Spec   AptProxySpec   `json:"spec"`
+	Status AptProxyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// HelmProxyList contains a list of HelmProxys
-type HelmProxyList struct {
+// AptProxyList contains a list of AptProxys
+type AptProxyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []HelmProxy `json:"items"`
+	Items           []AptProxy `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	HelmProxy_Kind             = "HelmProxy"
-	HelmProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: HelmProxy_Kind}.String()
-	HelmProxy_KindAPIVersion   = HelmProxy_Kind + "." + CRDGroupVersion.String()
-	HelmProxy_GroupVersionKind = CRDGroupVersion.WithKind(HelmProxy_Kind)
+	AptProxy_Kind             = "AptProxy"
+	AptProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: AptProxy_Kind}.String()
+	AptProxy_KindAPIVersion   = AptProxy_Kind + "." + CRDGroupVersion.String()
+	AptProxy_GroupVersionKind = CRDGroupVersion.WithKind(AptProxy_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&HelmProxy{}, &HelmProxyList{})
+	SchemeBuilder.Register(&AptProxy{}, &AptProxyList{})
 }

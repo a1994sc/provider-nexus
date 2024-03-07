@@ -37,7 +37,7 @@ type DockerGroupInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []StorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []DockerGroupStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
 type DockerGroupObservation struct {
@@ -63,7 +63,7 @@ type DockerGroupObservation struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []StorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []DockerGroupStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
 type DockerGroupParameters struct {
@@ -91,7 +91,42 @@ type DockerGroupParameters struct {
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
 	// +kubebuilder:validation:Optional
-	Storage []StorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []DockerGroupStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerGroupStorageInitParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type DockerGroupStorageObservation struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
+}
+
+type DockerGroupStorageParameters struct {
+
+	// (String) Blob store used to store repository contents
+	// Blob store used to store repository contents
+	// +kubebuilder:validation:Optional
+	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+	// Whether to validate uploaded content's MIME type appropriate for the repository format
+	// +kubebuilder:validation:Optional
+	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
 type DockerInitParameters struct {
@@ -204,41 +239,6 @@ type GroupParameters struct {
 	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
 	// +kubebuilder:validation:Optional
 	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
-}
-
-type StorageInitParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type StorageObservation struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
-}
-
-type StorageParameters struct {
-
-	// (String) Blob store used to store repository contents
-	// Blob store used to store repository contents
-	// +kubebuilder:validation:Optional
-	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
-
-	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
-	// Whether to validate uploaded content's MIME type appropriate for the repository format
-	// +kubebuilder:validation:Optional
-	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
 // DockerGroupSpec defines the desired state of DockerGroup

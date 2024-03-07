@@ -1,0 +1,45 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: AptProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/aptproxy
+  labels:
+    testing.upbound.io/example-name: bionic_proxy
+  name: bionic-proxy
+spec:
+  forProvider:
+    distribution: bionic
+    flat: false
+    httpClient:
+    - authentication:
+      - passwordSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+        type: username
+        usernameSecretRef:
+          key: example-key
+          name: example-secret
+          namespace: upbound-system
+      autoBlock: true
+      blocked: false
+      connection:
+      - enableCircularRedirects: false
+        enableCookies: false
+        retries: 0
+        timeout: 60
+        useTrustStore: false
+        userAgentSuffix: string
+    name: bionic-proxy
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://remote.repository.com
+    routingRule: string
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
