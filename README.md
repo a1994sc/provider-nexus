@@ -10,7 +10,7 @@ Nexus API.
 Install the provider by using the following command after changing the image tag
 to the [latest release](https://marketplace.upbound.io/providers/a1994sc/provider-nexus):
 ```
-up ctp provider install a1994sc/provider-nexus:v0.1.0
+up ctp provider install ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.6
 ```
 
 Alternatively, you can use declarative installation:
@@ -21,13 +21,18 @@ kind: Provider
 metadata:
   name: provider-nexus
 spec:
-  package: a1994sc/provider-nexus:v0.1.0
+  package: ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.6
 EOF
 ```
 
 Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
 
 You can see the API reference [here](https://doc.crds.dev/github.com/a1994sc/provider-nexus).
+
+## Terraform Provider
+The upstream terraform provider is created and maintained by [@datadrivers](https://github.com/datadrivers)
+
+* [datadrivers/terraform-provider-nexus](https://github.com/datadrivers/terraform-provider-nexus)
 
 ## Developing
 

@@ -285,12 +285,6 @@ jobs:
       - name: Fetch History
         run: git fetch --prune --unshallow
 
-      - name: Install cosign
-        # if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
-        with:
-          cosign-release: 'v2.1.1'
-
       - name: Setup Go
         uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5
         with:
@@ -341,15 +335,36 @@ jobs:
         with:
           command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
+  sign-artifacts:
+    runs-on: ubuntu-22.04
+    needs: publish-artifacts
+    if: github.event_name != 'pull_request'
+
+    permissions:
+      id-token: write
+      packages: write
+
+    steps:
+      - name: Install cosign
+        uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
+
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          submodules: true
+
+      - name: Find the version
+        id: ver
+        run: make common.buildvars >> $GITHUB_OUTPUT
+
       - name: Pull image
-        # if: ${{ github.event_name != 'pull_request' }}
         run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
       - name: Get Repo Digest
         id: meta
-        # if: ${{ github.event_name != 'pull_request' }}
         run: echo "digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }})" >> $GITHUB_OUTPUT
 
       - name: Sign the published Docker Image
-        # if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_EXPERIMENTAL: 1
         run: cosign sign --yes ${{ steps.meta.outputs.digest }}
