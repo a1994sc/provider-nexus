@@ -17,151 +17,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AuthenticationInitParameters struct {
-
-	// (String) The ntlm domain to connect
-	// The ntlm domain to connect
-	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
-
-	// (String) The ntlm host to connect
-	// The ntlm host to connect
-	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
-
-	// (String) Authentication type. Possible values: ntlm or username
-	// Authentication type. Possible values: `ntlm` or `username`
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type AuthenticationObservation struct {
-
-	// (String) The ntlm domain to connect
-	// The ntlm domain to connect
-	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
-
-	// (String) The ntlm host to connect
-	// The ntlm host to connect
-	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
-
-	// (String) Authentication type. Possible values: ntlm or username
-	// Authentication type. Possible values: `ntlm` or `username`
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type AuthenticationParameters struct {
-
-	// (String) The ntlm domain to connect
-	// The ntlm domain to connect
-	// +kubebuilder:validation:Optional
-	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
-
-	// (String) The ntlm host to connect
-	// The ntlm host to connect
-	// +kubebuilder:validation:Optional
-	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
-
-	// (String, Sensitive) The password used by the proxy repository
-	// The password used by the proxy repository
-	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// (String) Authentication type. Possible values: ntlm or username
-	// Authentication type. Possible values: `ntlm` or `username`
-	// +kubebuilder:validation:Optional
-	Type *string `json:"type" tf:"type,omitempty"`
-
-	// (String) The username used by the proxy repository
-	// The username used by the proxy repository
-	// +kubebuilder:validation:Optional
-	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
-}
-
-type ConnectionInitParameters struct {
-
-	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
-	// Whether to enable redirects to the same location (may be required by some servers)
-	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
-
-	// (Boolean) Whether to allow cookies to be stored and used
-	// Whether to allow cookies to be stored and used
-	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
-
-	// (Number) Total retries if the initial connection attempt suffers a timeout
-	// Total retries if the initial connection attempt suffers a timeout
-	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
-
-	// (Number) Seconds to wait for activity before stopping and retrying the connection
-	// Seconds to wait for activity before stopping and retrying the connection
-	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
-
-	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
-
-	// Agent header in HTTP requests
-	// Custom fragment to append to User-Agent header in HTTP requests
-	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
-}
-
-type ConnectionObservation struct {
-
-	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
-	// Whether to enable redirects to the same location (may be required by some servers)
-	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
-
-	// (Boolean) Whether to allow cookies to be stored and used
-	// Whether to allow cookies to be stored and used
-	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
-
-	// (Number) Total retries if the initial connection attempt suffers a timeout
-	// Total retries if the initial connection attempt suffers a timeout
-	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
-
-	// (Number) Seconds to wait for activity before stopping and retrying the connection
-	// Seconds to wait for activity before stopping and retrying the connection
-	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
-
-	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
-
-	// Agent header in HTTP requests
-	// Custom fragment to append to User-Agent header in HTTP requests
-	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
-}
-
-type ConnectionParameters struct {
-
-	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
-	// Whether to enable redirects to the same location (may be required by some servers)
-	// +kubebuilder:validation:Optional
-	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
-
-	// (Boolean) Whether to allow cookies to be stored and used
-	// Whether to allow cookies to be stored and used
-	// +kubebuilder:validation:Optional
-	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
-
-	// (Number) Total retries if the initial connection attempt suffers a timeout
-	// Total retries if the initial connection attempt suffers a timeout
-	// +kubebuilder:validation:Optional
-	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
-
-	// (Number) Seconds to wait for activity before stopping and retrying the connection
-	// Seconds to wait for activity before stopping and retrying the connection
-	// +kubebuilder:validation:Optional
-	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
-
-	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
-	// +kubebuilder:validation:Optional
-	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
-
-	// Agent header in HTTP requests
-	// Custom fragment to append to User-Agent header in HTTP requests
-	// +kubebuilder:validation:Optional
-	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
-}
-
 type DockerProxyCleanupInitParameters struct {
 
 	// (Set of String) List of policy names
@@ -296,6 +151,67 @@ type DockerProxyDockerProxyParameters struct {
 	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
 }
 
+type DockerProxyHTTPClientInitParameters struct {
+
+	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
+	// Authentication configuration of the HTTP client
+	Authentication []HTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// block outbound connections if remote peer is detected as unreachable/unresponsive
+	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+	AutoBlock *bool `json:"autoBlock,omitempty" tf:"auto_block,omitempty"`
+
+	// (Boolean) Whether to block outbound connections on the repository
+	// Whether to block outbound connections on the repository
+	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
+
+	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
+	// Connection configuration of the HTTP client
+	Connection []HTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+}
+
+type DockerProxyHTTPClientObservation struct {
+
+	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
+	// Authentication configuration of the HTTP client
+	Authentication []HTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// block outbound connections if remote peer is detected as unreachable/unresponsive
+	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+	AutoBlock *bool `json:"autoBlock,omitempty" tf:"auto_block,omitempty"`
+
+	// (Boolean) Whether to block outbound connections on the repository
+	// Whether to block outbound connections on the repository
+	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
+
+	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
+	// Connection configuration of the HTTP client
+	Connection []HTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+}
+
+type DockerProxyHTTPClientParameters struct {
+
+	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
+	// Authentication configuration of the HTTP client
+	// +kubebuilder:validation:Optional
+	Authentication []HTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// block outbound connections if remote peer is detected as unreachable/unresponsive
+	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+	// +kubebuilder:validation:Optional
+	AutoBlock *bool `json:"autoBlock" tf:"auto_block,omitempty"`
+
+	// (Boolean) Whether to block outbound connections on the repository
+	// Whether to block outbound connections on the repository
+	// +kubebuilder:validation:Optional
+	Blocked *bool `json:"blocked" tf:"blocked,omitempty"`
+
+	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
+	// Connection configuration of the HTTP client
+	// +kubebuilder:validation:Optional
+	Connection []HTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+}
+
 type DockerProxyInitParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
@@ -312,7 +228,7 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []HTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []DockerProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -320,7 +236,7 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []NegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []DockerProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -328,7 +244,7 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []ProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []DockerProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -337,6 +253,41 @@ type DockerProxyInitParameters struct {
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
 	Storage []DockerProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerProxyNegativeCacheInitParameters struct {
+
+	// (Boolean) Whether to cache responses for content not present in the proxied repository
+	// Whether to cache responses for content not present in the proxied repository
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+	// How long to cache the fact that a file was not found in the repository (in minutes)
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type DockerProxyNegativeCacheObservation struct {
+
+	// (Boolean) Whether to cache responses for content not present in the proxied repository
+	// Whether to cache responses for content not present in the proxied repository
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+	// How long to cache the fact that a file was not found in the repository (in minutes)
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type DockerProxyNegativeCacheParameters struct {
+
+	// (Boolean) Whether to cache responses for content not present in the proxied repository
+	// Whether to cache responses for content not present in the proxied repository
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+	// How long to cache the fact that a file was not found in the repository (in minutes)
+	// +kubebuilder:validation:Optional
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type DockerProxyObservation struct {
@@ -355,7 +306,7 @@ type DockerProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []HTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []DockerProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -366,7 +317,7 @@ type DockerProxyObservation struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []NegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []DockerProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -374,7 +325,7 @@ type DockerProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []ProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []DockerProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -405,7 +356,7 @@ type DockerProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
 	// +kubebuilder:validation:Optional
-	HTTPClient []HTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []DockerProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -415,7 +366,7 @@ type DockerProxyParameters struct {
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
-	NegativeCache []NegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []DockerProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -425,7 +376,7 @@ type DockerProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
 	// +kubebuilder:validation:Optional
-	Proxy []ProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []DockerProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -436,6 +387,54 @@ type DockerProxyParameters struct {
 	// The storage configuration of the repository
 	// +kubebuilder:validation:Optional
 	Storage []DockerProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+}
+
+type DockerProxyProxyInitParameters struct {
+
+	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+	// How long (in minutes) to cache artifacts before rechecking the remote repository
+	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
+
+	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+	// How long (in minutes) to cache metadata before rechecking the remote repository.
+	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
+
+	// (String) Location of the remote repository being proxied
+	// Location of the remote repository being proxied
+	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
+}
+
+type DockerProxyProxyObservation struct {
+
+	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+	// How long (in minutes) to cache artifacts before rechecking the remote repository
+	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
+
+	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+	// How long (in minutes) to cache metadata before rechecking the remote repository.
+	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
+
+	// (String) Location of the remote repository being proxied
+	// Location of the remote repository being proxied
+	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
+}
+
+type DockerProxyProxyParameters struct {
+
+	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+	// How long (in minutes) to cache artifacts before rechecking the remote repository
+	// +kubebuilder:validation:Optional
+	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
+
+	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+	// How long (in minutes) to cache metadata before rechecking the remote repository.
+	// +kubebuilder:validation:Optional
+	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
+
+	// (String) Location of the remote repository being proxied
+	// Location of the remote repository being proxied
+	// +kubebuilder:validation:Optional
+	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
 }
 
 type DockerProxyStorageInitParameters struct {
@@ -473,148 +472,149 @@ type DockerProxyStorageParameters struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type HTTPClientInitParameters struct {
+type HTTPClientAuthenticationInitParameters struct {
 
-	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
-	// Authentication configuration of the HTTP client
-	Authentication []AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	// (String) The ntlm domain to connect
+	// The ntlm domain to connect
+	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
 
-	// block outbound connections if remote peer is detected as unreachable/unresponsive
-	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
-	AutoBlock *bool `json:"autoBlock,omitempty" tf:"auto_block,omitempty"`
+	// (String) The ntlm host to connect
+	// The ntlm host to connect
+	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
-	// (Boolean) Whether to block outbound connections on the repository
-	// Whether to block outbound connections on the repository
-	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
-
-	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
-	// Connection configuration of the HTTP client
-	Connection []ConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	// (String) Authentication type. Possible values: ntlm or username
+	// Authentication type. Possible values: `ntlm` or `username`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type HTTPClientObservation struct {
+type HTTPClientAuthenticationObservation struct {
 
-	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
-	// Authentication configuration of the HTTP client
-	Authentication []AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	// (String) The ntlm domain to connect
+	// The ntlm domain to connect
+	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
 
-	// block outbound connections if remote peer is detected as unreachable/unresponsive
-	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
-	AutoBlock *bool `json:"autoBlock,omitempty" tf:"auto_block,omitempty"`
+	// (String) The ntlm host to connect
+	// The ntlm host to connect
+	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
-	// (Boolean) Whether to block outbound connections on the repository
-	// Whether to block outbound connections on the repository
-	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
-
-	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
-	// Connection configuration of the HTTP client
-	Connection []ConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+	// (String) Authentication type. Possible values: ntlm or username
+	// Authentication type. Possible values: `ntlm` or `username`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type HTTPClientParameters struct {
+type HTTPClientAuthenticationParameters struct {
 
-	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
-	// Authentication configuration of the HTTP client
+	// (String) The ntlm domain to connect
+	// The ntlm domain to connect
 	// +kubebuilder:validation:Optional
-	Authentication []AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	NtlmDomain *string `json:"ntlmDomain,omitempty" tf:"ntlm_domain,omitempty"`
 
-	// block outbound connections if remote peer is detected as unreachable/unresponsive
-	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+	// (String) The ntlm host to connect
+	// The ntlm host to connect
 	// +kubebuilder:validation:Optional
-	AutoBlock *bool `json:"autoBlock" tf:"auto_block,omitempty"`
+	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
-	// (Boolean) Whether to block outbound connections on the repository
-	// Whether to block outbound connections on the repository
+	// (String, Sensitive) The password used by the proxy repository
+	// The password used by the proxy repository
 	// +kubebuilder:validation:Optional
-	Blocked *bool `json:"blocked" tf:"blocked,omitempty"`
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
-	// Connection configuration of the HTTP client
+	// (String) Authentication type. Possible values: ntlm or username
+	// Authentication type. Possible values: `ntlm` or `username`
 	// +kubebuilder:validation:Optional
-	Connection []ConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Type *string `json:"type" tf:"type,omitempty"`
+
+	// (String) The username used by the proxy repository
+	// The username used by the proxy repository
+	// +kubebuilder:validation:Optional
+	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
-type NegativeCacheInitParameters struct {
+type HTTPClientConnectionInitParameters struct {
 
-	// (Boolean) Whether to cache responses for content not present in the proxied repository
-	// Whether to cache responses for content not present in the proxied repository
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+	// Whether to enable redirects to the same location (may be required by some servers)
+	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
 
-	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
-	// How long to cache the fact that a file was not found in the repository (in minutes)
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	// (Boolean) Whether to allow cookies to be stored and used
+	// Whether to allow cookies to be stored and used
+	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
+
+	// (Number) Total retries if the initial connection attempt suffers a timeout
+	// Total retries if the initial connection attempt suffers a timeout
+	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
+
+	// (Number) Seconds to wait for activity before stopping and retrying the connection
+	// Seconds to wait for activity before stopping and retrying the connection
+	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
+
+	// Agent header in HTTP requests
+	// Custom fragment to append to User-Agent header in HTTP requests
+	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type NegativeCacheObservation struct {
+type HTTPClientConnectionObservation struct {
 
-	// (Boolean) Whether to cache responses for content not present in the proxied repository
-	// Whether to cache responses for content not present in the proxied repository
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+	// Whether to enable redirects to the same location (may be required by some servers)
+	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
 
-	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
-	// How long to cache the fact that a file was not found in the repository (in minutes)
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	// (Boolean) Whether to allow cookies to be stored and used
+	// Whether to allow cookies to be stored and used
+	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
+
+	// (Number) Total retries if the initial connection attempt suffers a timeout
+	// Total retries if the initial connection attempt suffers a timeout
+	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
+
+	// (Number) Seconds to wait for activity before stopping and retrying the connection
+	// Seconds to wait for activity before stopping and retrying the connection
+	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
+
+	// Agent header in HTTP requests
+	// Custom fragment to append to User-Agent header in HTTP requests
+	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type NegativeCacheParameters struct {
+type HTTPClientConnectionParameters struct {
 
-	// (Boolean) Whether to cache responses for content not present in the proxied repository
-	// Whether to cache responses for content not present in the proxied repository
+	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+	// Whether to enable redirects to the same location (may be required by some servers)
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	EnableCircularRedirects *bool `json:"enableCircularRedirects,omitempty" tf:"enable_circular_redirects,omitempty"`
 
-	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
-	// How long to cache the fact that a file was not found in the repository (in minutes)
+	// (Boolean) Whether to allow cookies to be stored and used
+	// Whether to allow cookies to be stored and used
 	// +kubebuilder:validation:Optional
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
-}
+	EnableCookies *bool `json:"enableCookies,omitempty" tf:"enable_cookies,omitempty"`
 
-type ProxyInitParameters struct {
-
-	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
-	// How long (in minutes) to cache artifacts before rechecking the remote repository
-	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
-
-	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
-	// How long (in minutes) to cache metadata before rechecking the remote repository.
-	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
-
-	// (String) Location of the remote repository being proxied
-	// Location of the remote repository being proxied
-	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
-}
-
-type ProxyObservation struct {
-
-	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
-	// How long (in minutes) to cache artifacts before rechecking the remote repository
-	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
-
-	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
-	// How long (in minutes) to cache metadata before rechecking the remote repository.
-	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
-
-	// (String) Location of the remote repository being proxied
-	// Location of the remote repository being proxied
-	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
-}
-
-type ProxyParameters struct {
-
-	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
-	// How long (in minutes) to cache artifacts before rechecking the remote repository
+	// (Number) Total retries if the initial connection attempt suffers a timeout
+	// Total retries if the initial connection attempt suffers a timeout
 	// +kubebuilder:validation:Optional
-	ContentMaxAge *float64 `json:"contentMaxAge,omitempty" tf:"content_max_age,omitempty"`
+	Retries *float64 `json:"retries,omitempty" tf:"retries,omitempty"`
 
-	// (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
-	// How long (in minutes) to cache metadata before rechecking the remote repository.
+	// (Number) Seconds to wait for activity before stopping and retrying the connection
+	// Seconds to wait for activity before stopping and retrying the connection
 	// +kubebuilder:validation:Optional
-	MetadataMaxAge *float64 `json:"metadataMaxAge,omitempty" tf:"metadata_max_age,omitempty"`
+	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
-	// (String) Location of the remote repository being proxied
-	// Location of the remote repository being proxied
+	// (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+	// Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
 	// +kubebuilder:validation:Optional
-	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
+	UseTrustStore *bool `json:"useTrustStore,omitempty" tf:"use_trust_store,omitempty"`
+
+	// Agent header in HTTP requests
+	// Custom fragment to append to User-Agent header in HTTP requests
+	// +kubebuilder:validation:Optional
+	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
 // DockerProxySpec defines the desired state of DockerProxy

@@ -1,0 +1,26 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: AptHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/apthosted
+  labels:
+    testing.upbound.io/example-name: bullseye_stable
+  name: bullseye-stable
+spec:
+  forProvider:
+    distribution: bullseye
+    name: bullseye-stable
+    online: true
+    signing:
+    - keypairSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      passphraseSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW

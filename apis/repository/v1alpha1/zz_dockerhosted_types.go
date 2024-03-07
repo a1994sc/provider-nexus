@@ -17,7 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type CleanupInitParameters struct {
+type DockerHostedCleanupInitParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -25,7 +25,7 @@ type CleanupInitParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type CleanupObservation struct {
+type DockerHostedCleanupObservation struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -33,7 +33,7 @@ type CleanupObservation struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type CleanupParameters struct {
+type DockerHostedCleanupParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -42,21 +42,21 @@ type CleanupParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type ComponentInitParameters struct {
+type DockerHostedComponentInitParameters struct {
 
 	// (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
 	// Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
 	ProprietaryComponents *bool `json:"proprietaryComponents,omitempty" tf:"proprietary_components,omitempty"`
 }
 
-type ComponentObservation struct {
+type DockerHostedComponentObservation struct {
 
 	// (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
 	// Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
 	ProprietaryComponents *bool `json:"proprietaryComponents,omitempty" tf:"proprietary_components,omitempty"`
 }
 
-type ComponentParameters struct {
+type DockerHostedComponentParameters struct {
 
 	// (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
 	// Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
@@ -142,11 +142,11 @@ type DockerHostedInitParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []CleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []DockerHostedCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)
 	// Component configuration for the hosted repository
-	Component []ComponentInitParameters `json:"component,omitempty" tf:"component,omitempty"`
+	Component []DockerHostedComponentInitParameters `json:"component,omitempty" tf:"component,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
 	// docker contains the configuration of the docker repository
@@ -169,11 +169,11 @@ type DockerHostedObservation struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []CleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []DockerHostedCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)
 	// Component configuration for the hosted repository
-	Component []ComponentObservation `json:"component,omitempty" tf:"component,omitempty"`
+	Component []DockerHostedComponentObservation `json:"component,omitempty" tf:"component,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
 	// docker contains the configuration of the docker repository
@@ -200,12 +200,12 @@ type DockerHostedParameters struct {
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
 	// +kubebuilder:validation:Optional
-	Cleanup []CleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
+	Cleanup []DockerHostedCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)
 	// Component configuration for the hosted repository
 	// +kubebuilder:validation:Optional
-	Component []ComponentParameters `json:"component,omitempty" tf:"component,omitempty"`
+	Component []DockerHostedComponentParameters `json:"component,omitempty" tf:"component,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
 	// docker contains the configuration of the docker repository
