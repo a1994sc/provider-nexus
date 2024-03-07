@@ -11,9 +11,18 @@
   "postUpdateOptions": [
     "gomodTidy"
   ],
-  // renovate will only automatically create PR on those days
   "schedule": [
     "every weekday after 11am"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["go"],
+      "addLabels": ["renovate/go"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["renovate/github-action"]
+    }
   ],
   "prHourlyLimit": 2
 }
