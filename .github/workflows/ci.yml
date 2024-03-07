@@ -353,6 +353,9 @@ jobs:
         with:
           submodules: true
 
+      - name: Fetch History
+        run: git fetch --prune --unshallow
+
       - name: Find the version
         id: ver
         run: make common.buildvars >> $GITHUB_OUTPUT
