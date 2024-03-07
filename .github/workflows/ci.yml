@@ -22,7 +22,7 @@ env:
   PROVIDER: provider-nexus
 
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/crossplane/${{ env.PROVIDER }}
+  IMAGE_NAME: ${{ github.repository_owner }}/crossplane/provider-nexus
   # IMAGE_NAME: ${{ github.repository }}
 
   # Common users. We can't run a step 'if secrets.XXX != ""' but we can run a
