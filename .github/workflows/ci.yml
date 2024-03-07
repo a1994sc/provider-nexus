@@ -336,14 +336,14 @@ jobs:
           command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
       - name: Pull image
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
       - name: Get Repo Digest
         id: meta
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         run: echo "digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }})" >> $GITHUB_OUTPUT
 
       - name: Sign the published Docker Image
-        if: ${{ github.event_name != 'pull_request' }}
+        # if: ${{ github.event_name != 'pull_request' }}
         run: cosign sign --yes ${{ step.meta.outputs.digest }}
