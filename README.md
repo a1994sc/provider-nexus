@@ -30,9 +30,32 @@ Notice that in this example Provider resource is referencing ControllerConfig wi
 You can see the API reference [here](https://doc.crds.dev/github.com/a1994sc/provider-nexus).
 
 ## Terraform Provider
+
 The upstream terraform provider is created and maintained by [@datadrivers](https://github.com/datadrivers)
 
 * [datadrivers/terraform-provider-nexus](https://github.com/datadrivers/terraform-provider-nexus)
+
+## Signature
+
+The containers published after `v0.0.7` are all signed via `cosign` and the github oidc issuer!
+
+If you want to verify the image you can run the following:
+
+```shell
+cosign verify ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.7 \
+   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+   --certificate-identity https://github.com/a1994sc/provider-nexus/.github/workflows/ci.yml@refs/heads/main
+```
+
+Example output:
+
+```text
+Verification for ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.7 --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - Existence of the claims in the transparency log was verified offline
+  - The code-signing certificate was verified using trusted certificate authority certificates
+```
 
 ## Developing
 
