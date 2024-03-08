@@ -44,7 +44,7 @@ If you want to verify the image you can run the following:
 ```shell
 cosign verify ghcr.io/a1994sc/crossplane/provider-nexus:v0.0.7 \
    --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-   --certificate-identity https://github.com/a1994sc/provider-nexus/.github/workflows/ci.yml@refs/heads/main
+   --certificate-identity-regexp https://github\.com/a1994sc/provider-nexus/\.github/workflows/ci\.yml@refs/tags/v[0-9]+\.[0-9]+\.[0-9]+
 ```
 
 Example output:
