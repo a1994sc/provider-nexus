@@ -119,7 +119,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                         writableMember:
                           description: |-
                             only: This field is for the Group Deployment feature available in NXRM Pro.
@@ -215,7 +214,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                         writableMember:
                           description: |-
                             only: This field is for the Group Deployment feature available in NXRM Pro.
@@ -487,7 +485,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                         writableMember:
                           description: |-
                             only: This field is for the Group Deployment feature available in NXRM Pro.

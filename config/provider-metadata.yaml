@@ -3406,6 +3406,22 @@ resources:
             - |-
               # import of saml configuration
               terraform import nexus_security_saml.example samle
+    nexus_security_ssl_truststore:
+        subCategory: Security
+        description: Use this resource to add an SSL certificate to the nexus Truststore
+        name: nexus_security_ssl_truststore
+        title: Resource nexus_security_ssl_truststore
+        examples:
+            - name: ldap_cert
+              manifest: |-
+                {
+                  "pem": "${file(\"${path.module}/cert.pem\")}"
+                }
+        argumentDocs:
+            fingerprint: (String) The fingerprint of the cert
+            id: (String) Used to identify resource at nexus
+            pem: (String) The cert in PEM format
+        importStatements: []
     nexus_security_user:
         subCategory: Security
         description: Use this resource to manage users.

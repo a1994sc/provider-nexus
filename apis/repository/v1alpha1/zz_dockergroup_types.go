@@ -207,7 +207,6 @@ type GroupInitParameters struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
-	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 
 	// only: This field is for the Group Deployment feature available in NXRM Pro.
@@ -219,7 +218,6 @@ type GroupObservation struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
-	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 
 	// only: This field is for the Group Deployment feature available in NXRM Pro.
@@ -232,7 +230,6 @@ type GroupParameters struct {
 	// (Set of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
 
 	// only: This field is for the Group Deployment feature available in NXRM Pro.

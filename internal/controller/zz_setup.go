@@ -38,6 +38,7 @@ import (
 	realms "github.com/a1994sc/provider-nexus/internal/controller/security/realms"
 	role "github.com/a1994sc/provider-nexus/internal/controller/security/role"
 	saml "github.com/a1994sc/provider-nexus/internal/controller/security/saml"
+	ssltruststore "github.com/a1994sc/provider-nexus/internal/controller/security/ssltruststore"
 	user "github.com/a1994sc/provider-nexus/internal/controller/security/user"
 	usertoken "github.com/a1994sc/provider-nexus/internal/controller/security/usertoken"
 )
@@ -75,6 +76,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		realms.Setup,
 		role.Setup,
 		saml.Setup,
+		ssltruststore.Setup,
 		user.Setup,
 		usertoken.Setup,
 	} {
