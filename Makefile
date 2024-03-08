@@ -5,16 +5,16 @@ PROJECT_NAME ?= provider-nexus
 PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 
 # renovate: datasource=github-releases depName=hashicorp/terraform
-export TERRAFORM_VERSION ?= v1.7.4
+export TERRAFORM_VERSION ?= 1.7.4
 
 # renovate: datasource=github-releases depName=datadrivers/terraform-provider-nexus
-export TERRAFORM_PROVIDER_VERSION ?= v2.2.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.2.0
 
 export TERRAFORM_PROVIDER_SOURCE ?= datadrivers/nexus
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/datadrivers/terraform-provider-nexus
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-nexus
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= ${TERRAFORM_PROVIDER_REPO}/releases/download/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= ${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_${TERRAFORM_PROVIDER_VERSION}
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= ${TERRAFORM_PROVIDER_REPO}/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= ${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_v${TERRAFORM_PROVIDER_VERSION}
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 

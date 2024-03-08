@@ -22,6 +22,14 @@
     {
       "matchManagers": ["github-actions"],
       "addLabels": ["renovate/github-action"]
+    },
+    {
+      "matchPackageNames": ["hashicorp/terraform"],
+      "extractVersion": "$v(?<version>.*)$"
+    },
+    {
+      "matchPackageNames": ["datadrivers/terraform-provider-nexus"],
+      "extractVersion": "$v(?<version>.*)$"
     }
   ],
   "prHourlyLimit": 2,
