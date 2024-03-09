@@ -46,5 +46,16 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["/Makefile$"],
+      "matchStrings": [
+        "export TERRAFORM_VERSION ?= [\"']?(?<currentValue>.+?)[\"']?\\s+"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "hashicorp/terraform",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
   ]
 }
