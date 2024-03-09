@@ -24,11 +24,11 @@
       "addLabels": ["renovate/github-action"]
     },
     {
-      "matchPackageNames": ["hashicorp/terraform"],
+      "matchDepNames": ["hashicorp/terraform"],
       "extractVersion": "$v(?<version>.*)$"
     },
     {
-      "matchPackageNames": ["datadrivers/terraform-provider-nexus"],
+      "matchDepNames": ["datadrivers/terraform-provider-nexus"],
       "extractVersion": "$v(?<version>.*)$"
     }
   ],
