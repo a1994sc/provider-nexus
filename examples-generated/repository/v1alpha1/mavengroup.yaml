@@ -1,0 +1,41 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: MavenGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/mavengroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_maven_hosted.releases.name}
+    name: maven-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: MavenHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/mavengroup
+  labels:
+    testing.upbound.io/example-name: releases
+  name: releases
+spec:
+  forProvider:
+    maven:
+    - contentDisposition: INLINE
+      layoutPolicy: STRICT
+      versionPolicy: RELEASE
+    name: maven-releases
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: false
+      writePolicy: ALLOW

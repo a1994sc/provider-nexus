@@ -1,0 +1,28 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: MavenProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/mavenproxy
+  labels:
+    testing.upbound.io/example-name: maven_central
+  name: maven-central
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    maven:
+    - layoutPolicy: PERMISSIVE
+      versionPolicy: RELEASE
+    name: maven-central-repo1
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://repo1.maven.org/maven2/
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

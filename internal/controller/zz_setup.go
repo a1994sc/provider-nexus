@@ -30,6 +30,9 @@ import (
 	goproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/goproxy"
 	helmhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/helmhosted"
 	helmproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/helmproxy"
+	mavengroup "github.com/a1994sc/provider-nexus/internal/controller/repository/mavengroup"
+	mavenhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/mavenhosted"
+	mavenproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/mavenproxy"
 	rawgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/rawgroup"
 	rawhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/rawhosted"
 	rawproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/rawproxy"
@@ -77,6 +80,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		goproxy.Setup,
 		helmhosted.Setup,
 		helmproxy.Setup,
+		mavengroup.Setup,
+		mavenhosted.Setup,
+		mavenproxy.Setup,
 		rawgroup.Setup,
 		rawhosted.Setup,
 		rawproxy.Setup,
