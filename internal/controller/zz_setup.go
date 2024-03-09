@@ -25,6 +25,9 @@ import (
 	dockergroup "github.com/a1994sc/provider-nexus/internal/controller/repository/dockergroup"
 	dockerhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerhosted"
 	dockerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerproxy"
+	gitlfshosted "github.com/a1994sc/provider-nexus/internal/controller/repository/gitlfshosted"
+	gogroup "github.com/a1994sc/provider-nexus/internal/controller/repository/gogroup"
+	goproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/goproxy"
 	helmhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/helmhosted"
 	helmproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/helmproxy"
 	rawgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/rawgroup"
@@ -69,6 +72,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		dockergroup.Setup,
 		dockerhosted.Setup,
 		dockerproxy.Setup,
+		gitlfshosted.Setup,
+		gogroup.Setup,
+		goproxy.Setup,
 		helmhosted.Setup,
 		helmproxy.Setup,
 		rawgroup.Setup,
