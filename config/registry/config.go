@@ -85,6 +85,24 @@ func Configure(p *config.Provider) {
 		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
 	})
 
+	p.AddResourceConfigurator("nexus_repository_gitlfs_hosted", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_go_group", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_go_proxy", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+
+		// Allow for the username to be set via a secret
+		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
+	})
+
 	p.AddResourceConfigurator("nexus_repository_helm_hosted", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		r.ShortGroup = Group

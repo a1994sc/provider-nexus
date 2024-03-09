@@ -44,6 +44,15 @@ func (tr *DockerHosted) Hub() {}
 func (tr *DockerProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *GitlfsHosted) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GoGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GoProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *HelmHosted) Hub() {}
 
 // Hub marks this type as a conversion hub.

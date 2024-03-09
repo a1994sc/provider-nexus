@@ -106,6 +106,33 @@ func (l *DockerProxyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this GitlfsHostedList.
+func (l *GitlfsHostedList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this GoGroupList.
+func (l *GoGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this GoProxyList.
+func (l *GoProxyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this HelmHostedList.
 func (l *HelmHostedList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

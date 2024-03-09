@@ -1,0 +1,25 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: GoProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/goproxy
+  labels:
+    testing.upbound.io/example-name: golang_org
+  name: golang-org
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: golang-org
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://proxy.golang.org/
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

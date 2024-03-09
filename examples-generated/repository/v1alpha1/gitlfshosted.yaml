@@ -1,0 +1,16 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: GitlfsHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/gitlfshosted
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: gitlfs-internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: false
+      writePolicy: ALLOW
