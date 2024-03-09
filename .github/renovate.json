@@ -24,12 +24,12 @@
       "addLabels": ["renovate/github-action"]
     },
     {
-      "matchDepNames": ["hashicorp/terraform"],
-      "extractVersion": "$v(?<version>.*)$"
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["hashicorp/terraform"]
     },
     {
-      "matchDepNames": ["datadrivers/terraform-provider-nexus"],
-      "extractVersion": "$v(?<version>.*)$"
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["datadrivers/terraform-provider-nexus"]
     }
   ],
   "prHourlyLimit": 2,
@@ -51,7 +51,7 @@
     {
       "fileMatch": ["/Makefile$"],
       "matchStrings": [
-        "export TERRAFORM_VERSION ?= [\"']?(?<currentValue>.+?)[\"']?\\s+"
+        "export TERRAFORM_VERSION ?= (?<currentValue>.+?)\\s+"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "hashicorp/terraform",
