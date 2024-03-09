@@ -33,29 +33,14 @@
     }
   ],
   "prHourlyLimit": 2,
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": ["Process custom dependencies"],
-      "fileMatch": [
-        "Makefile"
-      ],
-      "matchStrings": [
-        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+?: \"?(?<currentValue>\\S+?)\"?$)",
-        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+?\/(?<currentValue>(v|\\d)[^\/]+)\\S+$)"
-      ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
-    }
-  ],
   "regexManagers": [
     {
-      "fileMatch": ["Makefile"],
+      "fileMatch": ["(^|/)Makefile$"],
       "matchStrings": [
-        "export TERRAFORM_VERSION ?= (?<currentValue>.+?)\\s+"
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sexport .*?_VERSION ?= (?<currentValue>.*)\\s"
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "hashicorp/terraform",
-      "extractVersionTemplate": "^v(?<version>.*)$"
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+      "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)"
     }
   ]
 }
