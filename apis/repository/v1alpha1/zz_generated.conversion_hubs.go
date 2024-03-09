@@ -17,6 +17,24 @@ func (tr *AptHosted) Hub() {}
 func (tr *AptProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *BowerGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *BowerHosted) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *BowerProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CocoapodsProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ConanProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CondaProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *DockerGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.

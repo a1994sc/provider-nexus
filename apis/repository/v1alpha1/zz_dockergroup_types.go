@@ -17,6 +17,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DockerGroupGroupInitParameters struct {
+
+	// (Set of String) Member repositories names
+	// Member repositories names
+	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
+
+	// only: This field is for the Group Deployment feature available in NXRM Pro.
+	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
+	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
+}
+
+type DockerGroupGroupObservation struct {
+
+	// (Set of String) Member repositories names
+	// Member repositories names
+	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
+
+	// only: This field is for the Group Deployment feature available in NXRM Pro.
+	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
+	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
+}
+
+type DockerGroupGroupParameters struct {
+
+	// (Set of String) Member repositories names
+	// Member repositories names
+	// +kubebuilder:validation:Optional
+	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
+
+	// only: This field is for the Group Deployment feature available in NXRM Pro.
+	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
+	// +kubebuilder:validation:Optional
+	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
+}
+
 type DockerGroupInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
@@ -25,7 +60,7 @@ type DockerGroupInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)
 	// Configuration for repository group
-	Group []GroupInitParameters `json:"group,omitempty" tf:"group,omitempty"`
+	Group []DockerGroupGroupInitParameters `json:"group,omitempty" tf:"group,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -48,7 +83,7 @@ type DockerGroupObservation struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)
 	// Configuration for repository group
-	Group []GroupObservation `json:"group,omitempty" tf:"group,omitempty"`
+	Group []DockerGroupGroupObservation `json:"group,omitempty" tf:"group,omitempty"`
 
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -76,7 +111,7 @@ type DockerGroupParameters struct {
 	// (Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)
 	// Configuration for repository group
 	// +kubebuilder:validation:Optional
-	Group []GroupParameters `json:"group,omitempty" tf:"group,omitempty"`
+	Group []DockerGroupGroupParameters `json:"group,omitempty" tf:"group,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -201,41 +236,6 @@ type DockerParameters struct {
 	// Whether to allow clients to use the V1 API to interact with this repository
 	// +kubebuilder:validation:Optional
 	V1Enabled *bool `json:"v1Enabled" tf:"v1_enabled,omitempty"`
-}
-
-type GroupInitParameters struct {
-
-	// (Set of String) Member repositories names
-	// Member repositories names
-	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
-
-	// only: This field is for the Group Deployment feature available in NXRM Pro.
-	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
-	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
-}
-
-type GroupObservation struct {
-
-	// (Set of String) Member repositories names
-	// Member repositories names
-	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
-
-	// only: This field is for the Group Deployment feature available in NXRM Pro.
-	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
-	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
-}
-
-type GroupParameters struct {
-
-	// (Set of String) Member repositories names
-	// Member repositories names
-	// +kubebuilder:validation:Optional
-	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
-
-	// only: This field is for the Group Deployment feature available in NXRM Pro.
-	// Pro-only: This field is for the Group Deployment feature available in NXRM Pro.
-	// +kubebuilder:validation:Optional
-	WritableMember *string `json:"writableMember,omitempty" tf:"writable_member,omitempty"`
 }
 
 // DockerGroupSpec defines the desired state of DockerGroup

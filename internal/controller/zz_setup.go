@@ -16,6 +16,12 @@ import (
 	providerconfig "github.com/a1994sc/provider-nexus/internal/controller/providerconfig"
 	apthosted "github.com/a1994sc/provider-nexus/internal/controller/repository/apthosted"
 	aptproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/aptproxy"
+	bowergroup "github.com/a1994sc/provider-nexus/internal/controller/repository/bowergroup"
+	bowerhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/bowerhosted"
+	bowerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/bowerproxy"
+	cocoapodsproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/cocoapodsproxy"
+	conanproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/conanproxy"
+	condaproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/condaproxy"
 	dockergroup "github.com/a1994sc/provider-nexus/internal/controller/repository/dockergroup"
 	dockerhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerhosted"
 	dockerproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/dockerproxy"
@@ -54,6 +60,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		providerconfig.Setup,
 		apthosted.Setup,
 		aptproxy.Setup,
+		bowergroup.Setup,
+		bowerhosted.Setup,
+		bowerproxy.Setup,
+		cocoapodsproxy.Setup,
+		conanproxy.Setup,
+		condaproxy.Setup,
 		dockergroup.Setup,
 		dockerhosted.Setup,
 		dockerproxy.Setup,
