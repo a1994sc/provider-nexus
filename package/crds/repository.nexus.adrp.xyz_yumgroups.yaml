@@ -86,7 +86,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   name:
@@ -192,7 +191,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   name:
@@ -429,7 +427,6 @@ spec:
                           items:
                             type: string
                           type: array
-                          x-kubernetes-list-type: set
                       type: object
                     type: array
                   id:

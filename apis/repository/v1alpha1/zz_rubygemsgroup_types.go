@@ -21,7 +21,6 @@ type RubygemsGroupGroupInitParameters struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
-	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
@@ -29,7 +28,6 @@ type RubygemsGroupGroupObservation struct {
 
 	// (Set of String) Member repositories names
 	// Member repositories names
-	// +listType=set
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
@@ -38,7 +36,6 @@ type RubygemsGroupGroupParameters struct {
 	// (Set of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
 }
 

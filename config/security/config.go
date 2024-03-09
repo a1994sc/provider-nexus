@@ -39,6 +39,12 @@ func Configure(p *config.Provider) {
 		// We need to override the default group that upjet generated for
 		r.ShortGroup = Group
 	})
+	p.AddResourceConfigurator("nexus_security_ssl_truststore", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+
+		r.TerraformResource.Schema["pem"].Sensitive = true
+	})
 	p.AddResourceConfigurator("nexus_security_user", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		r.ShortGroup = Group

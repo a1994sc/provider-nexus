@@ -1,0 +1,14 @@
+apiVersion: security.nexus.adrp.xyz/v1alpha1
+kind: SSLTruststore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: security/v1alpha1/ssltruststore
+  labels:
+    testing.upbound.io/example-name: ldap_cert
+  name: ldap-cert
+spec:
+  forProvider:
+    pemSecretRef:
+      key: attribute.cert.pem
+      name: example-secret
+      namespace: upbound-system

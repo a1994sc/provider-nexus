@@ -32,6 +32,9 @@ func (tr *Role) Hub() {}
 func (tr *SAML) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *SSLTruststore) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *User) Hub() {}
 
 // Hub marks this type as a conversion hub.

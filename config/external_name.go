@@ -43,6 +43,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_security_realms":           config.IdentifierFromProvider,
 	"nexus_security_role":             config.IdentifierFromProvider,
 	"nexus_security_saml":             config.IdentifierFromProvider,
+	"nexus_security_ssl_truststore":   config.IdentifierFromProvider,
 	"nexus_security_user":             config.IdentifierFromProvider,
 	"nexus_security_user_token":       config.IdentifierFromProvider,
 

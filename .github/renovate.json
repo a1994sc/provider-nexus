@@ -22,7 +22,29 @@
     {
       "matchManagers": ["github-actions"],
       "addLabels": ["renovate/github-action"]
+    },
+    {
+      "matchPackageNames": ["hashicorp/terraform"],
+      "extractVersion": "$v(?<version>.*)$"
+    },
+    {
+      "matchPackageNames": ["datadrivers/terraform-provider-nexus"],
+      "extractVersion": "$v(?<version>.*)$"
     }
   ],
-  "prHourlyLimit": 2
+  "prHourlyLimit": 2,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": ["Process custom dependencies"],
+      "fileMatch": [
+        "Makefile"
+      ],
+      "matchStrings": [
+        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+?: \"?(?<currentValue>\\S+?)\"?$)",
+        "(?m:# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+?\/(?<currentValue>(v|\\d)[^\/]+)\\S+$)"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+    }
+  ]
 }

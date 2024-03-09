@@ -4,11 +4,14 @@
 PROJECT_NAME ?= provider-nexus
 PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 
+# renovate: datasource=github-releases depName=hashicorp/terraform
 export TERRAFORM_VERSION ?= 1.7.4
+
+# renovate: datasource=github-releases depName=datadrivers/terraform-provider-nexus
+export TERRAFORM_PROVIDER_VERSION ?= 2.2.0
 
 export TERRAFORM_PROVIDER_SOURCE ?= datadrivers/nexus
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/datadrivers/terraform-provider-nexus
-export TERRAFORM_PROVIDER_VERSION ?= 2.1.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-nexus
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= ${TERRAFORM_PROVIDER_REPO}/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_NATIVE_PROVIDER_BINARY ?= ${TERRAFORM_PROVIDER_DOWNLOAD_NAME}_v${TERRAFORM_PROVIDER_VERSION}
@@ -59,17 +62,17 @@ UPTEST_VERSION = v0.5.0
 # ====================================================================================
 # Setup Images
 
-REGISTRY_ORGS ?= harbor.adrp.xyz/library
+REGISTRY_ORGS ?= ghcr.io/a1994sc/crossplane/provider-nexus
 IMAGES = $(PROJECT_NAME)
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= harbor.adrp.xyz/library
+XPKG_REG_ORGS ?= ghcr.io/a1994sc/crossplane/provider-nexus
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
-XPKG_REG_ORGS_NO_PROMOTE ?= harbor.adrp.xyz/library
+XPKG_REG_ORGS_NO_PROMOTE ?= ghcr.io/a1994sc/crossplane/provider-nexus
 XPKGS = $(PROJECT_NAME)
 -include build/makelib/xpkg.mk
 
