@@ -49,7 +49,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["/Makefile$"],
+      "fileMatch": ["Makefile"],
       "matchStrings": [
         "export TERRAFORM_VERSION ?= (?<currentValue>.+?)\\s+"
       ],
