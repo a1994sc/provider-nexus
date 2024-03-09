@@ -8,7 +8,7 @@ PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 export TERRAFORM_VERSION ?= 1.7.2
 
 # renovate: datasource=github-releases depName=datadrivers/terraform-provider-nexus versioning=hashicorp
-export TERRAFORM_PROVIDER_VERSION ?= 2.1.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.2.0
 
 export TERRAFORM_PROVIDER_SOURCE ?= datadrivers/nexus
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/datadrivers/terraform-provider-nexus
