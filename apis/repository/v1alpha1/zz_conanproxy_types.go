@@ -17,7 +17,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type DockerProxyCleanupInitParameters struct {
+type ConanProxyCleanupInitParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -25,7 +25,7 @@ type DockerProxyCleanupInitParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type DockerProxyCleanupObservation struct {
+type ConanProxyCleanupObservation struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -33,7 +33,7 @@ type DockerProxyCleanupObservation struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type DockerProxyCleanupParameters struct {
+type ConanProxyCleanupParameters struct {
 
 	// (Set of String) List of policy names
 	// List of policy names
@@ -42,116 +42,7 @@ type DockerProxyCleanupParameters struct {
 	PolicyNames []*string `json:"policyNames,omitempty" tf:"policy_names,omitempty"`
 }
 
-type DockerProxyDockerInitParameters struct {
-
-	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
-	// Whether to force authentication (Docker Bearer Token Realm required if false)
-	ForceBasicAuth *bool `json:"forceBasicAuth,omitempty" tf:"force_basic_auth,omitempty"`
-
-	// (Number) Create an HTTP connector at specified port
-	// Create an HTTP connector at specified port
-	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
-
-	// (Number) Create an HTTPS connector at specified port
-	// Create an HTTPS connector at specified port
-	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
-
-	// only: Whether to allow clients to use subdomain routing connector
-	// Pro-only: Whether to allow clients to use subdomain routing connector
-	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
-
-	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
-	// Whether to allow clients to use the V1 API to interact with this repository
-	V1Enabled *bool `json:"v1Enabled,omitempty" tf:"v1_enabled,omitempty"`
-}
-
-type DockerProxyDockerObservation struct {
-
-	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
-	// Whether to force authentication (Docker Bearer Token Realm required if false)
-	ForceBasicAuth *bool `json:"forceBasicAuth,omitempty" tf:"force_basic_auth,omitempty"`
-
-	// (Number) Create an HTTP connector at specified port
-	// Create an HTTP connector at specified port
-	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
-
-	// (Number) Create an HTTPS connector at specified port
-	// Create an HTTPS connector at specified port
-	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
-
-	// only: Whether to allow clients to use subdomain routing connector
-	// Pro-only: Whether to allow clients to use subdomain routing connector
-	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
-
-	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
-	// Whether to allow clients to use the V1 API to interact with this repository
-	V1Enabled *bool `json:"v1Enabled,omitempty" tf:"v1_enabled,omitempty"`
-}
-
-type DockerProxyDockerParameters struct {
-
-	// (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
-	// Whether to force authentication (Docker Bearer Token Realm required if false)
-	// +kubebuilder:validation:Optional
-	ForceBasicAuth *bool `json:"forceBasicAuth" tf:"force_basic_auth,omitempty"`
-
-	// (Number) Create an HTTP connector at specified port
-	// Create an HTTP connector at specified port
-	// +kubebuilder:validation:Optional
-	HTTPPort *float64 `json:"httpPort,omitempty" tf:"http_port,omitempty"`
-
-	// (Number) Create an HTTPS connector at specified port
-	// Create an HTTPS connector at specified port
-	// +kubebuilder:validation:Optional
-	HTTPSPort *float64 `json:"httpsPort,omitempty" tf:"https_port,omitempty"`
-
-	// only: Whether to allow clients to use subdomain routing connector
-	// Pro-only: Whether to allow clients to use subdomain routing connector
-	// +kubebuilder:validation:Optional
-	Subdomain *string `json:"subdomain,omitempty" tf:"subdomain,omitempty"`
-
-	// (Boolean) Whether to allow clients to use the V1 API to interact with this repository
-	// Whether to allow clients to use the V1 API to interact with this repository
-	// +kubebuilder:validation:Optional
-	V1Enabled *bool `json:"v1Enabled" tf:"v1_enabled,omitempty"`
-}
-
-type DockerProxyDockerProxyInitParameters struct {
-
-	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
-	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
-	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
-
-	// (String) Url of Docker Index to use
-	// Url of Docker Index to use
-	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
-}
-
-type DockerProxyDockerProxyObservation struct {
-
-	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
-	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
-	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
-
-	// (String) Url of Docker Index to use
-	// Url of Docker Index to use
-	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
-}
-
-type DockerProxyDockerProxyParameters struct {
-
-	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
-	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
-	// +kubebuilder:validation:Optional
-	IndexType *string `json:"indexType" tf:"index_type,omitempty"`
-
-	// (String) Url of Docker Index to use
-	// Url of Docker Index to use
-	// +kubebuilder:validation:Optional
-	IndexURL *string `json:"indexUrl,omitempty" tf:"index_url,omitempty"`
-}
-
-type DockerProxyHTTPClientAuthenticationInitParameters struct {
+type ConanProxyHTTPClientAuthenticationInitParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -166,7 +57,7 @@ type DockerProxyHTTPClientAuthenticationInitParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type DockerProxyHTTPClientAuthenticationObservation struct {
+type ConanProxyHTTPClientAuthenticationObservation struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -181,7 +72,7 @@ type DockerProxyHTTPClientAuthenticationObservation struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type DockerProxyHTTPClientAuthenticationParameters struct {
+type ConanProxyHTTPClientAuthenticationParameters struct {
 
 	// (String) The ntlm domain to connect
 	// The ntlm domain to connect
@@ -209,7 +100,7 @@ type DockerProxyHTTPClientAuthenticationParameters struct {
 	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
-type DockerProxyHTTPClientConnectionInitParameters struct {
+type ConanProxyHTTPClientConnectionInitParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -236,7 +127,7 @@ type DockerProxyHTTPClientConnectionInitParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type DockerProxyHTTPClientConnectionObservation struct {
+type ConanProxyHTTPClientConnectionObservation struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -263,7 +154,7 @@ type DockerProxyHTTPClientConnectionObservation struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type DockerProxyHTTPClientConnectionParameters struct {
+type ConanProxyHTTPClientConnectionParameters struct {
 
 	// (Boolean) Whether to enable redirects to the same location (may be required by some servers)
 	// Whether to enable redirects to the same location (may be required by some servers)
@@ -296,11 +187,11 @@ type DockerProxyHTTPClientConnectionParameters struct {
 	UserAgentSuffix *string `json:"userAgentSuffix,omitempty" tf:"user_agent_suffix,omitempty"`
 }
 
-type DockerProxyHTTPClientInitParameters struct {
+type ConanProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []DockerProxyHTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []ConanProxyHTTPClientAuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -312,14 +203,14 @@ type DockerProxyHTTPClientInitParameters struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []DockerProxyHTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConanProxyHTTPClientConnectionInitParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type DockerProxyHTTPClientObservation struct {
+type ConanProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
-	Authentication []DockerProxyHTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []ConanProxyHTTPClientAuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -331,15 +222,15 @@ type DockerProxyHTTPClientObservation struct {
 
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
-	Connection []DockerProxyHTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConanProxyHTTPClientConnectionObservation `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type DockerProxyHTTPClientParameters struct {
+type ConanProxyHTTPClientParameters struct {
 
 	// (Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)
 	// Authentication configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Authentication []DockerProxyHTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+	Authentication []ConanProxyHTTPClientAuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
 
 	// block outbound connections if remote peer is detected as unreachable/unresponsive
 	// Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
@@ -354,26 +245,18 @@ type DockerProxyHTTPClientParameters struct {
 	// (Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)
 	// Connection configuration of the HTTP client
 	// +kubebuilder:validation:Optional
-	Connection []DockerProxyHTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
+	Connection []ConanProxyHTTPClientConnectionParameters `json:"connection,omitempty" tf:"connection,omitempty"`
 }
 
-type DockerProxyInitParameters struct {
+type ConanProxyInitParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []DockerProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
-	// docker contains the configuration of the docker repository
-	Docker []DockerProxyDockerInitParameters `json:"docker,omitempty" tf:"docker,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
-	// docker_proxy contains the configuration of the docker index
-	DockerProxy []DockerProxyDockerProxyInitParameters `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+	Cleanup []ConanProxyCleanupInitParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []DockerProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []ConanProxyHTTPClientInitParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -381,7 +264,7 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []DockerProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []ConanProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -389,7 +272,7 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []DockerProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []ConanProxyProxyInitParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -397,10 +280,10 @@ type DockerProxyInitParameters struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []DockerProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []ConanProxyStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type DockerProxyNegativeCacheInitParameters struct {
+type ConanProxyNegativeCacheInitParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -411,7 +294,7 @@ type DockerProxyNegativeCacheInitParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type DockerProxyNegativeCacheObservation struct {
+type ConanProxyNegativeCacheObservation struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -422,7 +305,7 @@ type DockerProxyNegativeCacheObservation struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type DockerProxyNegativeCacheParameters struct {
+type ConanProxyNegativeCacheParameters struct {
 
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
@@ -435,23 +318,15 @@ type DockerProxyNegativeCacheParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
-type DockerProxyObservation struct {
+type ConanProxyObservation struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
-	Cleanup []DockerProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
-	// docker contains the configuration of the docker repository
-	Docker []DockerProxyDockerObservation `json:"docker,omitempty" tf:"docker,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
-	// docker_proxy contains the configuration of the docker index
-	DockerProxy []DockerProxyDockerProxyObservation `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+	Cleanup []ConanProxyCleanupObservation `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
-	HTTPClient []DockerProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []ConanProxyHTTPClientObservation `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -462,7 +337,7 @@ type DockerProxyObservation struct {
 
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
-	NegativeCache []DockerProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []ConanProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -470,7 +345,7 @@ type DockerProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
-	Proxy []DockerProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []ConanProxyProxyObservation `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -478,30 +353,20 @@ type DockerProxyObservation struct {
 
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
-	Storage []DockerProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []ConanProxyStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type DockerProxyParameters struct {
+type ConanProxyParameters struct {
 
 	// (Block List) Cleanup policies (see below for nested schema)
 	// Cleanup policies
 	// +kubebuilder:validation:Optional
-	Cleanup []DockerProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker contains the configuration of the docker repository (see below for nested schema)
-	// docker contains the configuration of the docker repository
-	// +kubebuilder:validation:Optional
-	Docker []DockerProxyDockerParameters `json:"docker,omitempty" tf:"docker,omitempty"`
-
-	// (Block List, Min: 1, Max: 1) docker_proxy contains the configuration of the docker index (see below for nested schema)
-	// docker_proxy contains the configuration of the docker index
-	// +kubebuilder:validation:Optional
-	DockerProxy []DockerProxyDockerProxyParameters `json:"dockerProxy,omitempty" tf:"docker_proxy,omitempty"`
+	Cleanup []ConanProxyCleanupParameters `json:"cleanup,omitempty" tf:"cleanup,omitempty"`
 
 	// (Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)
 	// HTTP Client configuration for proxy repositories
 	// +kubebuilder:validation:Optional
-	HTTPClient []DockerProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
+	HTTPClient []ConanProxyHTTPClientParameters `json:"httpClient,omitempty" tf:"http_client,omitempty"`
 
 	// (String) A unique identifier for this repository
 	// A unique identifier for this repository
@@ -511,7 +376,7 @@ type DockerProxyParameters struct {
 	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
-	NegativeCache []DockerProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
+	NegativeCache []ConanProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
 	// (Boolean) Whether this repository accepts incoming requests
 	// Whether this repository accepts incoming requests
@@ -521,7 +386,7 @@ type DockerProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)
 	// Configuration for the proxy repository
 	// +kubebuilder:validation:Optional
-	Proxy []DockerProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
+	Proxy []ConanProxyProxyParameters `json:"proxy,omitempty" tf:"proxy,omitempty"`
 
 	// (String) The name of the routing rule assigned to this repository
 	// The name of the routing rule assigned to this repository
@@ -531,10 +396,10 @@ type DockerProxyParameters struct {
 	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
 	// The storage configuration of the repository
 	// +kubebuilder:validation:Optional
-	Storage []DockerProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
+	Storage []ConanProxyStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
-type DockerProxyProxyInitParameters struct {
+type ConanProxyProxyInitParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -549,7 +414,7 @@ type DockerProxyProxyInitParameters struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type DockerProxyProxyObservation struct {
+type ConanProxyProxyObservation struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -564,7 +429,7 @@ type DockerProxyProxyObservation struct {
 	RemoteURL *string `json:"remoteUrl,omitempty" tf:"remote_url,omitempty"`
 }
 
-type DockerProxyProxyParameters struct {
+type ConanProxyProxyParameters struct {
 
 	// (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
 	// How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -582,7 +447,7 @@ type DockerProxyProxyParameters struct {
 	RemoteURL *string `json:"remoteUrl" tf:"remote_url,omitempty"`
 }
 
-type DockerProxyStorageInitParameters struct {
+type ConanProxyStorageInitParameters struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -593,7 +458,7 @@ type DockerProxyStorageInitParameters struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type DockerProxyStorageObservation struct {
+type ConanProxyStorageObservation struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -604,7 +469,7 @@ type DockerProxyStorageObservation struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-type DockerProxyStorageParameters struct {
+type ConanProxyStorageParameters struct {
 
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
@@ -617,10 +482,10 @@ type DockerProxyStorageParameters struct {
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
 }
 
-// DockerProxySpec defines the desired state of DockerProxy
-type DockerProxySpec struct {
+// ConanProxySpec defines the desired state of ConanProxy
+type ConanProxySpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     DockerProxyParameters `json:"forProvider"`
+	ForProvider     ConanProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -631,55 +496,53 @@ type DockerProxySpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider DockerProxyInitParameters `json:"initProvider,omitempty"`
+	InitProvider ConanProxyInitParameters `json:"initProvider,omitempty"`
 }
 
-// DockerProxyStatus defines the observed state of DockerProxy.
-type DockerProxyStatus struct {
+// ConanProxyStatus defines the observed state of ConanProxy.
+type ConanProxyStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        DockerProxyObservation `json:"atProvider,omitempty"`
+	AtProvider        ConanProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// DockerProxy is the Schema for the DockerProxys API. Use this resource to create a docker proxy repository.
+// ConanProxy is the Schema for the ConanProxys API. Use this resource to create an conan proxy repository.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,nexus}
-type DockerProxy struct {
+type ConanProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.docker) || (has(self.initProvider) && has(self.initProvider.docker))",message="spec.forProvider.docker is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dockerProxy) || (has(self.initProvider) && has(self.initProvider.dockerProxy))",message="spec.forProvider.dockerProxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
-	Spec   DockerProxySpec   `json:"spec"`
-	Status DockerProxyStatus `json:"status,omitempty"`
+	Spec   ConanProxySpec   `json:"spec"`
+	Status ConanProxyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// DockerProxyList contains a list of DockerProxys
-type DockerProxyList struct {
+// ConanProxyList contains a list of ConanProxys
+type ConanProxyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []DockerProxy `json:"items"`
+	Items           []ConanProxy `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	DockerProxy_Kind             = "DockerProxy"
-	DockerProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: DockerProxy_Kind}.String()
-	DockerProxy_KindAPIVersion   = DockerProxy_Kind + "." + CRDGroupVersion.String()
-	DockerProxy_GroupVersionKind = CRDGroupVersion.WithKind(DockerProxy_Kind)
+	ConanProxy_Kind             = "ConanProxy"
+	ConanProxy_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ConanProxy_Kind}.String()
+	ConanProxy_KindAPIVersion   = ConanProxy_Kind + "." + CRDGroupVersion.String()
+	ConanProxy_GroupVersionKind = CRDGroupVersion.WithKind(ConanProxy_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&DockerProxy{}, &DockerProxyList{})
+	SchemeBuilder.Register(&ConanProxy{}, &ConanProxyList{})
 }

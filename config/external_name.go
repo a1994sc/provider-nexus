@@ -17,6 +17,14 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_repository_apt_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_apt_hosted": config.IdentifierFromProvider,
 
+	"nexus_repository_bower_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_bower_group":  config.IdentifierFromProvider,
+	"nexus_repository_bower_hosted": config.IdentifierFromProvider,
+
+	"nexus_repository_cocoapods_proxy": config.IdentifierFromProvider,
+	"nexus_repository_conan_proxy":     config.IdentifierFromProvider,
+	"nexus_repository_conda_proxy":     config.IdentifierFromProvider,
+
 	"nexus_repository_docker_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_docker_group":  config.IdentifierFromProvider,
 	"nexus_repository_docker_hosted": config.IdentifierFromProvider,

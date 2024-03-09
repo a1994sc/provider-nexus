@@ -1,0 +1,67 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: BowerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/bowergroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_bower_hosted.internal.name}
+      - ${nexus_repository_bower_proxy.bower_io.name}
+    name: bower-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: BowerHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/bowergroup
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: BowerProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/bowergroup
+  labels:
+    testing.upbound.io/example-name: bower_io
+  name: bower-io
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: bower-io
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://registry.bower.io
+    rewritePackageUrls: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

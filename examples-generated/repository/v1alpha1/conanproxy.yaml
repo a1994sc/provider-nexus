@@ -1,0 +1,25 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: ConanProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/conanproxy
+  labels:
+    testing.upbound.io/example-name: conan_center
+  name: conan-center
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: conan-center
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://center.conan.io
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
