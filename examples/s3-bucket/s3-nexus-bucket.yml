@@ -1,0 +1,32 @@
+---
+apiVersion: blobstore.nexus.adrp.xyz/v1alpha1
+kind: S3
+metadata:
+  name: nexus-proxy-bucket-default
+spec:
+  deletionPolicy: Delete
+  providerConfigRef:
+    name: nexus-config
+  forProvider:
+    name: default
+    softQuota:
+    - limit: 184320000000 # 180 Gi
+      type: spaceUsedQuota
+    bucketConfiguration:
+    - bucket:
+      - name: nexus-proxy-bucket-default
+        region: us-east-1
+        expiration: -1
+      advancedBucketConnection:
+      - endpoint: |-
+          http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local:80
+        forcePathStyle: true
+      bucketSecurity:
+      - accessKeyIdSecretRef:
+          key: AWS_ACCESS_KEY_ID
+          name: nexus-proxy-bucket-default
+          namespace: crossplane-system
+        secretAccessKeySecretRef:
+          key: AWS_SECRET_ACCESS_KEY
+          name: nexus-proxy-bucket-default
+          namespace: crossplane-system
