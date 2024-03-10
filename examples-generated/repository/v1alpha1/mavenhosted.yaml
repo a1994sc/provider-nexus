@@ -1,0 +1,20 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: MavenHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/mavenhosted
+  labels:
+    testing.upbound.io/example-name: releases
+  name: releases
+spec:
+  forProvider:
+    maven:
+    - contentDisposition: INLINE
+      layoutPolicy: STRICT
+      versionPolicy: RELEASE
+    name: maven-releases
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: false
+      writePolicy: ALLOW

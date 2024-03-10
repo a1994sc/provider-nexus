@@ -151,6 +151,33 @@ func (l *HelmProxyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this MavenGroupList.
+func (l *MavenGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this MavenHostedList.
+func (l *MavenHostedList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this MavenProxyList.
+func (l *MavenProxyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RawGroupList.
 func (l *RawGroupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

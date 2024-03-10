@@ -59,6 +59,15 @@ func (tr *HelmHosted) Hub() {}
 func (tr *HelmProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *MavenGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MavenHosted) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *MavenProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RawGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
