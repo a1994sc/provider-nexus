@@ -33,6 +33,13 @@ import (
 	mavengroup "github.com/a1994sc/provider-nexus/internal/controller/repository/mavengroup"
 	mavenhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/mavenhosted"
 	mavenproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/mavenproxy"
+	npmgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/npmgroup"
+	npmhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/npmhosted"
+	npmproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/npmproxy"
+	nugetgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/nugetgroup"
+	nugethosted "github.com/a1994sc/provider-nexus/internal/controller/repository/nugethosted"
+	nugetproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/nugetproxy"
+	p2proxy "github.com/a1994sc/provider-nexus/internal/controller/repository/p2proxy"
 	rawgroup "github.com/a1994sc/provider-nexus/internal/controller/repository/rawgroup"
 	rawhosted "github.com/a1994sc/provider-nexus/internal/controller/repository/rawhosted"
 	rawproxy "github.com/a1994sc/provider-nexus/internal/controller/repository/rawproxy"
@@ -83,6 +90,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		mavengroup.Setup,
 		mavenhosted.Setup,
 		mavenproxy.Setup,
+		npmgroup.Setup,
+		npmhosted.Setup,
+		npmproxy.Setup,
+		nugetgroup.Setup,
+		nugethosted.Setup,
+		nugetproxy.Setup,
+		p2proxy.Setup,
 		rawgroup.Setup,
 		rawhosted.Setup,
 		rawproxy.Setup,

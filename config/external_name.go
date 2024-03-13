@@ -41,6 +41,16 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"nexus_repository_maven_group":  config.IdentifierFromProvider,
 	"nexus_repository_maven_hosted": config.IdentifierFromProvider,
 
+	"nexus_repository_npm_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_npm_group":  config.IdentifierFromProvider,
+	"nexus_repository_npm_hosted": config.IdentifierFromProvider,
+
+	"nexus_repository_nuget_proxy":  config.IdentifierFromProvider,
+	"nexus_repository_nuget_group":  config.IdentifierFromProvider,
+	"nexus_repository_nuget_hosted": config.IdentifierFromProvider,
+
+	"nexus_repository_p2_proxy": config.IdentifierFromProvider,
+
 	"nexus_repository_raw_proxy":  config.IdentifierFromProvider,
 	"nexus_repository_raw_group":  config.IdentifierFromProvider,
 	"nexus_repository_raw_hosted": config.IdentifierFromProvider,

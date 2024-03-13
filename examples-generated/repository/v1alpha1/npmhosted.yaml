@@ -1,0 +1,11 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: NpmHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/npmhosted
+  labels:
+    testing.upbound.io/example-name: npm
+  name: npm
+spec:
+  forProvider:
+    name: npm

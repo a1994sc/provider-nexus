@@ -1,0 +1,25 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: P2Proxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/p2proxy
+  labels:
+    testing.upbound.io/example-name: eclipse
+  name: eclipse
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: eclipse
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://download.eclipse.org/releases/2019-09
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true

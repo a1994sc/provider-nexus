@@ -134,6 +134,50 @@ func Configure(p *config.Provider) {
 		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
 	})
 
+	p.AddResourceConfigurator("nexus_repository_npm_group", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_npm_hosted", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_npm_proxy", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+
+		// Allow for the username to be set via a secret
+		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
+	})
+
+	p.AddResourceConfigurator("nexus_repository_nuget_group", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_nuget_hosted", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+	})
+
+	p.AddResourceConfigurator("nexus_repository_nuget_proxy", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+
+		// Allow for the username to be set via a secret
+		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
+	})
+
+	p.AddResourceConfigurator("nexus_repository_p2_proxy", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		r.ShortGroup = Group
+
+		// Allow for the username to be set via a secret
+		r.TerraformResource.Schema["http_client"].Elem.(*schema.Resource).Schema["authentication"].Elem.(*schema.Resource).Schema["username"].Sensitive = true
+	})
+
 	p.AddResourceConfigurator("nexus_repository_raw_group", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		r.ShortGroup = Group
