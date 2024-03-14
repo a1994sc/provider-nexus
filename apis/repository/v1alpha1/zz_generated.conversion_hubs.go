@@ -68,6 +68,27 @@ func (tr *MavenHosted) Hub() {}
 func (tr *MavenProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *NpmGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NpmHosted) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NpmProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NugetGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NugetHosted) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NugetProxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *P2Proxy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RawGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.

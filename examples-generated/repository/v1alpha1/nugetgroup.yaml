@@ -1,0 +1,68 @@
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: NugetGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/nugetgroup
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    group:
+    - memberNames:
+      - ${nexus_repository_nuget_hosted.internal.name}
+      - ${nexus_repository_nuget_proxy.nuget_org.name}
+    name: nuget-group
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: NugetHosted
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/nugetgroup
+  labels:
+    testing.upbound.io/example-name: internal
+  name: internal
+spec:
+  forProvider:
+    name: internal
+    online: true
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
+      writePolicy: ALLOW
+
+---
+
+apiVersion: repository.nexus.adrp.xyz/v1alpha1
+kind: NugetProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: repository/v1alpha1/nugetgroup
+  labels:
+    testing.upbound.io/example-name: nuget_org
+  name: nuget-org
+spec:
+  forProvider:
+    httpClient:
+    - autoBlock: true
+      blocked: false
+    name: nuget-org
+    negativeCache:
+    - enabled: true
+      ttl: 1440
+    nugetVersion: V3
+    online: true
+    proxy:
+    - contentMaxAge: 1440
+      metadataMaxAge: 1440
+      remoteUrl: https://api.nuget.org/v3/index.json
+    queryCacheItemMaxAge: 3600
+    storage:
+    - blobStoreName: default
+      strictContentTypeValidation: true
