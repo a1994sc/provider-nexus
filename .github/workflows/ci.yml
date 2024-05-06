@@ -114,7 +114,7 @@ jobs:
     # We could run 'make lint' but we prefer this action because it leaves
     # 'annotations' (i.e. it comments on PRs to point out linter violations).
     - name: Lint
-      uses: golangci/golangci-lint-action@9d1e0624a798bb64f6c3cea93db47765312263dc # v5
+      uses: golangci/golangci-lint-action@38e1018663fa5173f3968ea0777460d3de38f256 # v5
       with:
         version: ${{ env.GOLANGCI_VERSION }}
 
