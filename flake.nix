@@ -41,7 +41,8 @@
           }
         );
         shellHook = ''
-          unset GOROOT;
+          GOROOT="$(dirname $(dirname $(which go)))/share/go"
+          export GOROOT
           unset GOPATH;
         '';
         podmanSetupScript =
