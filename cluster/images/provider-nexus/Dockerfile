@@ -1,4 +1,4 @@
-FROM alpine:3.19.1
+FROM docker.io/library/alpine:3.19.1
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS
