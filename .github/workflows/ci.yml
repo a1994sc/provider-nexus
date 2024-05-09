@@ -51,7 +51,7 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
     steps:
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
@@ -81,7 +81,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
@@ -125,7 +125,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
@@ -168,7 +168,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
@@ -217,7 +217,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
@@ -284,7 +284,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Checkout
-      uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       with:
         submodules: true
 
