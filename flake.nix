@@ -42,7 +42,11 @@
         );
         shellHook = ''
           GOROOT="$(dirname $(dirname $(which go)))/share/go"
+          DOCKER_HOST="unix://$(podman info | yq .host.remoteSocket.path)"
+          BUILD_REGISTRY="ghcr.io"
           export GOROOT
+          export DOCKER_HOST
+          export BUILD_REGISTRY
           unset GOPATH;
         '';
         podmanSetupScript =
