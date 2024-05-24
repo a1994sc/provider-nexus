@@ -7,7 +7,7 @@ require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/crossplane/crossplane-runtime v1.16.0
 	github.com/crossplane/crossplane-tools v0.0.0-20240516011917-bfb5045f0903
-	github.com/crossplane/upjet v1.3.0
+	github.com/crossplane/upjet v1.4.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.34.0
 	github.com/pkg/errors v0.9.1
 	k8s.io/apimachinery v0.30.1
