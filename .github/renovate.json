@@ -16,8 +16,11 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["go"],
-      "addLabels": ["renovate/go"]
+      "matchDatasources": [ "go" ],
+      "addLabels": [ "renovate/go" ],
+      "groupName": "all dependencies",
+      "groupSlug": "all",
+      "matchPackagePatterns": [ "*" ]
     },
     {
       "matchManagers": ["github-actions"],
@@ -42,5 +45,6 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
       "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)"
     }
-  ]
+  ],
+  "separateMajorMinor": false
 }
