@@ -24,11 +24,10 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "addLabels": ["renovate/github-action"]
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "matchDepNames": ["hashicorp/terraform"]
+      "addLabels": ["renovate/github-action"],
+      "groupName": "all dependencies",
+      "groupSlug": "all",
+      "matchPackagePatterns": [ "*" ]
     },
     {
       "matchManagers": ["github-actions"],
