@@ -51,13 +51,13 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
     - name: Get modified CRDs
       id: modified-crds
-      uses: tj-actions/changed-files@03334d095e2739fa9ac4034ec16f66d5d01e9eba # v44
+      uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4 # v44
       with:
         files: |
           package/crds/**
@@ -81,7 +81,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
@@ -125,7 +125,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
@@ -168,7 +168,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
@@ -205,7 +205,7 @@ jobs:
       run: make -j2 test
 
     - name: Publish Unit Test Coverage
-      uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c # v4
+      uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4
       with:
         flags: unittests
         file: _output/tests/linux_amd64/coverage.txt
@@ -217,7 +217,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
@@ -277,14 +277,14 @@ jobs:
         install: true
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3
+      uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       with:
         submodules: true
 
@@ -355,7 +355,7 @@ jobs:
       uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3
+      uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
