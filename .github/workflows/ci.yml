@@ -33,7 +33,7 @@ env:
 
 jobs:
   detect-noop:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       noop: ${{ steps.noop.outputs.should_skip }}
     steps:
@@ -45,94 +45,65 @@ jobs:
         paths_ignore: '["**.md", "**.png", "**.jpg"]'
         do_not_skip: '["workflow_dispatch", "schedule", "push"]'
 
-  report-breaking-changes:
-    runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
-    steps:
-    - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
-      with:
-        submodules: true
-
-    - name: Get modified CRDs
-      id: modified-crds
-      uses: tj-actions/changed-files@03334d095e2739fa9ac4034ec16f66d5d01e9eba # v44
-      with:
-        files: |
-          package/crds/**
-
-    - name: Report breaking CRD OpenAPI v3 schema changes
-      if: steps.modified-crds.outputs.any_changed == 'true'
-      env:
-        MODIFIED_CRD_LIST: ${{ steps.modified-crds.outputs.all_changed_files }}
-      run: |
-        make crddiff
-
-    - name: Report native schema version changes
-      if: ${{ inputs.upjet-based-provider }}
-      run: |
-        make schema-version-diff
-
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         submodules: true
 
     - name: Setup Go
-      uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
       with:
-        go-version-file: go.mod
+        go-version: ${{ env.GO_VERSION }}
 
     - name: Find the Go Build Cache
       id: go
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-lint-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-lint-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-pkg-
 
     - name: Vendor Dependencies
-      run: make go.vendor.check
+      run: make vendor vendor.check
 
     # We could run 'make lint' but we prefer this action because it leaves
     # 'annotations' (i.e. it comments on PRs to point out linter violations).
     - name: Lint
-      uses: golangci/golangci-lint-action@a4f60bb28d35aeee14e6880718e0c85ff1882e64 # v6
+      uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
       with:
         version: ${{ env.GOLANGCI_VERSION }}
 
   check-diff:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         submodules: true
 
     - name: Setup Go
-      uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
       with:
-        go-version-file: go.mod
+        go-version: ${{ env.GO_VERSION }}
 
     - name: Install goimports
       run: go install golang.org/x/tools/cmd/goimports
@@ -142,33 +113,33 @@ jobs:
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-check-diff-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-check-diff-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-pkg-
 
     - name: Vendor Dependencies
-      run: make go.vendor.check
+      run: make vendor vendor.check
 
     - name: Check Diff
       run: make check-diff
 
   unit-tests:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         submodules: true
 
@@ -176,48 +147,48 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
       with:
-        go-version-file: go.mod
+        go-version: ${{ env.GO_VERSION }}
 
     - name: Find the Go Build Cache
       id: go
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-unit-tests-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-unit-tests-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-pkg-
 
     - name: Vendor Dependencies
-      run: make go.vendor.check
+      run: make vendor vendor.check
 
     - name: Run Unit Tests
       run: make -j2 test
 
-    - name: Publish Unit Test Coverage
-      uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c # v4
-      with:
-        flags: unittests
-        file: _output/tests/linux_amd64/coverage.txt
+    # - name: Publish Unit Test Coverage
+    #   uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
+    #   with:
+    #     flags: unittests
+    #     file: _output/tests/linux_amd64/coverage.txt
 
   local-deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         submodules: true
 
@@ -225,36 +196,36 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
       with:
-        go-version-file: go.mod
+        go-version: ${{ env.GO_VERSION }}
 
     - name: Find the Go Build Cache
       id: go
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-unit-tests-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-unit-tests-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-pkg-
 
     - name: Vendor Dependencies
-      run: make go.vendor.check
+      run: make vendor vendor.check
 
     - name: Deploying locally built provider package
       run: make local-deploy
 
   publish-artifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'
 
@@ -266,25 +237,25 @@ jobs:
 
     steps:
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3
+      uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3.2.0
       with:
         platforms: all
 
     - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3
+      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
       with:
         version: ${{ env.DOCKER_BUILDX_VERSION }}
         install: true
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3
+      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.3.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         submodules: true
 
@@ -292,9 +263,9 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5
+      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
       with:
-        go-version-file: go.mod
+        go-version: ${{ env.GO_VERSION }}
 
     - name: Find the Go Build Cache
       id: go
@@ -305,14 +276,14 @@ jobs:
       run: make common.buildvars >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-publish-artifacts-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-publish-artifacts-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -342,7 +313,7 @@ jobs:
         command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
   sign-artifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: publish-artifacts
     if: github.event_name != 'pull_request'
 
@@ -355,7 +326,7 @@ jobs:
       uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3
+      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.3.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
