@@ -84,12 +84,7 @@
             buildInputs = with pkgs; [
               dockerCompat
               unzip
-              podman # Docker compat
-              runc # Container runtime
-              conmon # Container runtime monitor
-              skopeo # Interact with container registry
-              slirp4netns # User-mode networking for unprivileged namespaces
-              fuse-overlayfs # CoW for images, much faster than default vfs
+              golangci-lint
               crane # Manipulate oci repos
               upbound # used to build crossplane artifacts
             ];
