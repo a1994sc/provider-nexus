@@ -34,8 +34,10 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BowerProxy is the Schema for the BowerProxys API. Use this resource
-          to create an bower proxy repository.
+        description: BowerProxy is the Schema for the BowerProxys API. !> This resource
+          is deprecated and will be removed in the next major release of this provider.
+          Bower repositories were removed in Nexus 3.71.0. Use this resource to create
+          an bower proxy repository.
         properties:
           apiVersion:
             description: |-
@@ -213,7 +215,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:
@@ -401,7 +403,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:
@@ -650,6 +652,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.negativeCache is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.negativeCache)
+                || (has(self.initProvider) && has(self.initProvider.negativeCache))'
             - message: spec.forProvider.proxy is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.proxy)
@@ -772,7 +778,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:

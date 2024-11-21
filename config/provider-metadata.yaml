@@ -580,7 +580,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -604,7 +604,7 @@ resources:
               terraform import nexus_repository_apt_proxy.bionic_proxy bionic-proxy
     nexus_repository_bower_group:
         subCategory: Repository
-        description: Use this resource to create a group bower repository.
+        description: '!> This resource is deprecated and will be removed in the next major release of this provider. Bower repositories were removed in Nexus 3.71.0. Use this resource to create a group bower repository.'
         name: nexus_repository_bower_group
         title: Resource nexus_repository_bower_group
         examples:
@@ -676,7 +676,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -687,7 +687,7 @@ resources:
               terraform import nexus_repository_bower_group.group bower-group
     nexus_repository_bower_hosted:
         subCategory: Repository
-        description: Use this resource to create a hosted Bower repository.
+        description: '!> This resource is deprecated and will be removed in the next major release of this provider. Bower repositories were removed in Nexus 3.71.0. Use this resource to create a hosted Bower repository.'
         name: nexus_repository_bower_hosted
         title: Resource nexus_repository_bower_hosted
         examples:
@@ -722,7 +722,7 @@ resources:
               terraform import nexus_repository_bower_hosted.internal bower-internal
     nexus_repository_bower_proxy:
         subCategory: Repository
-        description: Use this resource to create an bower proxy repository.
+        description: '!> This resource is deprecated and will be removed in the next major release of this provider. Bower repositories were removed in Nexus 3.71.0. Use this resource to create an bower proxy repository.'
         name: nexus_repository_bower_proxy
         title: Resource nexus_repository_bower_proxy
         examples:
@@ -773,7 +773,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -848,7 +848,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -922,7 +922,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -996,7 +996,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1124,7 +1124,7 @@ resources:
             http_port: (Number) Create an HTTP connector at specified port
             https_port: (Number) Create an HTTPS connector at specified port
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -1171,11 +1171,12 @@ resources:
             http_port: (Number) Create an HTTP connector at specified port
             https_port: (Number) Create an HTTPS connector at specified port
             id: (String) Used to identify resource at nexus
+            latest_policy: (Boolean) Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             policy_names: (Set of String) List of policy names
             proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
-            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository docker hosted (see below for nested schema)'
             strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
             subdomain: '(String) Pro-only: Whether to allow clients to use subdomain routing connector'
             v1_enabled: (Boolean) Whether to allow clients to use the V1 API to interact with this repository
@@ -1238,6 +1239,7 @@ resources:
             auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
             blob_store_name: (String) Blob store used to store repository contents
             blocked: (Boolean) Whether to block outbound connections on the repository
+            cache_foreign_layers: (Boolean) Allow Nexus Repository Manager to download and cache foreign layers
             cleanup: (Block List) Cleanup policies (see below for nested schema)
             connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
             content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
@@ -1247,6 +1249,7 @@ resources:
             enable_cookies: (Boolean) Whether to allow cookies to be stored and used
             enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
             force_basic_auth: (Boolean) Whether to force authentication (Docker Bearer Token Realm required if false)
+            foreign_layer_url_whitelist: (Set of String) A set of regular expressions used to identify URLs that are allowed for foreign layer requests
             http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
             http_port: (Number) Create an HTTP connector at specified port
             https_port: (Number) Create an HTTPS connector at specified port
@@ -1255,7 +1258,7 @@ resources:
             index_url: (String) Url of Docker Index to use
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1374,7 +1377,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -1435,7 +1438,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1545,7 +1548,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1617,7 +1620,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -1733,7 +1736,7 @@ resources:
             maven: '(Block List, Min: 1, Max: 1) Maven contains additional data of maven repository (see below for nested schema)'
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1799,7 +1802,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -1908,7 +1911,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -1916,7 +1919,7 @@ resources:
             policy_names: (Set of String) List of policy names
             proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
             remote_url: (String) Location of the remote repository being proxied
-            remove_non_cataloged: (Boolean) Remove non-catalogued versions from the npm package metadata.
+            remove_non_cataloged: (Boolean, Deprecated) Remove non-catalogued versions from the npm package metadata.
             remove_quarantined: (Boolean) Remove quarantined versions from the npm package metadata.
             retries: (Number) Total retries if the initial connection attempt suffers a timeout
             routing_rule: (String) The name of the routing rule assigned to this repository
@@ -2007,7 +2010,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -2105,7 +2108,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             nuget_version: (String) Nuget protocol version
@@ -2181,7 +2184,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -2276,7 +2279,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -2372,7 +2375,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -2467,7 +2470,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -2563,7 +2566,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -2627,7 +2630,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -2723,7 +2726,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -2819,7 +2822,7 @@ resources:
             blob_store_name: (String) Blob store used to store repository contents
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
@@ -2915,7 +2918,7 @@ resources:
             id: (String) Used to identify resource at nexus
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -2981,7 +2984,7 @@ resources:
             group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
             id: (String) Used to identify resource at nexus
             keypair: (String, Sensitive) PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-            member_names: (Set of String) Member repositories names
+            member_names: (List of String) Member repositories names
             name: (String) A unique identifier for this repository
             online: (Boolean) Whether this repository accepts incoming requests
             passphrase: (String, Sensitive) Passphrase to access PGP signing key
@@ -3096,7 +3099,7 @@ resources:
             keypair: (String, Sensitive) PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
             metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
             name: (String) A unique identifier for this repository
-            negative_cache: '(Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
             ntlm_domain: (String) The ntlm domain to connect
             ntlm_host: (String) The ntlm host to connect
             online: (Boolean) Whether this repository accepts incoming requests
@@ -3415,8 +3418,10 @@ resources:
             - name: ldap_cert
               manifest: |-
                 {
-                  "pem": "${file(\"${path.module}/cert.pem\")}"
+                  "pem": "${data.nexus_security_ssl.ldap_cert.pem}"
                 }
+              references:
+                pem: data.nexus_security_ssl.ldap_cert.pem
         argumentDocs:
             fingerprint: (String) The fingerprint of the cert
             id: (String) Used to identify resource at nexus
@@ -3468,6 +3473,8 @@ resources:
                 }
         argumentDocs:
             enabled: (Boolean) Activate the feature of user tokens.
+            expiration_days: (Number) Number of days for which you want user tokens to remain valid.
+            expiration_enabled: (Boolean) Set user tokens expiration.
             id: (String) Used to identify resource at nexus
             protect_content: (Boolean) Require user tokens for repository authentication. This does not effect UI access.
         importStatements:

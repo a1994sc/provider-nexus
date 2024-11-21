@@ -15,21 +15,21 @@ import (
 
 type NugetGroupGroupInitParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
 type NugetGroupGroupObservation struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
 type NugetGroupGroupParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`

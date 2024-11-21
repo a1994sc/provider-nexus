@@ -275,7 +275,7 @@ type MavenProxyInitParameters struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []MavenProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -371,12 +371,12 @@ type MavenProxyNegativeCacheParameters struct {
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
 	// How long to cache the fact that a file was not found in the repository (in minutes)
 	// +kubebuilder:validation:Optional
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	TTL *float64 `json:"ttl" tf:"ttl,omitempty"`
 }
 
 type MavenProxyObservation struct {
@@ -400,7 +400,7 @@ type MavenProxyObservation struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []MavenProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -443,7 +443,7 @@ type MavenProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
 	NegativeCache []MavenProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
@@ -591,6 +591,7 @@ type MavenProxy struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.maven) || (has(self.initProvider) && has(self.initProvider.maven))",message="spec.forProvider.maven is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.negativeCache) || (has(self.initProvider) && has(self.initProvider.negativeCache))",message="spec.forProvider.negativeCache is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
 	Spec   MavenProxySpec   `json:"spec"`

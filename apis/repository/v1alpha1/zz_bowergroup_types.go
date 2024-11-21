@@ -114,21 +114,21 @@ type BowerGroupStorageParameters struct {
 
 type GroupInitParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
 type GroupObservation struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 }
 
 type GroupParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
@@ -161,7 +161,7 @@ type BowerGroupStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BowerGroup is the Schema for the BowerGroups API. Use this resource to create a group bower repository.
+// BowerGroup is the Schema for the BowerGroups API. !> This resource is deprecated and will be removed in the next major release of this provider. Bower repositories were removed in Nexus 3.71.0. Use this resource to create a group bower repository.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -212,7 +212,7 @@ type BowerHostedStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BowerHosted is the Schema for the BowerHosteds API. Use this resource to create a hosted Bower repository.
+// BowerHosted is the Schema for the BowerHosteds API. !> This resource is deprecated and will be removed in the next major release of this provider. Bower repositories were removed in Nexus 3.71.0. Use this resource to create a hosted Bower repository.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -34,8 +34,10 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BowerHosted is the Schema for the BowerHosteds API. Use this
-          resource to create a hosted Bower repository.
+        description: BowerHosted is the Schema for the BowerHosteds API. !> This resource
+          is deprecated and will be removed in the next major release of this provider.
+          Bower repositories were removed in Nexus 3.71.0. Use this resource to create
+          a hosted Bower repository.
         properties:
           apiVersion:
             description: |-

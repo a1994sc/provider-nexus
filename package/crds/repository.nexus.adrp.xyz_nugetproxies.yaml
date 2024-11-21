@@ -213,7 +213,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:
@@ -406,7 +406,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:
@@ -660,6 +660,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.negativeCache is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.negativeCache)
+                || (has(self.initProvider) && has(self.initProvider.negativeCache))'
             - message: spec.forProvider.nugetVersion is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.nugetVersion)
@@ -786,7 +790,7 @@ spec:
                     type: string
                   negativeCache:
                     description: |-
-                      (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+                      (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
                       Configuration of the negative cache handling
                     items:
                       properties:

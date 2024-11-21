@@ -114,6 +114,15 @@ type DockerProxyDockerParameters struct {
 
 type DockerProxyDockerProxyInitParameters struct {
 
+	// (Boolean) Allow Nexus Repository Manager to download and cache foreign layers
+	// Allow Nexus Repository Manager to download and cache foreign layers
+	CacheForeignLayers *bool `json:"cacheForeignLayers,omitempty" tf:"cache_foreign_layers,omitempty"`
+
+	// (Set of String) A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// +listType=set
+	ForeignLayerURLWhitelist []*string `json:"foreignLayerUrlWhitelist,omitempty" tf:"foreign_layer_url_whitelist,omitempty"`
+
 	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
 	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
 	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
@@ -125,6 +134,15 @@ type DockerProxyDockerProxyInitParameters struct {
 
 type DockerProxyDockerProxyObservation struct {
 
+	// (Boolean) Allow Nexus Repository Manager to download and cache foreign layers
+	// Allow Nexus Repository Manager to download and cache foreign layers
+	CacheForeignLayers *bool `json:"cacheForeignLayers,omitempty" tf:"cache_foreign_layers,omitempty"`
+
+	// (Set of String) A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// +listType=set
+	ForeignLayerURLWhitelist []*string `json:"foreignLayerUrlWhitelist,omitempty" tf:"foreign_layer_url_whitelist,omitempty"`
+
 	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
 	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
 	IndexType *string `json:"indexType,omitempty" tf:"index_type,omitempty"`
@@ -135,6 +153,17 @@ type DockerProxyDockerProxyObservation struct {
 }
 
 type DockerProxyDockerProxyParameters struct {
+
+	// (Boolean) Allow Nexus Repository Manager to download and cache foreign layers
+	// Allow Nexus Repository Manager to download and cache foreign layers
+	// +kubebuilder:validation:Optional
+	CacheForeignLayers *bool `json:"cacheForeignLayers,omitempty" tf:"cache_foreign_layers,omitempty"`
+
+	// (Set of String) A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// A set of regular expressions used to identify URLs that are allowed for foreign layer requests
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ForeignLayerURLWhitelist []*string `json:"foreignLayerUrlWhitelist,omitempty" tf:"foreign_layer_url_whitelist,omitempty"`
 
 	// (String) Type of Docker Index. Possible values: HUB, REGISTRY or CUSTOM
 	// Type of Docker Index. Possible values: `HUB`, `REGISTRY` or `CUSTOM`
@@ -375,7 +404,7 @@ type DockerProxyInitParameters struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []DockerProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -423,12 +452,12 @@ type DockerProxyNegativeCacheParameters struct {
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
 	// How long to cache the fact that a file was not found in the repository (in minutes)
 	// +kubebuilder:validation:Optional
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	TTL *float64 `json:"ttl" tf:"ttl,omitempty"`
 }
 
 type DockerProxyObservation struct {
@@ -456,7 +485,7 @@ type DockerProxyObservation struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []DockerProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -504,7 +533,7 @@ type DockerProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
 	NegativeCache []DockerProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
@@ -653,6 +682,7 @@ type DockerProxy struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dockerProxy) || (has(self.initProvider) && has(self.initProvider.dockerProxy))",message="spec.forProvider.dockerProxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.negativeCache) || (has(self.initProvider) && has(self.initProvider.negativeCache))",message="spec.forProvider.negativeCache is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
 	Spec   DockerProxySpec   `json:"spec"`

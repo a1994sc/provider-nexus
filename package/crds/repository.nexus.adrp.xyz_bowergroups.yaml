@@ -34,8 +34,10 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BowerGroup is the Schema for the BowerGroups API. Use this resource
-          to create a group bower repository.
+        description: BowerGroup is the Schema for the BowerGroups API. !> This resource
+          is deprecated and will be removed in the next major release of this provider.
+          Bower repositories were removed in Nexus 3.71.0. Use this resource to create
+          a group bower repository.
         properties:
           apiVersion:
             description: |-
@@ -81,7 +83,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string
@@ -138,7 +140,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string
@@ -367,7 +369,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string

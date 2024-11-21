@@ -9,6 +9,6 @@ metadata:
 spec:
   forProvider:
     pemSecretRef:
-      key: attribute.cert.pem
-      name: example-secret
+      key: attribute.ldap_cert.pem
+      name: example-
       namespace: upbound-system

@@ -19,6 +19,14 @@ type UserTokenInitParameters struct {
 	// Activate the feature of user tokens.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
+	// (Number) Number of days for which you want user tokens to remain valid.
+	// Number of days for which you want user tokens to remain valid.
+	ExpirationDays *float64 `json:"expirationDays,omitempty" tf:"expiration_days,omitempty"`
+
+	// (Boolean) Set user tokens expiration.
+	// Set user tokens expiration.
+	ExpirationEnabled *bool `json:"expirationEnabled,omitempty" tf:"expiration_enabled,omitempty"`
+
 	// (Boolean) Require user tokens for repository authentication. This does not effect UI access.
 	// Require user tokens for repository authentication. This does not effect UI access.
 	ProtectContent *bool `json:"protectContent,omitempty" tf:"protect_content,omitempty"`
@@ -29,6 +37,14 @@ type UserTokenObservation struct {
 	// (Boolean) Activate the feature of user tokens.
 	// Activate the feature of user tokens.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Number) Number of days for which you want user tokens to remain valid.
+	// Number of days for which you want user tokens to remain valid.
+	ExpirationDays *float64 `json:"expirationDays,omitempty" tf:"expiration_days,omitempty"`
+
+	// (Boolean) Set user tokens expiration.
+	// Set user tokens expiration.
+	ExpirationEnabled *bool `json:"expirationEnabled,omitempty" tf:"expiration_enabled,omitempty"`
 
 	// (String) Used to identify resource at nexus
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -44,6 +60,16 @@ type UserTokenParameters struct {
 	// Activate the feature of user tokens.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Number) Number of days for which you want user tokens to remain valid.
+	// Number of days for which you want user tokens to remain valid.
+	// +kubebuilder:validation:Optional
+	ExpirationDays *float64 `json:"expirationDays,omitempty" tf:"expiration_days,omitempty"`
+
+	// (Boolean) Set user tokens expiration.
+	// Set user tokens expiration.
+	// +kubebuilder:validation:Optional
+	ExpirationEnabled *bool `json:"expirationEnabled,omitempty" tf:"expiration_enabled,omitempty"`
 
 	// (Boolean) Require user tokens for repository authentication. This does not effect UI access.
 	// Require user tokens for repository authentication. This does not effect UI access.

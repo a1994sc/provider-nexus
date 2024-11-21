@@ -156,8 +156,8 @@ type DockerHostedInitParameters struct {
 	// Whether this repository accepts incoming requests
 	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
 
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository docker hosted (see below for nested schema)
+	// The storage configuration of the repository docker hosted
 	Storage []DockerHostedStorageInitParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
@@ -186,8 +186,8 @@ type DockerHostedObservation struct {
 	// Whether this repository accepts incoming requests
 	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
 
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository docker hosted (see below for nested schema)
+	// The storage configuration of the repository docker hosted
 	Storage []DockerHostedStorageObservation `json:"storage,omitempty" tf:"storage,omitempty"`
 }
 
@@ -218,8 +218,8 @@ type DockerHostedParameters struct {
 	// +kubebuilder:validation:Optional
 	Online *bool `json:"online,omitempty" tf:"online,omitempty"`
 
-	// (Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)
-	// The storage configuration of the repository
+	// (Block List, Min: 1, Max: 1) The storage configuration of the repository docker hosted (see below for nested schema)
+	// The storage configuration of the repository docker hosted
 	// +kubebuilder:validation:Optional
 	Storage []DockerHostedStorageParameters `json:"storage,omitempty" tf:"storage,omitempty"`
 }
@@ -229,6 +229,10 @@ type DockerHostedStorageInitParameters struct {
 	// (String) Blob store used to store repository contents
 	// Blob store used to store repository contents
 	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	// Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	LatestPolicy *bool `json:"latestPolicy,omitempty" tf:"latest_policy,omitempty"`
 
 	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
 	// Whether to validate uploaded content's MIME type appropriate for the repository format
@@ -245,6 +249,10 @@ type DockerHostedStorageObservation struct {
 	// Blob store used to store repository contents
 	BlobStoreName *string `json:"blobStoreName,omitempty" tf:"blob_store_name,omitempty"`
 
+	// (Boolean) Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	// Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	LatestPolicy *bool `json:"latestPolicy,omitempty" tf:"latest_policy,omitempty"`
+
 	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
 	// Whether to validate uploaded content's MIME type appropriate for the repository format
 	StrictContentTypeValidation *bool `json:"strictContentTypeValidation,omitempty" tf:"strict_content_type_validation,omitempty"`
@@ -260,6 +268,11 @@ type DockerHostedStorageParameters struct {
 	// Blob store used to store repository contents
 	// +kubebuilder:validation:Optional
 	BlobStoreName *string `json:"blobStoreName" tf:"blob_store_name,omitempty"`
+
+	// (Boolean) Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	// Whether to allow redeploying the 'latest' tag but defer to the Deployment Policy for all other tags. Only usable with write_policy "ALLOW_ONCE"
+	// +kubebuilder:validation:Optional
+	LatestPolicy *bool `json:"latestPolicy,omitempty" tf:"latest_policy,omitempty"`
 
 	// (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
 	// Whether to validate uploaded content's MIME type appropriate for the repository format

@@ -258,7 +258,7 @@ type P2ProxyInitParameters struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []P2ProxyNegativeCacheInitParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -306,12 +306,12 @@ type P2ProxyNegativeCacheParameters struct {
 	// (Boolean) Whether to cache responses for content not present in the proxied repository
 	// Whether to cache responses for content not present in the proxied repository
 	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// (Number) How long to cache the fact that a file was not found in the repository (in minutes)
 	// How long to cache the fact that a file was not found in the repository (in minutes)
 	// +kubebuilder:validation:Optional
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	TTL *float64 `json:"ttl" tf:"ttl,omitempty"`
 }
 
 type P2ProxyObservation struct {
@@ -331,7 +331,7 @@ type P2ProxyObservation struct {
 	// A unique identifier for this repository
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	NegativeCache []P2ProxyNegativeCacheObservation `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
 
@@ -369,7 +369,7 @@ type P2ProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Block List, Max: 1) Configuration of the negative cache handling (see below for nested schema)
+	// (Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)
 	// Configuration of the negative cache handling
 	// +kubebuilder:validation:Optional
 	NegativeCache []P2ProxyNegativeCacheParameters `json:"negativeCache,omitempty" tf:"negative_cache,omitempty"`
@@ -516,6 +516,7 @@ type P2Proxy struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.httpClient) || (has(self.initProvider) && has(self.initProvider.httpClient))",message="spec.forProvider.httpClient is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.negativeCache) || (has(self.initProvider) && has(self.initProvider.negativeCache))",message="spec.forProvider.negativeCache is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.proxy) || (has(self.initProvider) && has(self.initProvider.proxy))",message="spec.forProvider.proxy is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.storage) || (has(self.initProvider) && has(self.initProvider.storage))",message="spec.forProvider.storage is a required parameter"
 	Spec   P2ProxySpec   `json:"spec"`

@@ -81,7 +81,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string
@@ -143,7 +143,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string
@@ -377,7 +377,7 @@ spec:
                       properties:
                         memberNames:
                           description: |-
-                            (Set of String) Member repositories names
+                            (List of String) Member repositories names
                             Member repositories names
                           items:
                             type: string

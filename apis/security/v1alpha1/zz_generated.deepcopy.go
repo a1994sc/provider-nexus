@@ -2301,6 +2301,16 @@ func (in *UserTokenInitParameters) DeepCopyInto(out *UserTokenInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExpirationDays != nil {
+		in, out := &in.ExpirationDays, &out.ExpirationDays
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ExpirationEnabled != nil {
+		in, out := &in.ExpirationEnabled, &out.ExpirationEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProtectContent != nil {
 		in, out := &in.ProtectContent, &out.ProtectContent
 		*out = new(bool)
@@ -2358,6 +2368,16 @@ func (in *UserTokenObservation) DeepCopyInto(out *UserTokenObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExpirationDays != nil {
+		in, out := &in.ExpirationDays, &out.ExpirationDays
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ExpirationEnabled != nil {
+		in, out := &in.ExpirationEnabled, &out.ExpirationEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -2385,6 +2405,16 @@ func (in *UserTokenParameters) DeepCopyInto(out *UserTokenParameters) {
 	*out = *in
 	if in.Enabled != nil {
 		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ExpirationDays != nil {
+		in, out := &in.ExpirationDays, &out.ExpirationDays
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ExpirationEnabled != nil {
+		in, out := &in.ExpirationEnabled, &out.ExpirationEnabled
 		*out = new(bool)
 		**out = **in
 	}

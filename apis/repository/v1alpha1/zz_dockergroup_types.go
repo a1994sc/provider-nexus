@@ -15,7 +15,7 @@ import (
 
 type DockerGroupGroupInitParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 
@@ -26,7 +26,7 @@ type DockerGroupGroupInitParameters struct {
 
 type DockerGroupGroupObservation struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	MemberNames []*string `json:"memberNames,omitempty" tf:"member_names,omitempty"`
 
@@ -37,7 +37,7 @@ type DockerGroupGroupObservation struct {
 
 type DockerGroupGroupParameters struct {
 
-	// (Set of String) Member repositories names
+	// (List of String) Member repositories names
 	// Member repositories names
 	// +kubebuilder:validation:Optional
 	MemberNames []*string `json:"memberNames" tf:"member_names,omitempty"`
