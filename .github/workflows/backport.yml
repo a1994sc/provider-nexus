@@ -12,4 +12,4 @@ on:
 
 jobs:
   backport:
-    uses: upbound/official-providers-ci/.github/workflows/provider-backport.yml@main
+    uses: upbound/official-providers-ci/.github/workflows/provider-backport.yml@44c3fe875827c37d9621c0b9221052313738fd6f #v0.12.0

@@ -16,9 +16,9 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: '1.22'
-  GOLANGCI_VERSION: 'v1.56.2'
-  DOCKER_BUILDX_VERSION: 'v0.8.2'
+  GO_VERSION: '1.23'
+  GOLANGCI_VERSION: 'v1.61.0'
+  DOCKER_BUILDX_VERSION: 'v0.18.0'
 
   PROVIDER: provider-nexus
 
@@ -57,7 +57,7 @@ jobs:
         submodules: true
 
     - name: Setup Go
-      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
+      uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed # v5.1.0
       with:
         go-version: ${{ env.GO_VERSION }}
 
@@ -101,7 +101,7 @@ jobs:
         submodules: true
 
     - name: Setup Go
-      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
+      uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed # v5.1.0
       with:
         go-version: ${{ env.GO_VERSION }}
 
@@ -147,7 +147,7 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
+      uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed # v5.1.0
       with:
         go-version: ${{ env.GO_VERSION }}
 
@@ -196,7 +196,7 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
+      uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed # v5.1.0
       with:
         go-version: ${{ env.GO_VERSION }}
 
@@ -248,7 +248,7 @@ jobs:
         install: true
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.3.0
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -263,7 +263,7 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: Setup Go
-      uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.1.0
+      uses: actions/setup-go@41dfa10bad2bb2ae585af6ee5bb4d7d973ad74ed # v5.1.0
       with:
         go-version: ${{ env.GO_VERSION }}
 
@@ -323,10 +323,10 @@ jobs:
 
     steps:
     - name: Install cosign
-      uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+      uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
 
     - name: Login to ghcr.io
-      uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.3.0
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
