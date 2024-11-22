@@ -21,7 +21,7 @@ func (mg *NpmProxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this NpmProxy
 func (tr *NpmProxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "httpClient[*].authentication[*].usernameSecretRef"}
 }
 
 // GetObservation of this NpmProxy

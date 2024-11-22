@@ -330,11 +330,68 @@ spec:
                             Additional security configurations
                           items:
                             properties:
+                              accessKeyIdSecretRef:
+                                description: |-
+                                  (String) An IAM access key ID for granting access to the S3 bucket
+                                  An IAM access key ID for granting access to the S3 bucket
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                               role:
                                 description: |-
                                   (String) An IAM role to assume in order to access the S3 bucket
                                   An IAM role to assume in order to access the S3 bucket
                                 type: string
+                              secretAccessKeySecretRef:
+                                description: |-
+                                  (String, Sensitive) The secret access key associated with the specified IAM access key ID
+                                  The secret access key associated with the specified IAM access key ID
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              sessionTokenSecretRef:
+                                description: |-
+                                  (String, Sensitive) An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
+                                  An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                             type: object
                           type: array
                         encryption:

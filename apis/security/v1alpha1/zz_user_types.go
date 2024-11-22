@@ -27,6 +27,10 @@ type UserInitParameters struct {
 	// The last name of the user.
 	Lastname *string `json:"lastname,omitempty" tf:"lastname,omitempty"`
 
+	// (String, Sensitive) The password for the user.
+	// The password for the user.
+	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+
 	// (Set of String) The roles which the user has been assigned within Nexus.
 	// The roles which the user has been assigned within Nexus.
 	// +listType=set

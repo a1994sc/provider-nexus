@@ -21,7 +21,7 @@ func (mg *YumGroup) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this YumGroup
 func (tr *YumGroup) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"yum_signing[*].keypair": "spec.forProvider.yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "spec.forProvider.yumSigning[*].passphraseSecretRef"}
+	return map[string]string{"yum_signing[*].keypair": "yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "yumSigning[*].passphraseSecretRef"}
 }
 
 // GetObservation of this YumGroup

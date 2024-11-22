@@ -164,6 +164,26 @@ type ComponentParameters struct {
 }
 
 type SigningInitParameters struct {
+
+	// -export-secret-key --armor)
+	// If passphrase is unset, the keypair cannot be read from the nexus api.
+	// When reading the resource, the keypair will be read from the previous state,
+	// so external changes won't be detected in this case.
+	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+	// If passphrase is unset, the keypair cannot be read from the nexus api.
+	// When reading the resource, the keypair will be read from the previous state,
+	// so external changes won't be detected in this case.
+	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
+
+	// (String, Sensitive) Passphrase to access PGP signing key.
+	// This value cannot be read from the nexus api.
+	// When reading the resource, the value will be read from the previous state,
+	// so external changes won't be detected.
+	// Passphrase to access PGP signing key.
+	// This value cannot be read from the nexus api.
+	// When reading the resource, the value will be read from the previous state,
+	// so external changes won't be detected.
+	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
 }
 
 type SigningObservation struct {
@@ -179,7 +199,7 @@ type SigningParameters struct {
 	// If passphrase is unset, the keypair cannot be read from the nexus api.
 	// When reading the resource, the keypair will be read from the previous state,
 	// so external changes won't be detected in this case.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
 
 	// (String, Sensitive) Passphrase to access PGP signing key.

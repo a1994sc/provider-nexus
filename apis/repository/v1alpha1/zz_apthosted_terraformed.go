@@ -21,7 +21,7 @@ func (mg *AptHosted) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this AptHosted
 func (tr *AptHosted) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"signing[*].keypair": "spec.forProvider.signing[*].keypairSecretRef", "signing[*].passphrase": "spec.forProvider.signing[*].passphraseSecretRef"}
+	return map[string]string{"signing[*].keypair": "signing[*].keypairSecretRef", "signing[*].passphrase": "signing[*].passphraseSecretRef"}
 }
 
 // GetObservation of this AptHosted

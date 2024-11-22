@@ -48,9 +48,17 @@ type YumProxyHTTPClientAuthenticationInitParameters struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
+	// (String, Sensitive) The password used by the proxy repository
+	// The password used by the proxy repository
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (String) The username used by the proxy repository
+	// The username used by the proxy repository
+	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
 type YumProxyHTTPClientAuthenticationObservation struct {
@@ -492,6 +500,14 @@ type YumProxyStorageParameters struct {
 }
 
 type YumProxyYumSigningInitParameters struct {
+
+	// -export-secret-key --armor)
+	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
+
+	// (String, Sensitive) Passphrase to access PGP signing key
+	// Passphrase to access PGP signing key
+	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
 }
 
 type YumProxyYumSigningObservation struct {
@@ -501,7 +517,7 @@ type YumProxyYumSigningParameters struct {
 
 	// -export-secret-key --armor)
 	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
 
 	// (String, Sensitive) Passphrase to access PGP signing key

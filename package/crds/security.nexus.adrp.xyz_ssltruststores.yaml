@@ -105,6 +105,28 @@ spec:
                   required on creation, but we do not desire to update them after creation,
                   for example because of an external controller is managing them, like an
                   autoscaler.
+                properties:
+                  pemSecretRef:
+                    description: |-
+                      (String) The cert in PEM format
+                      The cert in PEM format
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                required:
+                - pemSecretRef
                 type: object
               managementPolicies:
                 default:

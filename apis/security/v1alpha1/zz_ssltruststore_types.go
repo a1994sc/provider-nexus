@@ -14,6 +14,10 @@ import (
 )
 
 type SSLTruststoreInitParameters struct {
+
+	// (String) The cert in PEM format
+	// The cert in PEM format
+	PemSecretRef v1.SecretKeySelector `json:"pemSecretRef" tf:"-"`
 }
 
 type SSLTruststoreObservation struct {

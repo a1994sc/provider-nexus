@@ -148,6 +148,14 @@ type YumGroupStorageParameters struct {
 }
 
 type YumSigningInitParameters struct {
+
+	// -export-secret-key --armor)
+	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
+
+	// (String, Sensitive) Passphrase to access PGP signing key
+	// Passphrase to access PGP signing key
+	PassphraseSecretRef *v1.SecretKeySelector `json:"passphraseSecretRef,omitempty" tf:"-"`
 }
 
 type YumSigningObservation struct {
@@ -157,7 +165,7 @@ type YumSigningParameters struct {
 
 	// -export-secret-key --armor)
 	// PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeypairSecretRef v1.SecretKeySelector `json:"keypairSecretRef" tf:"-"`
 
 	// (String, Sensitive) Passphrase to access PGP signing key

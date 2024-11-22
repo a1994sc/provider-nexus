@@ -160,8 +160,6 @@ spec:
                           - name
                           - namespace
                           type: object
-                      required:
-                      - keypairSecretRef
                       type: object
                     type: array
                 type: object
@@ -226,6 +224,47 @@ spec:
                       (Block List, Max: 1) Contains signing data of repositores (see below for nested schema)
                       Contains signing data of repositores
                     items:
+                      properties:
+                        keypairSecretRef:
+                          description: |-
+                            -export-secret-key --armor)
+                            PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        passphraseSecretRef:
+                          description: |-
+                            (String, Sensitive) Passphrase to access PGP signing key
+                            Passphrase to access PGP signing key
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      required:
+                      - keypairSecretRef
                       type: object
                     type: array
                 type: object
@@ -504,8 +543,6 @@ spec:
                           - name
                           - namespace
                           type: object
-                      required:
-                      - keypairSecretRef
                       type: object
                     type: array
                 type: object

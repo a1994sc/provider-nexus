@@ -75,7 +75,9 @@ func (in *AptHostedInitParameters) DeepCopyInto(out *AptHostedInitParameters) {
 	if in.Signing != nil {
 		in, out := &in.Signing, &out.Signing
 		*out = make([]SigningInitParameters, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
@@ -774,9 +776,19 @@ func (in *AuthenticationInitParameters) DeepCopyInto(out *AuthenticationInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -2557,9 +2569,19 @@ func (in *CocoapodsProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -3581,9 +3603,19 @@ func (in *ConanProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Co
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -4545,9 +4577,19 @@ func (in *CondaProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Co
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -7033,9 +7075,19 @@ func (in *DockerProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *D
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -8873,6 +8925,11 @@ func (in *GoProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *GoPro
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Preemptive != nil {
 		in, out := &in.Preemptive, &out.Preemptive
 		*out = new(bool)
@@ -8881,6 +8938,11 @@ func (in *GoProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *GoPro
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -9825,9 +9887,19 @@ func (in *HTTPClientAuthenticationInitParameters) DeepCopyInto(out *HTTPClientAu
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -10747,6 +10819,11 @@ func (in *HelmProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Hel
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Preemptive != nil {
 		in, out := &in.Preemptive, &out.Preemptive
 		*out = new(bool)
@@ -10755,6 +10832,11 @@ func (in *HelmProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Hel
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -12671,6 +12753,11 @@ func (in *MavenProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Ma
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Preemptive != nil {
 		in, out := &in.Preemptive, &out.Preemptive
 		*out = new(bool)
@@ -12679,6 +12766,11 @@ func (in *MavenProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Ma
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -14685,9 +14777,19 @@ func (in *NpmProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *NpmP
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -16513,9 +16615,19 @@ func (in *NugetProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *Nu
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -17507,9 +17619,19 @@ func (in *P2ProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *P2Pro
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -19395,6 +19517,11 @@ func (in *RawProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *RawP
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Preemptive != nil {
 		in, out := &in.Preemptive, &out.Preemptive
 		*out = new(bool)
@@ -19403,6 +19530,11 @@ func (in *RawProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *RawP
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -21208,9 +21340,19 @@ func (in *RubygemsProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out 
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22057,6 +22199,12 @@ func (in *RubygemsProxyStorageParameters) DeepCopy() *RubygemsProxyStorageParame
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SigningInitParameters) DeepCopyInto(out *SigningInitParameters) {
 	*out = *in
+	out.KeypairSecretRef = in.KeypairSecretRef
+	if in.PassphraseSecretRef != nil {
+		in, out := &in.PassphraseSecretRef, &out.PassphraseSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SigningInitParameters.
@@ -22330,7 +22478,9 @@ func (in *YumGroupInitParameters) DeepCopyInto(out *YumGroupInitParameters) {
 	if in.YumSigning != nil {
 		in, out := &in.YumSigning, &out.YumSigning
 		*out = make([]YumSigningInitParameters, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -23196,9 +23346,19 @@ func (in *YumProxyHTTPClientAuthenticationInitParameters) DeepCopyInto(out *YumP
 		*out = new(string)
 		**out = **in
 	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
+		**out = **in
+	}
+	if in.UsernameSecretRef != nil {
+		in, out := &in.UsernameSecretRef, &out.UsernameSecretRef
+		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -23591,7 +23751,9 @@ func (in *YumProxyInitParameters) DeepCopyInto(out *YumProxyInitParameters) {
 	if in.YumSigning != nil {
 		in, out := &in.YumSigning, &out.YumSigning
 		*out = make([]YumProxyYumSigningInitParameters, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -24064,6 +24226,12 @@ func (in *YumProxyStorageParameters) DeepCopy() *YumProxyStorageParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *YumProxyYumSigningInitParameters) DeepCopyInto(out *YumProxyYumSigningInitParameters) {
 	*out = *in
+	out.KeypairSecretRef = in.KeypairSecretRef
+	if in.PassphraseSecretRef != nil {
+		in, out := &in.PassphraseSecretRef, &out.PassphraseSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new YumProxyYumSigningInitParameters.
@@ -24115,6 +24283,12 @@ func (in *YumProxyYumSigningParameters) DeepCopy() *YumProxyYumSigningParameters
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *YumSigningInitParameters) DeepCopyInto(out *YumSigningInitParameters) {
 	*out = *in
+	out.KeypairSecretRef = in.KeypairSecretRef
+	if in.PassphraseSecretRef != nil {
+		in, out := &in.PassphraseSecretRef, &out.PassphraseSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new YumSigningInitParameters.

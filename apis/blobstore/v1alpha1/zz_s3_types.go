@@ -137,9 +137,21 @@ type BucketParameters struct {
 
 type BucketSecurityInitParameters struct {
 
+	// (String) An IAM access key ID for granting access to the S3 bucket
+	// An IAM access key ID for granting access to the S3 bucket
+	AccessKeyIDSecretRef *v1.SecretKeySelector `json:"accessKeyIdSecretRef,omitempty" tf:"-"`
+
 	// (String) An IAM role to assume in order to access the S3 bucket
 	// An IAM role to assume in order to access the S3 bucket
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// (String, Sensitive) The secret access key associated with the specified IAM access key ID
+	// The secret access key associated with the specified IAM access key ID
+	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
+
+	// (String, Sensitive) An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
+	// An AWS STS session token associated with temporary security credentials which grant access to the S3 bucket
+	SessionTokenSecretRef *v1.SecretKeySelector `json:"sessionTokenSecretRef,omitempty" tf:"-"`
 }
 
 type BucketSecurityObservation struct {

@@ -15,6 +15,10 @@ import (
 
 type LdapInitParameters struct {
 
+	// (String, Sensitive) The password to bind with. Required if authScheme other than none.
+	// The password to bind with. Required if authScheme other than none.
+	AuthPasswordSecretRef *v1.SecretKeySelector `json:"authPasswordSecretRef,omitempty" tf:"-"`
+
 	// (String) The SASL realm to bind to. Required if authScheme is CRAM_MD5 or DIGEST_MD5
 	// The SASL realm to bind to. Required if authScheme is CRAM_MD5 or DIGEST_MD5
 	AuthRealm *string `json:"authRealm,omitempty" tf:"auth_realm,omitempty"`

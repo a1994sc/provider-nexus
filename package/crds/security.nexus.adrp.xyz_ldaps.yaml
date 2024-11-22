@@ -251,6 +251,25 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  authPasswordSecretRef:
+                    description: |-
+                      (String, Sensitive) The password to bind with. Required if authScheme other than none.
+                      The password to bind with. Required if authScheme other than none.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   authRealm:
                     description: |-
                       (String) The SASL realm to bind to. Required if authScheme is CRAM_MD5 or DIGEST_MD5

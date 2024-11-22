@@ -21,7 +21,7 @@ func (mg *S3) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this S3
 func (tr *S3) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"bucket_configuration[*].bucket_security[*].access_key_id": "spec.forProvider.bucketConfiguration[*].bucketSecurity[*].accessKeyIdSecretRef", "bucket_configuration[*].bucket_security[*].secret_access_key": "spec.forProvider.bucketConfiguration[*].bucketSecurity[*].secretAccessKeySecretRef", "bucket_configuration[*].bucket_security[*].session_token": "spec.forProvider.bucketConfiguration[*].bucketSecurity[*].sessionTokenSecretRef"}
+	return map[string]string{"bucket_configuration[*].bucket_security[*].access_key_id": "bucketConfiguration[*].bucketSecurity[*].accessKeyIdSecretRef", "bucket_configuration[*].bucket_security[*].secret_access_key": "bucketConfiguration[*].bucketSecurity[*].secretAccessKeySecretRef", "bucket_configuration[*].bucket_security[*].session_token": "bucketConfiguration[*].bucketSecurity[*].sessionTokenSecretRef"}
 }
 
 // GetObservation of this S3

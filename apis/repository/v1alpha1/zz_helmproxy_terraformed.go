@@ -21,7 +21,7 @@ func (mg *HelmProxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this HelmProxy
 func (tr *HelmProxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "httpClient[*].authentication[*].usernameSecretRef"}
 }
 
 // GetObservation of this HelmProxy

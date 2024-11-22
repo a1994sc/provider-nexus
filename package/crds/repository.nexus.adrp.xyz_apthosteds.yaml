@@ -173,8 +173,6 @@ spec:
                           - name
                           - namespace
                           type: object
-                      required:
-                      - keypairSecretRef
                       type: object
                     type: array
                   storage:
@@ -263,6 +261,59 @@ spec:
                       (Block List, Min: 1, Max: 1) Signing contains signing data of hosted repositores of format Apt (see below for nested schema)
                       Signing contains signing data of hosted repositores of format Apt
                     items:
+                      properties:
+                        keypairSecretRef:
+                          description: |-
+                            -export-secret-key --armor)
+                            If passphrase is unset, the keypair cannot be read from the nexus api.
+                            When reading the resource, the keypair will be read from the previous state,
+                            so external changes won't be detected in this case.
+                            PGP signing key pair (armored private key e.g. gpg --export-secret-key --armor)
+                            If passphrase is unset, the keypair cannot be read from the nexus api.
+                            When reading the resource, the keypair will be read from the previous state,
+                            so external changes won't be detected in this case.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        passphraseSecretRef:
+                          description: |-
+                            (String, Sensitive) Passphrase to access PGP signing key.
+                            This value cannot be read from the nexus api.
+                            When reading the resource, the value will be read from the previous state,
+                            so external changes won't be detected.
+                            Passphrase to access PGP signing key.
+                            This value cannot be read from the nexus api.
+                            When reading the resource, the value will be read from the previous state,
+                            so external changes won't be detected.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      required:
+                      - keypairSecretRef
                       type: object
                     type: array
                   storage:
@@ -581,8 +632,6 @@ spec:
                           - name
                           - namespace
                           type: object
-                      required:
-                      - keypairSecretRef
                       type: object
                     type: array
                   storage:

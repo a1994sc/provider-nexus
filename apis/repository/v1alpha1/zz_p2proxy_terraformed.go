@@ -21,7 +21,7 @@ func (mg *P2Proxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this P2Proxy
 func (tr *P2Proxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "httpClient[*].authentication[*].usernameSecretRef"}
 }
 
 // GetObservation of this P2Proxy

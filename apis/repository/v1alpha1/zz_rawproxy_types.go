@@ -48,6 +48,10 @@ type RawProxyHTTPClientAuthenticationInitParameters struct {
 	// The ntlm host to connect
 	NtlmHost *string `json:"ntlmHost,omitempty" tf:"ntlm_host,omitempty"`
 
+	// (String, Sensitive) The password used by the proxy repository
+	// The password used by the proxy repository
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
 	// emptive authentication. Use with caution. Defaults to false.
 	// Whether to use pre-emptive authentication. Use with caution. Defaults to false.
 	Preemptive *bool `json:"preemptive,omitempty" tf:"preemptive,omitempty"`
@@ -55,6 +59,10 @@ type RawProxyHTTPClientAuthenticationInitParameters struct {
 	// (String) Authentication type. Possible values: ntlm or username
 	// Authentication type. Possible values: `ntlm` or `username`
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (String) The username used by the proxy repository
+	// The username used by the proxy repository
+	UsernameSecretRef *v1.SecretKeySelector `json:"usernameSecretRef,omitempty" tf:"-"`
 }
 
 type RawProxyHTTPClientAuthenticationObservation struct {

@@ -342,11 +342,49 @@ spec:
                                   (String) The ntlm host to connect
                                   The ntlm host to connect
                                 type: string
+                              passwordSecretRef:
+                                description: |-
+                                  (String, Sensitive) The password used by the proxy repository
+                                  The password used by the proxy repository
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                               type:
                                 description: |-
                                   (String) Authentication type. Possible values: ntlm or username
                                   Authentication type. Possible values: `ntlm` or `username`
                                 type: string
+                              usernameSecretRef:
+                                description: |-
+                                  (String) The username used by the proxy repository
+                                  The username used by the proxy repository
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
                             type: object
                           type: array
                         autoBlock:

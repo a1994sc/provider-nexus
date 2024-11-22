@@ -21,7 +21,7 @@ func (mg *Ldap) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Ldap
 func (tr *Ldap) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"auth_password": "spec.forProvider.authPasswordSecretRef"}
+	return map[string]string{"auth_password": "authPasswordSecretRef"}
 }
 
 // GetObservation of this Ldap

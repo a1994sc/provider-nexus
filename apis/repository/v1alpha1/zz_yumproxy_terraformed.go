@@ -21,7 +21,7 @@ func (mg *YumProxy) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this YumProxy
 func (tr *YumProxy) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"http_client[*].authentication[*].password": "spec.forProvider.httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "spec.forProvider.httpClient[*].authentication[*].usernameSecretRef", "yum_signing[*].keypair": "spec.forProvider.yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "spec.forProvider.yumSigning[*].passphraseSecretRef"}
+	return map[string]string{"http_client[*].authentication[*].password": "httpClient[*].authentication[*].passwordSecretRef", "http_client[*].authentication[*].username": "httpClient[*].authentication[*].usernameSecretRef", "yum_signing[*].keypair": "yumSigning[*].keypairSecretRef", "yum_signing[*].passphrase": "yumSigning[*].passphraseSecretRef"}
 }
 
 // GetObservation of this YumProxy

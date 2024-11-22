@@ -154,6 +154,25 @@ spec:
                       (String) The last name of the user.
                       The last name of the user.
                     type: string
+                  passwordSecretRef:
+                    description: |-
+                      (String, Sensitive) The password for the user.
+                      The password for the user.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   roles:
                     description: |-
                       (Set of String) The roles which the user has been assigned within Nexus.
@@ -172,6 +191,8 @@ spec:
                       (String) The userid which is required for login. This value cannot be changed.
                       The userid which is required for login. This value cannot be changed.
                     type: string
+                required:
+                - passwordSecretRef
                 type: object
               managementPolicies:
                 default:

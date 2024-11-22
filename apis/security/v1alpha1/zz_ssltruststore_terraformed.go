@@ -21,7 +21,7 @@ func (mg *SSLTruststore) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SSLTruststore
 func (tr *SSLTruststore) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"pem": "spec.forProvider.pemSecretRef"}
+	return map[string]string{"pem": "pemSecretRef"}
 }
 
 // GetObservation of this SSLTruststore
