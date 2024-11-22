@@ -4,4 +4,4 @@ on: issue_comment
 
 jobs:
   comment-commands:
-    uses: upbound/official-providers-ci/.github/workflows/provider-commands.yml@44c3fe875827c37d9621c0b9221052313738fd6f #v0.12.0
+    uses: upbound/official-providers-ci/.github/workflows/provider-commands.yml@427547fd7b8c583daa4cacdec0ecb5d95f598448 # v0.12.1
