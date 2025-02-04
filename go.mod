@@ -2,7 +2,7 @@ module github.com/a1994sc/provider-nexus
 
 go 1.23.0
 
-toolchain go1.23.5
+toolchain go1.23.6
 
 require (
 	dario.cat/mergo v1.0.1
