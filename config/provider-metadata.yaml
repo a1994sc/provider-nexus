@@ -95,6 +95,8 @@ resources:
                   ],
                   "name": "group-example"
                 }
+              references:
+                members: nexus_blobstore_file.one.name
         argumentDocs:
             available_space_in_bytes: (Number) Available space in Bytes
             blob_count: (Number) Count of blobs
@@ -628,6 +630,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_bower_hosted.internal.name
               dependencies:
                 nexus_repository_bower_hosted.internal: |-
                     {
@@ -1055,6 +1059,7 @@ resources:
                   ]
                 }
               references:
+                group.member_names: nexus_repository_docker_hosted.internal.name
                 group.writable_member: nexus_repository_docker_hosted.internal.name
               dependencies:
                 nexus_repository_docker_hosted.internal: |-
@@ -1342,6 +1347,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_go_proxy.golang_org.name
               dependencies:
                 nexus_repository_go_proxy.golang_org: |-
                     {
@@ -1596,6 +1603,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_maven_hosted.releases.name
               dependencies:
                 nexus_repository_maven_hosted.releases: |-
                     {
@@ -1785,6 +1794,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_npm_hosted.internal.name
               dependencies:
                 nexus_repository_npm_hosted.internal: |-
                     {
@@ -1961,6 +1972,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_nuget_hosted.internal.name
               dependencies:
                 nexus_repository_nuget_hosted.internal: |-
                     {
@@ -2232,6 +2245,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_pypi_hosted.internal.name
               dependencies:
                 nexus_repository_pypi_hosted.internal: |-
                     {
@@ -2423,6 +2438,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_r_hosted.internal.name
               dependencies:
                 nexus_repository_r_hosted.internal: |-
                     {
@@ -2613,6 +2630,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_raw_hosted.internal.name
               dependencies:
                 nexus_repository_raw_hosted.internal: |-
                     {
@@ -2775,6 +2794,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_rubygems_hosted.internal.name
               dependencies:
                 nexus_repository_rubygems_hosted.internal: |-
                     {
@@ -2965,6 +2986,8 @@ resources:
                     }
                   ]
                 }
+              references:
+                group.member_names: nexus_repository_yum_hosted.internal.name
               dependencies:
                 nexus_repository_yum_hosted.internal: |-
                     {
@@ -3303,6 +3326,8 @@ resources:
                     "${nexus_security_ldap.server2.name}"
                   ]
                 }
+              references:
+                order: nexus_security_ldap.server1.name
               dependencies:
                 nexus_security_ldap.server1: |-
                     {
