@@ -315,7 +315,7 @@ jobs:
   sign-artifacts:
     runs-on: ubuntu-24.04
     needs: publish-artifacts
-    if: github.event_name != 'pull_request'
+    if: ${{ (github.event_name != 'pull_request') && (github.ref == 'refs/heads/main') }}
 
     permissions:
       id-token: write
