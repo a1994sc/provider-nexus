@@ -1,4 +1,4 @@
-apiVersion: routing.nexus.adrp.xyz/v1alpha1
+apiVersion: routing.nexus.crossplane.io/v1alpha1
 kind: Rule
 metadata:
   annotations:

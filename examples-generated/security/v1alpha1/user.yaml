@@ -1,4 +1,4 @@
-apiVersion: security.nexus.adrp.xyz/v1alpha1
+apiVersion: security.nexus.crossplane.io/v1alpha1
 kind: User
 metadata:
   annotations:

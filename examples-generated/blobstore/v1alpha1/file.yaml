@@ -1,4 +1,4 @@
-apiVersion: blobstore.nexus.adrp.xyz/v1alpha1
+apiVersion: blobstore.nexus.crossplane.io/v1alpha1
 kind: File
 metadata:
   annotations:

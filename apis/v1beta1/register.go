@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "nexus.adrp.xyz"
+	Group   = "nexus.crossplane.io"
 	Version = "v1beta1"
 )
 

@@ -1,4 +1,4 @@
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: GoGroup
 metadata:
   annotations:
@@ -19,7 +19,7 @@ spec:
 
 ---
 
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: GoProxy
 metadata:
   annotations:

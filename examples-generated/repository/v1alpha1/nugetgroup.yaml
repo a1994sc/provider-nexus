@@ -1,4 +1,4 @@
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: NugetGroup
 metadata:
   annotations:
@@ -20,7 +20,7 @@ spec:
 
 ---
 
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: NugetHosted
 metadata:
   annotations:
@@ -39,7 +39,7 @@ spec:
 
 ---
 
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: NugetProxy
 metadata:
   annotations:

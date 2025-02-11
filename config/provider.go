@@ -19,7 +19,7 @@ import (
 const (
 	resourcePrefix = "nexus"
 	modulePath     = "github.com/a1994sc/provider-nexus"
-	rootGroup      = resourcePrefix + ".adrp.xyz"
+	rootGroup      = resourcePrefix + ".crossplane.io"
 )
 
 //go:embed schema.json

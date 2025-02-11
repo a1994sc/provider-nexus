@@ -1,4 +1,4 @@
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: RubygemsGroup
 metadata:
   annotations:
@@ -20,7 +20,7 @@ spec:
 
 ---
 
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: RubygemsHosted
 metadata:
   annotations:
@@ -39,7 +39,7 @@ spec:
 
 ---
 
-apiVersion: repository.nexus.adrp.xyz/v1alpha1
+apiVersion: repository.nexus.crossplane.io/v1alpha1
 kind: RubygemsProxy
 metadata:
   annotations:

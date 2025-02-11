@@ -1,4 +1,4 @@
-apiVersion: security.nexus.adrp.xyz/v1alpha1
+apiVersion: security.nexus.crossplane.io/v1alpha1
 kind: LdapOrder
 metadata:
   annotations:
@@ -14,7 +14,7 @@ spec:
 
 ---
 
-apiVersion: security.nexus.adrp.xyz/v1alpha1
+apiVersion: security.nexus.crossplane.io/v1alpha1
 kind: Ldap
 metadata:
   annotations:
@@ -28,7 +28,7 @@ spec:
 
 ---
 
-apiVersion: security.nexus.adrp.xyz/v1alpha1
+apiVersion: security.nexus.crossplane.io/v1alpha1
 kind: Ldap
 metadata:
   annotations:
