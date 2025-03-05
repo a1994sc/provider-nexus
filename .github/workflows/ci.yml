@@ -66,14 +66,14 @@ jobs:
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-lint-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-lint-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -85,7 +85,7 @@ jobs:
     # We could run 'make lint' but we prefer this action because it leaves
     # 'annotations' (i.e. it comments on PRs to point out linter violations).
     - name: Lint
-      uses: golangci/golangci-lint-action@2e788936b09dd82dc280e845628a40d2ba6b204c # v6.3.1
+      uses: golangci/golangci-lint-action@2226d7cb06a077cd73e56eedd38eecad18e5d837 # v6.5.0
       with:
         version: ${{ env.GOLANGCI_VERSION }}
 
@@ -113,14 +113,14 @@ jobs:
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-check-diff-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-check-diff-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -156,14 +156,14 @@ jobs:
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-unit-tests-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-unit-tests-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -205,14 +205,14 @@ jobs:
       run: echo "cache=$(make go.cachedir)" >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-unit-tests-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-unit-tests-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -237,12 +237,12 @@ jobs:
 
     steps:
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@4574d27a4764455b42196d70a065bc6853246a25 # v3.4.0
+      uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
       with:
         platforms: all
 
     - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@f7ce87c1d6bead3e36075b2ce75da1f6cc28aaca # v3.9.0
+      uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
       with:
         version: ${{ env.DOCKER_BUILDX_VERSION }}
         install: true
@@ -276,14 +276,14 @@ jobs:
       run: make common.buildvars >> $GITHUB_OUTPUT
 
     - name: Cache the Go Build Cache
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: ${{ steps.go.outputs.cache }}
         key: ${{ runner.os }}-build-publish-artifacts-${{ hashFiles('**/go.sum') }}
         restore-keys: ${{ runner.os }}-build-publish-artifacts-
 
     - name: Cache Go Dependencies
-      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
       with:
         path: .work/pkg
         key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
@@ -323,7 +323,7 @@ jobs:
 
     steps:
     - name: Install cosign
-      uses: sigstore/cosign-installer@c56c2d3e59e4281cc41dea2217323ba5694b171e # v3.8.0
+      uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
 
     - name: Login to ghcr.io
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
