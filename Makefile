@@ -43,7 +43,7 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.19
+GO_REQUIRED_VERSION ?= 1.24
 # renovate: datasource=github-releases depName=golangci/golangci-lint
 GOLANGCILINT_VERSION ?= 1.64.6
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
@@ -55,8 +55,8 @@ GO_SUBDIRS += cmd internal apis
 # Setup Kubernetes tools
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/kind
-KIND_VERSION = v0.25.0
-UP_VERSION = v0.34.0
+KIND_VERSION = v0.27.0
+UP_VERSION = v0.38.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.5.0
 -include build/makelib/k8s_tools.mk
@@ -169,7 +169,7 @@ run: go.build
 # End to End Testing
 CROSSPLANE_NAMESPACE = upbound-system
 # renovate: datasource=github-releases depName=crossplane/crossplane
-CROSSPLANE_VERSION = 1.16.0
+CROSSPLANE_VERSION = 1.19.0
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
 
