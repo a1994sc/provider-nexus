@@ -16,30 +16,49 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": [ "go" ],
-      "addLabels": [ "renovate/go" ],
+      "matchDatasources": [
+        "go"
+      ],
+      "addLabels": [
+        "renovate/go"
+      ],
       "groupName": "all dependencies, golang",
       "groupSlug": "all-golang",
-      "matchPackagePatterns": [ "*" ]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["renovate/github-action"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "addLabels": [
+        "renovate/github-action"
+      ],
       "groupName": "all dependencies, actions",
       "groupSlug": "all-actions",
-      "matchPackagePatterns": [ "*" ]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "matchDatasources": ["github-releases"],
+      "matchDatasources": [
+        "github-releases"
+      ],
       "groupName": "all dependencies, releases",
       "groupSlug": "all-releases",
-      "matchPackagePatterns": [ "*" ]
+      "matchPackageNames": [
+        "*"
+      ]
     }
   ],
   "prHourlyLimit": 2,
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^Makefile$"],
+      "customType": "regex",
+      "fileMatch": [
+        "^Makefile$"
+      ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sexport .*?_VERSION \\?= (?<currentValue>.*)\\s"
       ],
