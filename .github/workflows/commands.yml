@@ -3,5 +3,28 @@ name: Comment Commands
 on: issue_comment
 
 jobs:
-  comment-commands:
-    uses: upbound/official-providers-ci/.github/workflows/provider-commands.yml@427547fd7b8c583daa4cacdec0ecb5d95f598448 # v0.12.1
+  backport:
+    runs-on: ubuntu-24.04
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/backport')
+    steps:
+      - name: Extract Command
+        id: command
+        uses: xt0rted/slash-command-action@bf51f8f5f4ea3d58abc7eca58f77104182b23e88 # v2.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          command: backport
+          reaction: "true"
+          reaction-type: "eyes"
+          allow-edits: "false"
+          permission-level: write
+
+      - name: Checkout
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Open Backport PR
+        uses: zeebe-io/backport-action@7e7cb1977d64d20339e8fdec12c0a1a065371de7 # v3.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_workspace: ${{ github.workspace }}
