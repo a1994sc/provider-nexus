@@ -30,7 +30,7 @@
       "matchPackagePatterns": [ "*" ]
     },
     {
-      "matchManagers": ["github-releases"],
+      "matchDatasources": ["github-releases"],
       "groupName": "all dependencies, releases",
       "groupSlug": "all-releases",
       "matchPackagePatterns": [ "*" ]
