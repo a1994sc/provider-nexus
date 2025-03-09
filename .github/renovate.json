@@ -18,20 +18,22 @@
     {
       "matchDatasources": [ "go" ],
       "addLabels": [ "renovate/go" ],
-      "groupName": "all dependencies",
-      "groupSlug": "all",
+      "groupName": "all dependencies, golang",
+      "groupSlug": "all-golang",
       "matchPackagePatterns": [ "*" ]
     },
     {
       "matchManagers": ["github-actions"],
       "addLabels": ["renovate/github-action"],
-      "groupName": "all dependencies",
-      "groupSlug": "all",
+      "groupName": "all dependencies, actions",
+      "groupSlug": "all-actions",
       "matchPackagePatterns": [ "*" ]
     },
     {
-      "matchManagers": ["github-actions"],
-      "matchDepNames": ["datadrivers/terraform-provider-nexus"]
+      "matchManagers": ["github-releases"],
+      "groupName": "all dependencies, releases",
+      "groupSlug": "all-releases",
+      "matchPackagePatterns": [ "*" ]
     }
   ],
   "prHourlyLimit": 2,
