@@ -22,21 +22,26 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        # pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "upbound"
+            ];
+        };
         treefmtEval = treefmt-nix.lib.evalModule pkgs (
           { pkgs, ... }:
           {
             # keep-sorted start block=yes prefix_order=projectRootFile,
             projectRootFile = "flake.nix";
-            programs.deadnix.enable = true;
             programs.keep-sorted.enable = true;
             programs.nixfmt = {
               enable = true;
               package = pkgs.nixfmt-rfc-style;
             };
             programs.statix.enable = true;
-            # Disabled on "flake.nix" because of some false positivies.
-            settings.formatter.deadnix.excludes = [ "**/flake.nix" ];
             # keep-sorted end
           }
         );
@@ -61,11 +66,12 @@
               crane # Manipulate oci repos
               upbound # used to build crossplane artifacts
             ];
-            nativeBuildInputs = with pkgs; [ 
+            nativeBuildInputs = with pkgs; [
               go
               gotools
               gopls
               golint
+              golangci-lint
             ];
           };
         };
