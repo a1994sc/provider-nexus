@@ -71,7 +71,7 @@ IMAGES = $(PROJECT_NAME)
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= ghcr.io/a1994sc/crossplane/provider-nexus
+XPKG_REG_ORGS ?= ghcr.io/a1994sc/crossplane
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
 XPKG_REG_ORGS_NO_PROMOTE ?= ghcr.io/a1994sc/crossplane/provider-nexus

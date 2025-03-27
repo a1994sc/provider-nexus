@@ -293,24 +293,28 @@ jobs:
       run: make go.vendor.check
 
     - name: Build Artifacts
-      run: make -j2 build.all
+      run: make build.all
       env:
         # We're using docker buildx, which doesn't actually load the images it
         # builds by default. Specifying --load does so.
         BUILD_ARGS: "--load"
         BUILD_REGISTRY: build
 
-    - name: Build xpkg
-      uses: crossplane-contrib/xpkg-action@master
-      with:
-        channel: ${{ github.event.inputs.channel }}
-        version: ${{ github.event.inputs.version }}
-        command: xpkg build -f ./package/ --embed-runtime-image=build/${{ env.PROVIDER }}-amd64 -o ./package/${{ env.PROVIDER }}.xpkg
-
     - name: Push xpkg
-      uses: crossplane-contrib/xpkg-action@master
-      with:
-        command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
+      run: |-
+        make xpkg.release.publish
+
+    # - name: Build xpkg
+    #   uses: crossplane-contrib/xpkg-action@master
+    #   with:
+    #     channel: ${{ github.event.inputs.channel }}
+    #     version: ${{ github.event.inputs.version }}
+    #     command: xpkg build -f ./package/ --embed-runtime-image=build/${{ env.PROVIDER }}-amd64 -o ./package/${{ env.PROVIDER }}.xpkg
+
+    # - name: Push xpkg
+    #   uses: crossplane-contrib/xpkg-action@master
+    #   with:
+    #     command: xpkg push -f ./package/${{ env.PROVIDER }}.xpkg ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.VERSION }}
 
   sign-artifacts:
     runs-on: ubuntu-24.04
