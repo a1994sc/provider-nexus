@@ -62,7 +62,7 @@
             inherit shellHook;
             buildInputs = with pkgs; [
               unzip
-              golangci-lint
+              crossplane-cli
               crane # Manipulate oci repos
               upbound # used to build crossplane artifacts
             ];
