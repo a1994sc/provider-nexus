@@ -56,7 +56,6 @@ formatters:
     - gci
     - gofmt
     - gofumpt
-    - goimports
     - golines
   settings:
     gofmt:
@@ -64,4 +63,4 @@ formatters:
       simplify: true
     goimports:
       local-prefixes:
-      - github.com/a1994sc/provider-nexus
+        - github.com/a1994sc/provider-nexus
