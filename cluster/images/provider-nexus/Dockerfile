@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.21.3
+FROM cgr.dev/chainguard/wolfi-base:latest
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS
