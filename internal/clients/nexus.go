@@ -8,14 +8,12 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/a1994sc/provider-nexus/apis/v1beta1"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/upjet/pkg/terraform"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	"github.com/crossplane/upjet/pkg/terraform"
-
-	"github.com/a1994sc/provider-nexus/apis/v1beta1"
 )
 
 const (
@@ -63,7 +61,12 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			return ps, errors.Wrap(err, errTrackUsage)
 		}
 
-		data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
+		data, err := resource.CommonCredentialExtractor(
+			ctx,
+			pc.Spec.Credentials.Source,
+			client,
+			pc.Spec.Credentials.CommonCredentialSelectors,
+		)
 		if err != nil {
 			return ps, errors.Wrap(err, errExtractCredentials)
 		}
@@ -79,7 +82,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			if value, ok := creds[key]; ok {
 				if !ok {
 					// Return an error if a required key is missing
-					return ps, errors.Errorf("required Nexus configuration key '%s' is missing", key)
+					return ps, errors.Errorf(
+						"required Nexus configuration key '%s' is missing",
+						key,
+					)
 				}
 				ps.Configuration[key] = value
 			}

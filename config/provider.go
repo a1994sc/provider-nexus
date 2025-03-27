@@ -8,12 +8,11 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
-
 	"github.com/a1994sc/provider-nexus/config/blobstore"
 	"github.com/a1994sc/provider-nexus/config/registry"
 	"github.com/a1994sc/provider-nexus/config/routing"
 	"github.com/a1994sc/provider-nexus/config/security"
+	ujconfig "github.com/crossplane/upjet/pkg/config"
 )
 
 const (
@@ -30,13 +29,18 @@ var providerMetadata string
 
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
-	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+	pc := ujconfig.NewProvider(
+		[]byte(providerSchema),
+		resourcePrefix,
+		modulePath,
+		[]byte(providerMetadata),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
 			// KnownReferencers(),
 		),
-		ujconfig.WithRootGroup(rootGroup))
+		ujconfig.WithRootGroup(rootGroup),
+	)
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions

@@ -44,6 +44,8 @@ linters:
       enabled-tags:
         - performance
       settings:
+        hugeParam:
+          sizeThreshold: 150
         captLocal:
           paramsOnly: true
         rangeValCopy:

@@ -5,10 +5,6 @@ Copyright 2022 Upbound Inc.
 package controller
 
 import (
-	ctrl "sigs.k8s.io/controller-runtime"
-
-	"github.com/crossplane/upjet/pkg/controller"
-
 	azure "github.com/a1994sc/provider-nexus/internal/controller/blobstore/azure"
 	file "github.com/a1994sc/provider-nexus/internal/controller/blobstore/file"
 	group "github.com/a1994sc/provider-nexus/internal/controller/blobstore/group"
@@ -60,6 +56,8 @@ import (
 	ssltruststore "github.com/a1994sc/provider-nexus/internal/controller/security/ssltruststore"
 	user "github.com/a1994sc/provider-nexus/internal/controller/security/user"
 	usertoken "github.com/a1994sc/provider-nexus/internal/controller/security/usertoken"
+	"github.com/crossplane/upjet/pkg/controller"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to

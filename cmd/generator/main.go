@@ -9,9 +9,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/crossplane/upjet/pkg/pipeline"
-
 	"github.com/a1994sc/provider-nexus/config"
+	"github.com/crossplane/upjet/pkg/pipeline"
 )
 
 func main() {
