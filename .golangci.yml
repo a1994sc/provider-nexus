@@ -53,11 +53,12 @@ linters:
 
 formatters:
   enable:
-    - gci
     - gofmt
     - gofumpt
     - golines
   settings:
+    gci:
+      custom-order: true
     gofmt:
       # simplify code: gofmt with `-s` option, true by default
       simplify: true
