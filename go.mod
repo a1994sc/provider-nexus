@@ -3,7 +3,7 @@ module github.com/a1994sc/provider-nexus
 go 1.24.1
 
 require (
-	dario.cat/mergo v1.0.1
+	dario.cat/mergo v1.0.2
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/crossplane/crossplane-runtime v1.19.0
 	github.com/crossplane/crossplane-tools v0.0.0-20250507171300-3ad1f97263a3
@@ -131,6 +131,6 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace dario.cat/mergo => github.com/imdario/mergo v1.0.1
+replace dario.cat/mergo => github.com/imdario/mergo v1.0.2
 
 replace github.com/alecthomas/kingpin/v2 => gopkg.in/alecthomas/kingpin.v2 v2.4.0
