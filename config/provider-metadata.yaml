@@ -800,6 +800,168 @@ resources:
             - |-
               # import using the name of repository
               terraform import nexus_repository_bower_proxy.bower_io bower-io
+    nexus_repository_cargo_group:
+        subCategory: Repository
+        description: Use this resource to create a group cargo repository.
+        name: nexus_repository_cargo_group
+        title: Resource nexus_repository_cargo_group
+        examples:
+            - name: group
+              manifest: |-
+                {
+                  "group": [
+                    {
+                      "member_names": [
+                        "${nexus_repository_cargo_hosted.releases.name}"
+                      ]
+                    }
+                  ],
+                  "name": "cargo-group",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+              references:
+                group.member_names: nexus_repository_cargo_hosted.releases.name
+              dependencies:
+                nexus_repository_cargo_hosted.releases: |-
+                    {
+                      "name": "cargo-releases",
+                      "online": true,
+                      "storage": [
+                        {
+                          "blob_store_name": "default",
+                          "strict_content_type_validation": false,
+                          "write_policy": "ALLOW"
+                        }
+                      ]
+                    }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            group: '(Block List, Min: 1, Max: 1) Configuration for repository group (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            member_names: (List of String) Member repositories names
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_cargo_group.group cargo-group
+    nexus_repository_cargo_hosted:
+        subCategory: Repository
+        description: Use this resource to create a hosted Cargo repository.
+        name: nexus_repository_cargo_hosted
+        title: Resource nexus_repository_cargo_hosted
+        examples:
+            - name: releases
+              manifest: |-
+                {
+                  "name": "cargo-releases",
+                  "online": true,
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": false,
+                      "write_policy": "ALLOW"
+                    }
+                  ]
+                }
+        argumentDocs:
+            blob_store_name: (String) Blob store used to store repository contents
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            component: '(Block List, Max: 1) Component configuration for the hosted repository (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            name: (String) A unique identifier for this repository
+            online: (Boolean) Whether this repository accepts incoming requests
+            policy_names: (Set of String) List of policy names
+            proprietary_components: (Boolean) Components in this repository count as proprietary for namespace conflict attacks (requires Sonatype Nexus Firewall)
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            write_policy: (String) Controls if deployments of and updates to assets are allowed
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_cargo_hosted.releases cargo-releases
+    nexus_repository_cargo_proxy:
+        subCategory: Repository
+        description: Use this resource to create an NPM proxy repository.
+        name: nexus_repository_cargo_proxy
+        title: Resource nexus_repository_cargo_proxy
+        examples:
+            - name: cratesio
+              manifest: |-
+                {
+                  "http_client": [
+                    {
+                      "auto_block": true,
+                      "blocked": false
+                    }
+                  ],
+                  "name": "cratesio",
+                  "negative_cache": [
+                    {
+                      "enabled": true,
+                      "ttl": 1440
+                    }
+                  ],
+                  "online": true,
+                  "proxy": [
+                    {
+                      "content_max_age": 1440,
+                      "metadata_max_age": 1440,
+                      "remote_url": "https://index.crates.io/"
+                    }
+                  ],
+                  "storage": [
+                    {
+                      "blob_store_name": "default",
+                      "strict_content_type_validation": true
+                    }
+                  ]
+                }
+        argumentDocs:
+            authentication: '(Block List, Max: 1) Authentication configuration of the HTTP client (see below for nested schema)'
+            auto_block: (Boolean) Whether to auto-block outbound connections if remote peer is detected as unreachable/unresponsive
+            blob_store_name: (String) Blob store used to store repository contents
+            blocked: (Boolean) Whether to block outbound connections on the repository
+            cleanup: (Block List) Cleanup policies (see below for nested schema)
+            connection: '(Block List, Max: 1) Connection configuration of the HTTP client (see below for nested schema)'
+            content_max_age: (Number) How long (in minutes) to cache artifacts before rechecking the remote repository
+            enable_circular_redirects: (Boolean) Whether to enable redirects to the same location (may be required by some servers)
+            enable_cookies: (Boolean) Whether to allow cookies to be stored and used
+            enabled: (Boolean) Whether to cache responses for content not present in the proxied repository
+            http_client: '(Block List, Min: 1, Max: 1) HTTP Client configuration for proxy repositories (see below for nested schema)'
+            id: (String) Used to identify resource at nexus
+            metadata_max_age: (Number) How long (in minutes) to cache metadata before rechecking the remote repository.
+            name: (String) A unique identifier for this repository
+            negative_cache: '(Block List, Min: 1, Max: 1) Configuration of the negative cache handling (see below for nested schema)'
+            ntlm_domain: (String) The ntlm domain to connect
+            ntlm_host: (String) The ntlm host to connect
+            online: (Boolean) Whether this repository accepts incoming requests
+            password: (String, Sensitive) The password used by the proxy repository
+            policy_names: (Set of String) List of policy names
+            proxy: '(Block List, Min: 1, Max: 1) Configuration for the proxy repository (see below for nested schema)'
+            remote_url: (String) Location of the remote repository being proxied
+            retries: (Number) Total retries if the initial connection attempt suffers a timeout
+            routing_rule: (String) The name of the routing rule assigned to this repository
+            storage: '(Block List, Min: 1, Max: 1) The storage configuration of the repository (see below for nested schema)'
+            strict_content_type_validation: (Boolean) Whether to validate uploaded content's MIME type appropriate for the repository format
+            timeout: (Number) Seconds to wait for activity before stopping and retrying the connection
+            ttl: (Number) How long to cache the fact that a file was not found in the repository (in minutes)
+            type: '(String) Authentication type. Possible values: ntlm or username'
+            use_trust_store: (Boolean) Use certificates stored in the Nexus Repository Manager truststore to connect to external systems
+            user_agent_suffix: (String) Custom fragment to append to User-Agent header in HTTP requests
+            username: (String) The username used by the proxy repository
+        importStatements:
+            - |-
+              # import using the name of repository
+              terraform import nexus_repository_cargo_proxy.cargo_central cargo-central
     nexus_repository_cocoapods_proxy:
         subCategory: Repository
         description: Use this resource to create an cocoapods proxy repository.
