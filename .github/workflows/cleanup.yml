@@ -1,0 +1,36 @@
+---
+name: Daily Image Cleanup
+on:
+  # every day at 01:30am
+  schedule:
+    - cron: '30 1 * * *'
+  # or manually
+  workflow_dispatch:
+jobs:
+  ghcr-cleanup-image:
+    name: ghcr cleanup action
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Delete old tags
+        uses: dataaxiom/ghcr-cleanup-action@cd0cdb900b5dbf3a6f2cc869f0dbb0b8211f50c4 # v1.0.16
+        with:
+          packages: crossplane/provider-nexus
+          # The hash suffix is "-g" + an unambiguous abbreviation for the tip commit of parent
+          # https://git-scm.com/docs/git-describe#_examples
+          # TL;DR this will only hit the non-tagged versions
+          tags: '*-g*'
+          keep-n-tagged: 3
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          dry-run: true
+
+      - name: Validate images
+        uses: dataaxiom/ghcr-cleanup-action@cd0cdb900b5dbf3a6f2cc869f0dbb0b8211f50c4 # v1.0.16
+        with:
+          packages: crossplane/provider-nexus
+          token: ${{ secrets.GITHUB_TOKEN }}
+          validate: true
+          delete-ghost-images: true
+          delete-orphaned-images: true
+          dry-run: true
