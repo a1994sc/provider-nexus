@@ -149,7 +149,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Setup gitsign
-        uses: chainguard-dev/actions/setup-gitsign@939ece6bc39459fd24dde56e63ca93adf840031e # v1.2.1
+        uses: chainguard-dev/actions/setup-gitsign@c045b7b1d21ae8754f3c0106743390e61583790f # v1.4.0
   
       - name: Setup Go
         uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
@@ -300,7 +300,7 @@ jobs:
         platforms: all
 
     - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@18ce135bb5112fa8ce4ed6c17ab05699d7f3a5e0 # v3.11.0
+      uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
       with:
         version: ${{ env.DOCKER_BUILDX_VERSION }}
         install: true
