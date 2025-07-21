@@ -149,7 +149,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Setup gitsign
-        uses: chainguard-dev/actions/setup-gitsign@86e8917a5f452c794e263fddae12d25a44b18f18 # v1.4.5
+        uses: chainguard-dev/actions/setup-gitsign@ae2f0393ff2a60c572ff4d3485f406e8f36dfd38 # v1.4.6
   
       - name: Setup Go
         uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
