@@ -3,14 +3,13 @@ name: CI
 on:
   push:
     branches:
-    - main
-    - release-*
-    - feature/*
+      - main
+      - release-*
+      - feature/*
     tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     paths-ignore:
-    - '.github/**'
-    - 'examples/**'
+      - 'examples/**'
   pull_request: {}
   workflow_dispatch: {}
 
@@ -57,7 +56,7 @@ jobs:
       - name: Find tool versions
         id: build-tool-version
         run: |-
-          echo "tool-path=$(make k8s_tools.buildvars | grep CROSSPLANE_CLI= | sed -E 's#^CROSSPLANE_CLI=##g; s#/crossplane-cli-.+$##g')" >> $GITHUB_OUTPUT
+          echo "tool-path=$(make k8s_tools.buildvars | grep CROSSPLANE_CLI= | sed -E 's#^CROSSPLANE_CLI=##g; s#crossplane-cli-.+$##g')" >> $GITHUB_OUTPUT
           echo "crossplane-cli=$(make k8s_tools.buildvars | grep CROSSPLANE_CLI= | grep -oE 'v([0-9]+\.?){3}$')" >> $GITHUB_OUTPUT
 
   lint:
