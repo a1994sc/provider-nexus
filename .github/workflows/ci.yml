@@ -42,23 +42,6 @@ jobs:
           paths_ignore: '["**.md", "**.png", "**.jpg"]'
           do_not_skip: '["workflow_dispatch", "schedule", "push"]'
 
-  tools-version:
-    runs-on: ubuntu-24.04
-    outputs:
-      crossplane-cli-version: ${{ steps.build-tool-version.outputs.crossplane-cli }}
-      tool-path: ${{ steps.build-tool-version.outputs.tool-path }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          submodules: true
-
-      - name: Find tool versions
-        id: build-tool-version
-        run: |-
-          echo "tool-path=$(make k8s_tools.buildvars | grep CROSSPLANE_CLI= | sed -E 's#^CROSSPLANE_CLI=##g; s#crossplane-cli-.+$##g')" >> $GITHUB_OUTPUT
-          echo "crossplane-cli=$(make k8s_tools.buildvars | grep CROSSPLANE_CLI= | grep -oE 'v([0-9]+\.?){3}$')" >> $GITHUB_OUTPUT
-
   lint:
     runs-on: ubuntu-24.04
     needs: detect-noop
@@ -268,7 +251,6 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - detect-noop
-      - tools-version
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
@@ -280,15 +262,9 @@ jobs:
       - name: Fetch History
         run: git fetch --prune --unshallow
 
-      - name: Setup Crossplane CLI
-        uses: nimjor/setup-crossplane-cli@515b732b533c80814584de1adec250cb69cea123 # v1.1.0
-        with:
-          version: ${{ needs.tools-version.outputs.crossplane-cli-version }}
-
-      - name: Copy Crossplane CLI to right place
+      - name: Cache tools
         run: |-
-          mkdir -p ${{ needs.tools-version.outputs.tool-path }}
-          cp $GITHUB_WORKSPACE/bin/crossplane ${{ needs.tools-version.outputs.tool-path }}/crossplane-cli-${{ needs.tools-version.outputs.crossplane-cli-version }}
+          make cache-tools
 
       - name: Setup Go
         uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
@@ -326,7 +302,6 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - detect-noop
-      - tools-version
     if: needs.detect-noop.outputs.noop != 'true'
 
     permissions:
@@ -354,16 +329,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Crossplane CLI
-        uses: nimjor/setup-crossplane-cli@515b732b533c80814584de1adec250cb69cea123 # v1.1.0
-        with:
-          version: ${{ needs.tools-version.outputs.crossplane-cli-version }}
-
-      - name: Copy Crossplane CLI to right place
-        run: |-
-          mkdir -p ${{ needs.tools-version.outputs.tool-path }}
-          cp $GITHUB_WORKSPACE/bin/crossplane ${{ needs.tools-version.outputs.tool-path }}/crossplane-cli-${{ needs.tools-version.outputs.crossplane-cli-version }}
-
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -372,6 +337,10 @@ jobs:
       - name: Fetch History
         run: |-
           git fetch --prune --unshallow
+
+      - name: Cache tools
+        run: |-
+          make cache-tools
 
       - name: Setup Go
         uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0

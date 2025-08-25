@@ -61,6 +61,14 @@ UP_CHANNEL = stable
 UPTEST_VERSION = v0.5.0
 -include build/makelib/k8s_tools.mk
 
+.phony: cache-tools
+cache-tools:
+	@$(MAKE) $(CROSSPLANE_CLI)
+	@$(MAKE) $(KUBECTL)
+	@$(MAKE) $(KUSTOMIZE)
+	@$(MAKE) $(HELM)
+	@$(MAKE) $(YQ)
+
 # ====================================================================================
 # Setup Images
 
