@@ -5,7 +5,7 @@ PROJECT_NAME ?= provider-nexus
 PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 
 # renovate: datasource=github-releases depName=hashicorp/terraform versioning=hashicorp
-export TERRAFORM_VERSION ?= 1.13.1
+export TERRAFORM_VERSION ?= 1.13.2
 
 # renovate: datasource=github-releases depName=datadrivers/terraform-provider-nexus versioning=hashicorp
 export TERRAFORM_PROVIDER_VERSION ?= 2.6.0
